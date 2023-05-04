@@ -4,7 +4,8 @@ import {
   IconBrandYoutube,
   IconBrandInstagram,
 } from "@tabler/icons-react";
-import { MantineLogo } from "@mantine/ds";
+import { Image } from "@mantine/core";
+import logo from "../../assets/logo.png";
 
 const useStyles = createStyles((theme) => ({
   footer: {
@@ -36,7 +37,7 @@ export function Footer() {
   return (
     <div className={classes.footer}>
       <Container className={classes.inner}>
-        <MantineLogo size={28} />
+        <Image src={logo} alt="IT Ireland" mah={45} maw={200} />
         <Group spacing={0} className={classes.links} position="right" noWrap>
           <ActionIcon size="lg">
             <IconBrandTwitter size="1.05rem" stroke={1.5} />

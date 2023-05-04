@@ -11,14 +11,15 @@ import {
   createStyles,
   Avatar,
   Menu,
+  Image,
 } from "@mantine/core";
-import { MantineLogo } from "@mantine/ds";
 import { useDisclosure } from "@mantine/hooks";
 import { IconLogout } from "@tabler/icons-react";
 import { getSessionUser } from "../../services/session-service";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../App";
 import { useContext } from "react";
+import logo from "../../assets/logo.png";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -125,7 +126,7 @@ export function NavBar({
       <Header height={60} px="md">
         <Group position="apart" sx={{ height: "100%" }}>
           <Link to="/">
-            <MantineLogo name="IT Ireland" size={30} />
+            <Image src={logo} alt="IT Ireland" height={45} />
           </Link>
 
           <Group
