@@ -13,7 +13,7 @@ const useStyles = createStyles((theme) => ({
 
 function CategorySkeleton() {
   const { classes } = useStyles();
-  return <Button className={classes.skelotonBadge} variant="light" />;
+  return <Button className={classes.skelotonBadge} variant="light" size="xs" />;
 }
 
 export default CategorySkeleton;

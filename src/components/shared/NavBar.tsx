@@ -118,6 +118,7 @@ export function NavBar({
   };
 
   const clickLogout = () => {
+    closeDrawer();
     onLogoutClicked();
   };
 
@@ -202,7 +203,7 @@ export function NavBar({
 
           <Group position="center" grow pb="xl" px="md">
             {loginState === "yes" && user ? (
-              <Button onClick={onLogoutClicked}>Log out</Button>
+              <Button onClick={clickLogout}>Log out</Button>
             ) : (
               <>
                 <Button variant="default" onClick={clickLogin}>
