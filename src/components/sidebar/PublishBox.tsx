@@ -6,6 +6,7 @@ const useStyles = createStyles(() => ({
   publish_box: {
     backgroundColor: "white",
     padding: rem(20),
+    marginBottom: rem(20),
   },
 }));
 
