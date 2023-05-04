@@ -1,4 +1,4 @@
-import { Button, Flex, createStyles, rem } from "@mantine/core";
+import { Box, Button, Flex, createStyles, rem } from "@mantine/core";
 import useCategories from "../../hooks/useCategories";
 import CategorySkeleton from "./CategorySkeleton";
 
@@ -15,7 +15,9 @@ const useStyles = createStyles((theme) => ({
     marginTop: rem(5),
     borderRadius: 0,
     fontSize: rem(14),
-    marginRight: rem(30),
+    marginRight: rem(15),
+    paddingLeft: rem(8),
+    paddingRight: rem(8),
   },
 }));
 
@@ -31,7 +33,7 @@ const Category = ({ currentCategory, setCategory }: Props) => {
   const skeleton = [1, 2, 3, 4, 5];
 
   return (
-    <Flex align="center" className={classes.category}>
+    <Box className={classes.category}>
       {currentCategory == null || currentCategory === "" ? (
         <Button
           className={classes.badge}
@@ -90,7 +92,7 @@ const Category = ({ currentCategory, setCategory }: Props) => {
             </Button>
           );
         })}
-    </Flex>
+    </Box>
   );
 };
 
