@@ -32,7 +32,7 @@ const useStyles = createStyles(() => ({
   },
 }));
 
-const categories = ["Backend", "Frontend", "Fullstack"];
+const categories = ["Backend", "Frontend", "Fullstack", "IT News"];
 
 const PostEdit = () => {
   const [htmlContent, setHtmlContent] = useState("");
