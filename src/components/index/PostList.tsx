@@ -8,6 +8,7 @@ import PostItemSkeleton from "./PostItemSkeleton";
 const useStyles = createStyles(() => ({
   postList: {
     backgroundColor: "#ffffff",
+    marginBottom: rem(10),
   },
   page: {
     padding: rem(10),
