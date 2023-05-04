@@ -9,8 +9,15 @@ import LoginForm from "./components/forms/LoginForm";
 import useAuth from "./hooks/useAuth";
 import { Outlet } from "react-router-dom";
 import { createContext } from "react";
+import { useMediaQuery } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
+  contentMobile: {
+    borderBottom: `${rem(1)} solid ${
+      theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[2]
+    }`,
+    padding: 0,
+  },
   content: {
     borderBottom: `${rem(1)} solid ${
       theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[2]
@@ -35,6 +42,8 @@ export default function App() {
     logout,
   } = useAuth();
 
+  const matches = useMediaQuery("(max-width: 600px)");
+
   return (
     <AuthContext.Provider value={loginState}>
       <AppShell
@@ -48,7 +57,10 @@ export default function App() {
         padding={0}
         footer={<Footer />}
       >
-        <Container className={classes.content} size={1280}>
+        <Container
+          className={matches ? classes.contentMobile : classes.content}
+          size={1280}
+        >
           <Outlet />
         </Container>
       </AppShell>
