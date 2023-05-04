@@ -55,12 +55,12 @@ const PostMeta = ({ post }: Props) => {
         </Group>
       </MediaQuery>
 
-      <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
-        <Group spacing="xs" position="left">
-          <IconCategory size={20} />
-          <Text>{post.category.category}</Text>
-        </Group>
-      </MediaQuery>
+      {/* <MediaQuery smallerThan="xs" styles={{ display: "none" }}> */}
+      <Group spacing="xs" position="left">
+        <IconCategory size={20} />
+        <Text>{post.category.category}</Text>
+      </Group>
+      {/* </MediaQuery> */}
 
       {post.tags.length > 0 && (
         <MediaQuery smallerThan="md" styles={{ display: "none" }}>

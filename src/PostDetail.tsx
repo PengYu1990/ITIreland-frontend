@@ -4,10 +4,25 @@ import usePost from "./hooks/usePost";
 import { Box, createStyles, Grid, rem } from "@mantine/core";
 import PublishBox from "./components/sidebar/PublishBox";
 import ToTop from "./components/shared/ToTop";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import CommentForm from "./components/forms/CommentForm";
 import CommentItem from "./components/post/CommentItem";
 import PostDetailSkeleton from "./components/index/PostDetailSkeleton";
+import { generateHTML } from "@tiptap/react";
+import Paragraph from "@tiptap/extension-paragraph";
+import Bold from "@tiptap/extension-bold";
+// Option 2: Browser-only (lightweight)
+// import { generateHTML } from '@tiptap/core'
+import Document from "@tiptap/extension-document";
+import Text from "@tiptap/extension-text";
+import StarterKit from "@tiptap/starter-kit";
+import Highlight from "@tiptap/extension-highlight";
+import Underline from "@tiptap/extension-underline";
+import TextAlign from "@tiptap/extension-text-align";
+import Superscript from "@tiptap/extension-superscript";
+import SubScript from "@tiptap/extension-subscript";
+import TiptapLink from "@tiptap/extension-link";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 
 const useStyles = createStyles((theme) => ({
   detail: {
@@ -46,6 +61,27 @@ const PostDetail = () => {
     window.scrollTo(0, 0);
   }, [pathname]);
 
+  // Display Rich Text
+  const output = useMemo(() => {
+    if (!data || !data.content) return "";
+
+    return generateHTML(JSON.parse(data.content), [
+      Document,
+      Paragraph,
+      Text,
+      Bold,
+      StarterKit,
+      Underline,
+      TiptapLink,
+      Superscript,
+      SubScript,
+      Highlight.configure(),
+      TextAlign,
+      CodeBlockLowlight,
+      // other extensions …
+    ]);
+  }, [data]);
+
   if (!data) {
     return (
       <>
@@ -71,7 +107,7 @@ const PostDetail = () => {
           <Box className={classes.detail}>
             <h1 className={classes.heading}>{data.title}</h1>
             <PostMeta post={data} />
-            <div dangerouslySetInnerHTML={{ __html: data.content }} />
+            <div dangerouslySetInnerHTML={{ __html: output }} />
           </Box>
           <Box className={classes.detail}>
             <CommentForm

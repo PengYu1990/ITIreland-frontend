@@ -6,6 +6,21 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import PostMeta from "../shared/PostMeta";
 import { createShortcut, removeTags } from "../../utils/common";
 import { Link } from "react-router-dom";
+import { generateHTML } from "@tiptap/react";
+import Paragraph from "@tiptap/extension-paragraph";
+import Bold from "@tiptap/extension-bold";
+// Option 2: Browser-only (lightweight)
+// import { generateHTML } from '@tiptap/core'
+import Document from "@tiptap/extension-document";
+import TipTapText from "@tiptap/extension-text";
+import StarterKit from "@tiptap/starter-kit";
+import Highlight from "@tiptap/extension-highlight";
+import Underline from "@tiptap/extension-underline";
+import TextAlign from "@tiptap/extension-text-align";
+import Superscript from "@tiptap/extension-superscript";
+import SubScript from "@tiptap/extension-subscript";
+import TiptapLink from "@tiptap/extension-link";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 dayjs.extend(relativeTime);
 
 const useStyles = createStyles((theme) => ({
@@ -43,7 +58,26 @@ const PostItem = ({ post }: Props) => {
       <Link to={`/post/${post.id}`} key={post.id}>
         <h3 className={classes.heading}>{post.title}</h3>
         <Text className={classes.summary}>
-          {removeTags(createShortcut(post.content, 320))}
+          {removeTags(
+            createShortcut(
+              generateHTML(JSON.parse(post.content), [
+                Document,
+                Paragraph,
+                TipTapText,
+                Bold,
+                StarterKit,
+                Underline,
+                TiptapLink,
+                Superscript,
+                SubScript,
+                Highlight.configure(),
+                TextAlign,
+                CodeBlockLowlight,
+                // other extensions …
+              ]),
+              320
+            )
+          )}
         </Text>
       </Link>
       <PostMeta post={post} />

@@ -14,6 +14,7 @@ import { useForm } from "@mantine/form";
 import { getSessionUser } from "./services/session-service";
 import { useLocation, useNavigate } from "react-router-dom";
 import RichEditor from "./components/shared/RichEditor";
+import { JSONContent } from "@tiptap/react";
 
 const useStyles = createStyles(() => ({
   form: {
@@ -35,7 +36,7 @@ const useStyles = createStyles(() => ({
 const categories = ["Backend", "Frontend", "Fullstack", "IT News"];
 
 const PostEdit = () => {
-  const [htmlContent, setHtmlContent] = useState("");
+  const [jsonContent, setJsonContent] = useState<JSONContent>();
   const { classes } = useStyles();
   const history = useNavigate();
   const { pathname } = useLocation();
@@ -68,8 +69,8 @@ const PostEdit = () => {
       return;
     }
 
-    values = { ...values, content: htmlContent, userId: user.id };
-    if (values.content == null || values.content === "") {
+    values = { ...values, contentJson: jsonContent, userId: user.id };
+    if (values.contentJson == null || values.contentJson === "") {
       notifications.show({
         title: "Notification",
         message: "Content can not be empty",
@@ -112,7 +113,7 @@ const PostEdit = () => {
           placeholder="Category"
           {...form.getInputProps("category")}
         />
-        <RichEditor setHtmlContent={(content) => setHtmlContent(content)} />
+        <RichEditor setJsonContent={(content) => setJsonContent(content)} />
         <Group position="right" mt="md">
           <Button type="submit">Submit</Button>
         </Group>

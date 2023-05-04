@@ -1,17 +1,19 @@
 import { RichTextEditor, Link } from "@mantine/tiptap";
-import { useEditor } from "@tiptap/react";
+import { JSONContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Highlight from "@tiptap/extension-highlight";
 import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
 import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import { lowlight } from "lowlight";
 
 interface Props {
-  setHtmlContent: (content: string) => void;
+  setJsonContent: (content: JSONContent) => void;
   defaultContent?: string;
 }
-const RichEditor = ({ defaultContent, setHtmlContent }: Props) => {
+const RichEditor = ({ defaultContent, setJsonContent }: Props) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -21,10 +23,13 @@ const RichEditor = ({ defaultContent, setHtmlContent }: Props) => {
       SubScript,
       Highlight,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
+      CodeBlockLowlight.configure({
+        lowlight,
+      }),
     ],
     content: defaultContent,
     onUpdate({ editor }) {
-      setHtmlContent(editor.getHTML());
+      setJsonContent(editor.getJSON());
     },
   });
 
@@ -38,7 +43,7 @@ const RichEditor = ({ defaultContent, setHtmlContent }: Props) => {
           <RichTextEditor.Strikethrough />
           <RichTextEditor.ClearFormatting />
           <RichTextEditor.Highlight />
-          <RichTextEditor.Code />
+          <RichTextEditor.CodeBlock />
         </RichTextEditor.ControlsGroup>
 
         <RichTextEditor.ControlsGroup>
