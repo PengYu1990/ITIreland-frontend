@@ -13,11 +13,22 @@ import { notifications } from "@mantine/notifications";
 import create from "../../services/http-service";
 import { Comment } from "../../hooks/useComments";
 import { AuthContext } from "../../App";
+import { useMediaQuery } from "@mantine/hooks";
 
-const useStyles = createStyles(() => ({
+const useStyles = createStyles((theme) => ({
   form: {
     paddingTop: rem(10),
     paddingBottom: rem(55),
+  },
+  formMobile: {
+    paddingTop: rem(20),
+    paddingBottom: rem(55),
+    borderBottom: `${rem(1)} solid ${
+      theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[2]
+    }`,
+    borderTop: `${rem(1)} solid ${
+      theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[2]
+    }`,
   },
   button: {
     marginTop: rem(10),
@@ -38,6 +49,8 @@ const CommentSection = ({ postId, addComment }: Props) => {
   const user = getSessionUser();
 
   const loginState = useContext(AuthContext);
+
+  const matches = useMediaQuery("(max-width: 600px)");
 
   const form = useForm({
     initialValues: {
@@ -90,7 +103,7 @@ const CommentSection = ({ postId, addComment }: Props) => {
 
   return (
     <form
-      className={classes.form}
+      className={matches ? classes.formMobile : classes.form}
       onSubmit={form.onSubmit((values) => comment(values))}
     >
       <Flex justify="space-between" direction="row">
