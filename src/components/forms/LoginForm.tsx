@@ -33,7 +33,7 @@ const LoginForm = ({ login }: Props) => {
         type="password"
         {...form.getInputProps("password")}
       />
-      <Group position="right" mt="md">
+      <Group position="left" mt="md">
         <Button type="submit">Log In</Button>
       </Group>
     </form>

@@ -61,7 +61,7 @@ const RegisterForm = ({ signup }: Props) => {
         {...form.getInputProps("termsOfService", { type: "checkbox" })}
       />
 
-      <Group position="right" mt="md">
+      <Group position="left" mt="md">
         <Button type="submit">Sign Up</Button>
       </Group>
     </form>
