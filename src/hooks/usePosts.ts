@@ -22,9 +22,9 @@ export interface Post {
 }
 
 export interface PostQuery {
-    category: string | null;
-    sorting: string;
-    searchText: string;
+    category?: string;
+    sorting?: string;
+    searchText?: string;
     page?:number;
     size?:number;
   }

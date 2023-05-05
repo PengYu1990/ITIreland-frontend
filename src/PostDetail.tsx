@@ -9,12 +9,6 @@ import CommentForm from "./components/forms/CommentForm";
 import CommentItem from "./components/post/CommentItem";
 import PostDetailSkeleton from "./components/index/PostDetailSkeleton";
 import { generateHTML } from "@tiptap/react";
-import Paragraph from "@tiptap/extension-paragraph";
-import Bold from "@tiptap/extension-bold";
-// Option 2: Browser-only (lightweight)
-// import { generateHTML } from '@tiptap/core'
-import Document from "@tiptap/extension-document";
-import Text from "@tiptap/extension-text";
 import StarterKit from "@tiptap/starter-kit";
 import Highlight from "@tiptap/extension-highlight";
 import Underline from "@tiptap/extension-underline";
@@ -22,7 +16,7 @@ import TextAlign from "@tiptap/extension-text-align";
 import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
 import TiptapLink from "@tiptap/extension-link";
-import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import HotPost from "./components/sidebar/HotPost";
 
 const useStyles = createStyles((theme) => ({
   detail: {
@@ -66,10 +60,10 @@ const PostDetail = () => {
     if (!data || !data.content) return "";
 
     return generateHTML(JSON.parse(data.content), [
-      Document,
-      Paragraph,
-      Text,
-      Bold,
+      // Document,
+      // Paragraph,
+      // Text,
+      // Bold,
       StarterKit,
       Underline,
       TiptapLink,
@@ -77,7 +71,7 @@ const PostDetail = () => {
       SubScript,
       Highlight.configure(),
       TextAlign,
-      CodeBlockLowlight,
+      // CodeBlockLowlight,
       // other extensions …
     ]);
   }, [data]);
@@ -92,6 +86,7 @@ const PostDetail = () => {
 
           <Grid.Col md={3} sm={12}>
             <PublishBox />
+            <HotPost />
           </Grid.Col>
         </Grid>
         <ToTop />
@@ -131,6 +126,7 @@ const PostDetail = () => {
 
         <Grid.Col md={3} sm={12}>
           <PublishBox />
+          <HotPost />
         </Grid.Col>
       </Grid>
       <ToTop />

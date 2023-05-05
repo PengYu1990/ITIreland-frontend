@@ -1,5 +1,5 @@
 import { Post } from "./usePosts";
 import useSingleData from "./useSingleData";
 
-const usePost = (id:string|undefined) => useSingleData<Post>("/api/posts/"+id)
+const usePost = (id="1") => useSingleData<Post>("/api/posts/"+id, [id])
 export default usePost
