@@ -56,7 +56,7 @@ const Category = ({ currentCategory, setCategory }: Props) => {
           All
         </Button>
       )}
-      {isLoading && skeleton.map((key) => <CategorySkeleton key={key} />)}
+      {/* {isLoading && skeleton.map((key) => <CategorySkeleton key={key} />)} */}
 
       {data.data &&
         data.data.map((category, key) => {

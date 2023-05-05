@@ -43,7 +43,7 @@ const useStyles = createStyles((theme) => ({
   content: {
     textDecoration: "none",
     fontFamily: `'Pathway Extreme', sans-serif;`,
-    color: theme.colors.dark[4],
+    color: theme.colors.dark[7],
     marginTop: rem(20),
     marginBottom: rem(30),
   },
@@ -107,7 +107,10 @@ const PostDetail = () => {
           <Box className={classes.detail}>
             <h1 className={classes.heading}>{data.title}</h1>
             <PostMeta post={data} />
-            <div dangerouslySetInnerHTML={{ __html: output }} />
+            <div
+              className={classes.content}
+              dangerouslySetInnerHTML={{ __html: output }}
+            />
           </Box>
           <Box className={classes.detail}>
             <CommentForm
