@@ -7,7 +7,6 @@ import TextAlign from "@tiptap/extension-text-align";
 import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
 import { useEffect } from "react";
-import { Post } from "../../hooks/usePosts";
 
 interface Props {
   getJsonContent: (content: JSONContent) => void;
