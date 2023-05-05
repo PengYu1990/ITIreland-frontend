@@ -7,7 +7,7 @@ import {
   createStyles,
   rem,
 } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import create from "./services/http-service";
 import { notifications } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
@@ -16,6 +16,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import RichEditor from "./components/shared/RichEditor";
 import { JSONContent } from "@tiptap/react";
 import usePost from "./hooks/usePost";
+import { useUpdateEffect } from "react-use";
 
 const useStyles = createStyles(() => ({
   form: {
@@ -42,15 +43,16 @@ const PostEdit = () => {
   const history = useNavigate();
   const { pathname } = useLocation();
   const { id } = useParams();
-  const { data } = id == undefined ? { data: null } : usePost(id);
+  const { data } = usePost(id);
 
-  useEffect(() => {
+  useUpdateEffect(() => {
     window.scrollTo(0, 0);
-  }, [pathname]);
-
-  useEffect(() => {
     form.setValues({ title: data?.title, category: data?.category.category });
-  }, [data]);
+  }, [pathname, data]);
+
+  // useEffect(() => {
+  //   form.setValues({ title: data?.title, category: data?.category.category });
+  // }, [data]);
 
   const form = useForm({
     initialValues: {
