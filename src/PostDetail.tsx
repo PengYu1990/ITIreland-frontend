@@ -16,7 +16,6 @@ import TextAlign from "@tiptap/extension-text-align";
 import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
 import TiptapLink from "@tiptap/extension-link";
-import HotPost from "./components/sidebar/HotPost";
 
 const useStyles = createStyles((theme) => ({
   detail: {
@@ -47,6 +46,10 @@ const useStyles = createStyles((theme) => ({
 const PostDetail = () => {
   const { classes } = useStyles();
   let { id } = useParams();
+
+  if (!id) {
+    return <></>;
+  }
   const { data, isLoading, setData } = usePost(id);
 
   const { pathname } = useLocation();
@@ -74,7 +77,7 @@ const PostDetail = () => {
       // CodeBlockLowlight,
       // other extensions …
     ]);
-  }, [data]);
+  }, [data?.content]);
 
   if (!data) {
     return (
@@ -86,7 +89,7 @@ const PostDetail = () => {
 
           <Grid.Col md={3} sm={12}>
             <PublishBox />
-            <HotPost />
+            {/* <HotPost /> */}
           </Grid.Col>
         </Grid>
         <ToTop />
@@ -126,7 +129,7 @@ const PostDetail = () => {
 
         <Grid.Col md={3} sm={12}>
           <PublishBox />
-          <HotPost />
+          {/* <HotPost /> */}
         </Grid.Col>
       </Grid>
       <ToTop />

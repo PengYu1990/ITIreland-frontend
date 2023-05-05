@@ -1,3 +1,4 @@
+import { AxiosRequestConfig } from "axios";
 import createClient from "./api-client";
 
 export interface Entity {
@@ -16,8 +17,8 @@ class HttpService<T>{
 
     }
 
-    get(){
-        return createClient().get(this.endpoint)
+    get(requestConfig?:AxiosRequestConfig){
+        return createClient().get(this.endpoint,{...requestConfig})
     }
 
     delete<T extends Entity>(entity: T){

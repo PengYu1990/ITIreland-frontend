@@ -23,7 +23,7 @@ const router = createHashRouter([
         element: <PostDetail />,
       },
       {
-        path: "/post",
+        path: "/edit/:id?",
         element: <PostEdit />,
       },
     ],

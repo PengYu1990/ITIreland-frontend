@@ -19,7 +19,7 @@ const PublishBox = () => {
       justify="center"
       direction="row"
     >
-      <Link to="/post">
+      <Link to="/edit">
         <Button variant="gradient" leftIcon={<AiOutlineEdit size={rem(18)} />}>
           Post
         </Button>

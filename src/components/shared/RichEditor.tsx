@@ -6,14 +6,14 @@ import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
 import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
-import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
-import { lowlight } from "lowlight";
+import { useEffect } from "react";
+import { Post } from "../../hooks/usePosts";
 
 interface Props {
-  setJsonContent: (content: JSONContent) => void;
-  defaultContent?: string;
+  getJsonContent: (content: JSONContent) => void;
+  defaultJsonContent?: string;
 }
-const RichEditor = ({ defaultContent, setJsonContent }: Props) => {
+const RichEditor = ({ defaultJsonContent, getJsonContent }: Props) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -21,17 +21,21 @@ const RichEditor = ({ defaultContent, setJsonContent }: Props) => {
       Link,
       Superscript,
       SubScript,
-      Highlight,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
-      CodeBlockLowlight.configure({
-        lowlight,
-      }),
+      Highlight,
+      // CodeBlockLowlight.configure({
+      //   lowlight,
+      // }),
     ],
-    content: defaultContent,
     onUpdate({ editor }) {
-      setJsonContent(editor.getJSON());
+      getJsonContent(editor.getJSON());
     },
   });
+
+  useEffect(() => {
+    if (defaultJsonContent)
+      editor?.commands.setContent(JSON.parse(defaultJsonContent));
+  }, [defaultJsonContent]);
 
   return (
     <RichTextEditor editor={editor} withCodeHighlightStyles={true}>

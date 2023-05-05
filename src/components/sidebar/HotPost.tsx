@@ -33,6 +33,7 @@ const HotPost = () => {
   const { classes } = useStyles();
   const postQuery: PostQuery = { sorting: "views", size: 5 };
   const { data } = usePosts(postQuery);
+
   return (
     <Box className={classes.hotPostBox}>
       <h4 className={classes.heading}>Hot Post</h4>

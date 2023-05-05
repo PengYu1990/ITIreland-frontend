@@ -12,9 +12,10 @@ import create from "./services/http-service";
 import { notifications } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
 import { getSessionUser } from "./services/session-service";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import RichEditor from "./components/shared/RichEditor";
 import { JSONContent } from "@tiptap/react";
+import usePost from "./hooks/usePost";
 
 const useStyles = createStyles(() => ({
   form: {
@@ -40,10 +41,16 @@ const PostEdit = () => {
   const { classes } = useStyles();
   const history = useNavigate();
   const { pathname } = useLocation();
+  const { id } = useParams();
+  const { data } = id == undefined ? { data: null } : usePost(id);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
+
+  useEffect(() => {
+    form.setValues({ title: data?.title, category: data?.category.category });
+  }, [data]);
 
   const form = useForm({
     initialValues: {
@@ -70,6 +77,11 @@ const PostEdit = () => {
     }
 
     values = { ...values, contentJson: jsonContent, userId: user.id };
+
+    if (id) {
+      values = { ...values, id: id };
+    }
+
     if (values.contentJson == null || values.contentJson === "") {
       notifications.show({
         title: "Notification",
@@ -113,7 +125,11 @@ const PostEdit = () => {
           placeholder="Category"
           {...form.getInputProps("category")}
         />
-        <RichEditor setJsonContent={(content) => setJsonContent(content)} />
+        <RichEditor
+          defaultJsonContent={data?.content}
+          getJsonContent={(content) => setJsonContent(content)}
+        />
+
         <Group position="right" mt="md">
           <Button type="submit">Submit</Button>
         </Group>
