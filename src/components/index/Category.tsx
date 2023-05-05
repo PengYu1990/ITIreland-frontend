@@ -1,6 +1,5 @@
 import { Box, Button, createStyles, rem } from "@mantine/core";
 import useCategories from "../../hooks/useCategories";
-import CategorySkeleton from "./CategorySkeleton";
 
 const useStyles = createStyles((theme) => ({
   category: {
@@ -29,8 +28,8 @@ interface Props {
 const Category = ({ currentCategory, setCategory }: Props) => {
   const { classes } = useStyles();
 
-  const { data, isLoading } = useCategories();
-  const skeleton = [1, 2, 3, 4, 5];
+  const { data } = useCategories();
+  // const skeleton = [1, 2, 3, 4, 5];
 
   return (
     <Box className={classes.category}>
