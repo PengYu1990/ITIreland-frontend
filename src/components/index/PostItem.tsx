@@ -46,9 +46,6 @@ interface Props {
 const PostItem = ({ post }: Props) => {
   const { classes } = useStyles();
 
-  let now = new Date();
-  const oneDay = 60 * 60 * 24;
-
   return (
     <Box className={classes.postItem}>
       <Link to={`/post/${post.id}`} key={post.id}>
@@ -59,7 +56,7 @@ const PostItem = ({ post }: Props) => {
               Hot
             </Badge>
           )}
-          {dayjs(now).diff(post.ctime, "hour") < 24 && (
+          {dayjs(new Date()).diff(post.ctime, "hour") < 24 && (
             <Badge variant="filled" color="blue">
               New
             </Badge>
