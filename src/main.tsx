@@ -4,12 +4,12 @@ import App from "./App";
 import "./App.css";
 import { MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import PostDetail from "./PostDetail";
 import PostEdit from "./PostEdit";
 import Index from "./Index";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <App />,
