@@ -1,4 +1,4 @@
-import { Box, Text, createStyles, rem } from "@mantine/core";
+import { Badge, Box, Flex, Text, createStyles, rem } from "@mantine/core";
 import { Post } from "../../hooks/usePosts";
 import dayjs from "dayjs";
 // extend dayjs
@@ -46,10 +46,25 @@ interface Props {
 const PostItem = ({ post }: Props) => {
   const { classes } = useStyles();
 
+  let now = new Date();
+  const oneDay = 60 * 60 * 24;
+
   return (
     <Box className={classes.postItem}>
       <Link to={`/post/${post.id}`} key={post.id}>
-        <h3 className={classes.heading}>{post.title}</h3>
+        <Flex gap={3} justify="flex-start" direction="row" align="center">
+          <h3 className={classes.heading}>{post.title}</h3>
+          {post.views > 100 && (
+            <Badge variant="filled" color="red">
+              Hot
+            </Badge>
+          )}
+          {dayjs(now).diff(post.ctime, "hour") < 24 && (
+            <Badge variant="filled" color="blue">
+              New
+            </Badge>
+          )}
+        </Flex>
         <Text className={classes.summary}>
           {removeTags(
             createShortcut(
