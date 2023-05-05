@@ -10,6 +10,7 @@ import useAuth from "./hooks/useAuth";
 import { Outlet } from "react-router-dom";
 import { createContext } from "react";
 import { useMediaQuery } from "@mantine/hooks";
+import { Analytics } from "@vercel/analytics/react";
 
 const useStyles = createStyles((theme) => ({
   contentMobile: {
@@ -75,6 +76,7 @@ export default function App() {
           <RegisterForm signup={signup} />
         )}
       </RegisterModal>
+      <Analytics />
     </AuthContext.Provider>
   );
 }
