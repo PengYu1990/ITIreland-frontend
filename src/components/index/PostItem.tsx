@@ -50,14 +50,28 @@ const PostItem = ({ post }: Props) => {
     <Box className={classes.postItem}>
       <Link to={`/post/${post.id}`} key={post.id}>
         <Flex gap={3} justify="flex-start" direction="row" align="center">
-          <h3 className={classes.heading}>{post.title}</h3>
+          <h3 className={classes.heading} style={{ maxWidth: "80%" }}>
+            {post.title}
+          </h3>
           {post.views > 100 && (
-            <Badge variant="filled" color="red">
+            <Badge
+              variant="filled"
+              color="red"
+              size="xs"
+              miw={40}
+              style={{ fontSize: 10 }}
+            >
               Hot
             </Badge>
           )}
           {dayjs(new Date()).diff(post.ctime, "hour") < 24 && (
-            <Badge variant="filled" color="blue">
+            <Badge
+              variant="filled"
+              color="blue"
+              size="xs"
+              miw={40}
+              style={{ fontSize: 10 }}
+            >
               New
             </Badge>
           )}
