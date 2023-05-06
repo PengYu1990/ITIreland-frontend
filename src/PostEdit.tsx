@@ -82,6 +82,15 @@ const PostEdit = () => {
       return;
     }
 
+    if (data && user.id != data.user.id) {
+      notifications.show({
+        title: "Notification",
+        message: "You can only edit your own post",
+        color: "red",
+      });
+      return;
+    }
+
     values = { ...values, contentJson: jsonContent, userId: user.id };
 
     if (id) {
@@ -96,7 +105,7 @@ const PostEdit = () => {
       });
       return;
     }
-    create("/api/posts")
+    create("/api/posts/save")
       .create(values)
       .then((resp) => {
         notifications.show({
