@@ -54,7 +54,7 @@ const PostDetail = () => {
   if (!id) {
     return <></>;
   }
-  const { data, isLoading, setData } = usePost(id);
+  const { data, isLoading } = usePost(id);
   const [comments, setComments] = useState<Comment[]>([]);
 
   const { pathname } = useLocation();

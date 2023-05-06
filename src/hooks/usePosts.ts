@@ -1,4 +1,3 @@
-import { Comment } from "./useComments";
 import usedata from "./useData"
 import { User } from "./useUser";
 interface Tag {
