@@ -16,8 +16,6 @@ export interface Post {
     userId:number;
     user:User;
     tags:Tag[];
-    comments:Comment[];
-
 }
 
 export interface PostQuery {

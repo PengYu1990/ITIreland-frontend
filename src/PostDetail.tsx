@@ -4,9 +4,8 @@ import usePost from "./hooks/usePost";
 import { Box, createStyles, Grid, rem } from "@mantine/core";
 import PublishBox from "./components/sidebar/PublishBox";
 import ToTop from "./components/shared/ToTop";
-import { useEffect, useMemo } from "react";
+import { useMemo, useState } from "react";
 import CommentForm from "./components/forms/CommentForm";
-import CommentItem from "./components/post/CommentItem";
 import PostDetailSkeleton from "./components/index/PostDetailSkeleton";
 import { generateHTML } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -16,6 +15,11 @@ import TextAlign from "@tiptap/extension-text-align";
 import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
 import TiptapLink from "@tiptap/extension-link";
+import { useUpdateEffect } from "react-use";
+import create from "./services/http-service";
+import { Comment } from "./hooks/useComments";
+import CommentList from "./components/post/CommentList";
+import { notifications } from "@mantine/notifications";
 
 const useStyles = createStyles((theme) => ({
   detail: {
@@ -51,12 +55,27 @@ const PostDetail = () => {
     return <></>;
   }
   const { data, isLoading, setData } = usePost(id);
+  const [comments, setComments] = useState<Comment[]>([]);
 
   const { pathname } = useLocation();
 
-  useEffect(() => {
+  useUpdateEffect(() => {
     window.scrollTo(0, 0);
-  }, [pathname]);
+    if (data) {
+      create(`/api/comments`)
+        .get({ params: { postId: data.id } })
+        .then((resp) => {
+          setComments(resp.data.data);
+        })
+        .catch((error) => {
+          notifications.show({
+            title: "Notification",
+            message: error.message,
+            color: "red",
+          });
+        });
+    }
+  }, [pathname, data]);
 
   // Display Rich Text
   const output = useMemo(() => {
@@ -113,29 +132,10 @@ const PostDetail = () => {
           <Box className={classes.detail}>
             <CommentForm
               postId={data.id}
-              addComment={(comment) =>
-                setData({ ...data, comments: [comment, ...data.comments] })
-              }
+              addComment={(comment) => setComments([comment, ...comments])}
             />
           </Box>
-          {data.comments && data.comments.length != 0 && (
-            <Box className={classes.detail}>
-              {data.comments.map((comment, key) => (
-                <CommentItem
-                  comment={comment}
-                  delComment={() =>
-                    setData({
-                      ...data,
-                      comments: [
-                        ...data.comments.filter((c) => comment.id != c.id),
-                      ],
-                    })
-                  }
-                  key={key}
-                />
-              ))}
-            </Box>
-          )}
+          <CommentList setComments={setComments} comments={comments} />
         </Grid.Col>
 
         <Grid.Col md={3} sm={12}>

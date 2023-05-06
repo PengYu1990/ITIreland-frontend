@@ -4,6 +4,7 @@ import {
   Button,
   Flex,
   Group,
+  Menu,
   Text,
   createStyles,
   rem,
@@ -17,6 +18,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../App";
 import create from "../../services/http-service";
 import { notifications } from "@mantine/notifications";
+import { IconTrash } from "@tabler/icons-react";
 
 interface Props {
   comment: Comment;
@@ -104,24 +106,37 @@ const CommentItem = ({ comment, delComment }: Props) => {
             )}
             {loginState === "yes" && user && user.id === comment.user.id && (
               <Flex gap={2} justify="flex-start" direction="row" align="center">
-                <Button
-                  variant="subtle"
-                  p={0}
-                  ml={0}
-                  leftIcon={<AiOutlineDelete size={18} />}
-                  styles={() => ({
-                    root: {
-                      color: "red",
-                      fontWeight: "normal",
-                    },
-                    leftIcon: {
-                      marginRight: 0,
-                    },
-                  })}
-                  onClick={del}
-                >
-                  Delete
-                </Button>
+                <Menu shadow="md">
+                  <Menu.Target>
+                    <Button
+                      variant="subtle"
+                      p={0}
+                      ml={0}
+                      leftIcon={<AiOutlineDelete size={18} />}
+                      styles={() => ({
+                        root: {
+                          color: "red",
+                          fontWeight: "normal",
+                        },
+                        leftIcon: {
+                          marginRight: 0,
+                        },
+                      })}
+                    >
+                      Delete
+                    </Button>
+                  </Menu.Target>
+
+                  <Menu.Dropdown>
+                    <Menu.Item
+                      color="red"
+                      icon={<IconTrash size={14} />}
+                      onClick={del}
+                    >
+                      Delete?
+                    </Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
               </Flex>
             )}
           </Group>
