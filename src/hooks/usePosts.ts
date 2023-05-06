@@ -13,7 +13,7 @@ export interface Post {
     utime:Date;
     views:number;
     thumbs:number;
-    category:Category;
+    category:string;
     userId:number;
     user:User;
     tags:Tag[];

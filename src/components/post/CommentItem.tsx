@@ -1,6 +1,7 @@
 import {
   Avatar,
   Box,
+  Button,
   Flex,
   Group,
   Text,
@@ -14,9 +15,12 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { getSessionUser } from "../../services/session-service";
 import { useContext } from "react";
 import { AuthContext } from "../../App";
+import create from "../../services/http-service";
+import { notifications } from "@mantine/notifications";
 
 interface Props {
   comment: Comment;
+  delComment: () => void;
 }
 
 const useStyles = createStyles((theme) => ({
@@ -38,10 +42,26 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const CommentItem = ({ comment }: Props) => {
+const CommentItem = ({ comment, delComment }: Props) => {
   const { classes } = useStyles();
   const user = getSessionUser();
   const loginState = useContext(AuthContext);
+
+  const del = () => {
+    console.log(comment.id);
+    create(`/api/comments/`)
+      .delete(comment)
+      .then(() => {
+        delComment();
+      })
+      .catch((error) => {
+        notifications.show({
+          title: "Notification",
+          message: error.message,
+          color: "red",
+        });
+      });
+  };
 
   return (
     <Flex
@@ -65,16 +85,43 @@ const CommentItem = ({ comment }: Props) => {
         >
           <Text>{dayjs(comment.utime).fromNow()}</Text>
           <Group>
-            {loginState === "yes" && user && user.id === comment.user.id && (
-              <Flex gap={2} justify="flex-start" direction="row" align="center">
-                <AiOutlineDelete size={18} />
-                <Text>Delete</Text>
-              </Flex>
-            )}
             {loginState === "yes" && user && (
               <Flex gap={2} justify="flex-start" direction="row" align="center">
-                <BiCommentDetail size={16} />
-                <Text>Reply</Text>
+                <Button
+                  variant="subtle"
+                  p={0}
+                  ml={0}
+                  leftIcon={<BiCommentDetail size={16} />}
+                  styles={() => ({
+                    leftIcon: {
+                      marginRight: 0,
+                    },
+                  })}
+                >
+                  Reply
+                </Button>
+              </Flex>
+            )}
+            {loginState === "yes" && user && user.id === comment.user.id && (
+              <Flex gap={2} justify="flex-start" direction="row" align="center">
+                <Button
+                  variant="subtle"
+                  p={0}
+                  ml={0}
+                  leftIcon={<AiOutlineDelete size={18} />}
+                  styles={() => ({
+                    root: {
+                      color: "red",
+                      fontWeight: "normal",
+                    },
+                    leftIcon: {
+                      marginRight: 0,
+                    },
+                  })}
+                  onClick={del}
+                >
+                  Delete
+                </Button>
               </Flex>
             )}
           </Group>

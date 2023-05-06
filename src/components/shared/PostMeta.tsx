@@ -58,7 +58,7 @@ const PostMeta = ({ post }: Props) => {
       {/* <MediaQuery smallerThan="xs" styles={{ display: "none" }}> */}
       <Group spacing="xs" position="left">
         <IconCategory size={20} />
-        <Text>{post.category.category}</Text>
+        <Text>{post.category}</Text>
       </Group>
       {/* </MediaQuery> */}
 

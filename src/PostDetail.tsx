@@ -121,7 +121,18 @@ const PostDetail = () => {
           {data.comments && data.comments.length != 0 && (
             <Box className={classes.detail}>
               {data.comments.map((comment, key) => (
-                <CommentItem comment={comment} key={key} />
+                <CommentItem
+                  comment={comment}
+                  delComment={() =>
+                    setData({
+                      ...data,
+                      comments: [
+                        ...data.comments.filter((c) => comment.id != c.id),
+                      ],
+                    })
+                  }
+                  key={key}
+                />
               ))}
             </Box>
           )}
