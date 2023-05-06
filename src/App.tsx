@@ -35,11 +35,11 @@ export default function App() {
     opened,
     close,
     isLogin,
-    loginState,
     openLoginModal,
     openSignUpModal,
     login,
     signup,
+    loginState,
     logout,
   } = useAuth();
 
@@ -56,7 +56,6 @@ export default function App() {
           />
         }
         padding={0}
-        footer={<Footer />}
       >
         <Container
           className={matches ? classes.contentMobile : classes.content}
@@ -64,6 +63,7 @@ export default function App() {
         >
           <Outlet />
         </Container>
+        <Footer />
       </AppShell>
       <RegisterModal
         opened={opened}

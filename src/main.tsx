@@ -8,6 +8,7 @@ import { createHashRouter, RouterProvider } from "react-router-dom";
 import PostDetail from "./PostDetail";
 import PostEdit from "./PostEdit";
 import Index from "./Index";
+import { LoginPage } from "./pages/LoginPage";
 
 const router = createHashRouter([
   {
@@ -25,6 +26,10 @@ const router = createHashRouter([
       {
         path: "/edit/:id?",
         element: <PostEdit />,
+      },
+      {
+        path: "/login/:path?",
+        element: <LoginPage />,
       },
     ],
   },

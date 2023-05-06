@@ -7,6 +7,7 @@ const useStyles = createStyles(() => ({
     backgroundColor: "white",
     padding: rem(20),
     marginBottom: rem(20),
+    marginTop: rem(3),
   },
 }));
 

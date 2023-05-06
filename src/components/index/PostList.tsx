@@ -9,6 +9,7 @@ const useStyles = createStyles(() => ({
   postList: {
     backgroundColor: "#ffffff",
     marginBottom: rem(10),
+    marginTop: rem(3),
   },
   page: {
     padding: rem(10),

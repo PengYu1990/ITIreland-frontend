@@ -6,8 +6,9 @@ import { notifications } from "@mantine/notifications";
 import create from "../services/http-service";
 
 // Auth Hook
-const useAuth = () => {
+const useAuth = (path?:string) => {
   const [opened, { open, close }] = useDisclosure(false);
+  // const history = useNavigate();
   // const [user, setUser] = useState<User | null>(getSessionUser());
 
   // decide display login form or register form
@@ -86,6 +87,10 @@ const useAuth = () => {
       color: "blue",
     });
     setLoginState("yes");
+    // Reload
+    if(path){
+      window.location.replace(path);
+    }
   };
   const loginError = (errorData:any) => {
     notifications.show({
@@ -106,6 +111,10 @@ const useAuth = () => {
       color: "blue",
     });
     setLoginState("yes");
+    // Reload
+    if(path){
+      window.location.replace(path);
+    }
   };
   const registerError = (errorData:any) => {
     notifications.show({

@@ -3,7 +3,6 @@ import useCategories from "../../hooks/useCategories";
 
 const useStyles = createStyles((theme) => ({
   category: {
-    marginTop: rem(3),
     padding: rem(15),
     borderBottom: `${rem(1)} solid ${
       theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[2]

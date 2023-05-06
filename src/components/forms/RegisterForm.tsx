@@ -55,11 +55,11 @@ const RegisterForm = ({ signup }: Props) => {
         {...form.getInputProps("email")}
       />
 
-      <Checkbox
+      {/* <Checkbox
         mt="md"
         label="I agree to sell my privacy"
         {...form.getInputProps("termsOfService", { type: "checkbox" })}
-      />
+      /> */}
 
       <Group position="left" mt="md">
         <Button type="submit">Sign Up</Button>
