@@ -48,7 +48,7 @@ const PostEdit = () => {
   // Initial values
   useUpdateEffect(() => {
     window.scrollTo(0, 0);
-    form.setValues({ title: data?.title, category: data?.category.category });
+    form.setValues({ title: data?.title, category: data?.category });
 
     // set JsonContent state
     data && setJsonContent(JSON.parse(data?.content));

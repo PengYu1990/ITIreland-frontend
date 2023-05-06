@@ -1,4 +1,3 @@
-import { Category } from "./useCategories";
 import { Comment } from "./useComments";
 import usedata from "./useData"
 import { User } from "./useUser";
