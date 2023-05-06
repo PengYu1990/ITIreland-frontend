@@ -45,9 +45,13 @@ const PostEdit = () => {
   const { id } = useParams();
   const { data } = usePost(id);
 
+  // Initial values
   useUpdateEffect(() => {
     window.scrollTo(0, 0);
     form.setValues({ title: data?.title, category: data?.category.category });
+
+    // set JsonContent state
+    data && setJsonContent(JSON.parse(data?.content));
   }, [pathname, data]);
 
   // useEffect(() => {
