@@ -7,11 +7,11 @@ const Index = () => {
   return (
     <>
       <Grid grow>
-        <Grid.Col md={9} sm={12}>
+        <Grid.Col sm={9} xs={12}>
           <PostList />
         </Grid.Col>
 
-        <Grid.Col md={3} sm={12}>
+        <Grid.Col sm={3} xs={12}>
           <PublishBox />
           {/* <HotPost /> */}
         </Grid.Col>
