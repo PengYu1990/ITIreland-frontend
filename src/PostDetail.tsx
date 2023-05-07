@@ -66,6 +66,8 @@ const PostDetail = () => {
         .get({ params: { postId: data.id } })
         .then((resp) => {
           setComments(resp.data.data);
+          // Modify title
+          document.title = data.title + " | IT Ireland";
         })
         .catch((error) => {
           notifications.show({

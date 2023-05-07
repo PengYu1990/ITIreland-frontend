@@ -4,6 +4,7 @@ import Category from "./Category";
 import usePosts, { PostQuery } from "../../hooks/usePosts";
 import { useState } from "react";
 import PostItemSkeleton from "./PostItemSkeleton";
+import { useUpdateEffect } from "react-use";
 
 const useStyles = createStyles(() => ({
   postList: {
@@ -30,6 +31,12 @@ const PostList = () => {
     setPostQuery({ ...postQuery, page: page });
     window.scrollTo(0, 0);
   };
+
+  useUpdateEffect(() => {
+    window.scrollTo(0, 0);
+    // Modify title
+    document.title = "IT Ireland";
+  }, [data]);
 
   return (
     <Box>
