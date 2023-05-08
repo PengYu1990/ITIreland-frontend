@@ -7,7 +7,7 @@ import {
   createStyles,
   rem,
 } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import create from "./services/http-service";
 import { notifications } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
@@ -15,8 +15,9 @@ import { getSessionUser } from "./services/session-service";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import RichEditor from "./components/shared/RichEditor";
 import { JSONContent } from "@tiptap/react";
-import usePost from "./hooks/usePost";
 import { useUpdateEffect } from "react-use";
+import { useQueryClient } from "@tanstack/react-query";
+import useEditPost from "./hooks/useEditPost";
 
 const useStyles = createStyles(() => ({
   form: {
@@ -43,21 +44,22 @@ const PostEdit = () => {
   const history = useNavigate();
   const { pathname } = useLocation();
   const { id } = useParams();
-  const { data } = usePost(id);
+
+  // remove cache
+  const queryClient = useQueryClient();
+  queryClient.cancelQueries([id, "post"]);
+
+  const { data } = useEditPost(id);
 
   // Initial values
-  useEffect(() => {
+  useUpdateEffect(() => {
     window.scrollTo(0, 0);
-    form.setValues({ title: data?.title, category: data?.category });
-    document.title = data ? "Edit post : " + data.title : "Add a post";
+    data && form.setValues({ title: data?.title, category: data?.category });
+    document.title = data ? "Edit post : " + data?.title : "Add a post";
 
     // set JsonContent state
-    setJsonContent(JSON.parse(data?.content));
+    data && setJsonContent(JSON.parse(data.content));
   }, [pathname, data]);
-
-  // useEffect(() => {
-  //   form.setValues({ title: data?.title, category: data?.category.category });
-  // }, [data]);
 
   const form = useForm({
     initialValues: {
