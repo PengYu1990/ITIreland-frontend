@@ -36,7 +36,7 @@ const useAuth = (path?:string) => {
         loginSuccess(resp.data.data);
       })
       .catch((error) => {
-        loginError(error.response.data);
+        loginError(error);
       });
   };
 
@@ -92,10 +92,10 @@ const useAuth = (path?:string) => {
       window.location.replace(path);
     }
   };
-  const loginError = (errorData:any) => {
+  const loginError = (error:any) => {
     notifications.show({
       title: "Notification",
-      message: errorData.message,
+      message: error.response.data.message,
       color: "red",
     });
     setLoginState("no");
