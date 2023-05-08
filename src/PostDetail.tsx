@@ -61,8 +61,9 @@ const PostDetail = () => {
 
   useUpdateEffect(() => {
     window.scrollTo(0, 0);
+    document.title = data?.title;
     comments && setCommentList(comments);
-  }, [pathname, comments]);
+  }, [pathname, data, comments]);
 
   // Display Rich Text
   const output = useMemo(() => {

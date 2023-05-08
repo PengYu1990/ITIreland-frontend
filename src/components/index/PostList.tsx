@@ -21,7 +21,7 @@ const useStyles = createStyles(() => ({
 
 const PostList = () => {
   const { classes } = useStyles();
-  const defaultPageSize = 10;
+  const defaultPageSize = 2;
   const [postQuery, setPostQuery] = useState<PostQuery>({
     size: defaultPageSize,
   } as PostQuery);
@@ -30,10 +30,6 @@ const PostList = () => {
   const skeleton = [1, 2, 3, 4, 5];
 
   useUpdateEffect(() => {
-    // window.scrollTo(0, 0);
-    // Modify title
-    document.title = "IT Ireland";
-
     // Add to the bottom event listener
     function handleScroll() {
       const { scrollTop, clientHeight, scrollHeight } =
@@ -50,7 +46,7 @@ const PostList = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [data]);
+  });
 
   return (
     <Box>

@@ -3,8 +3,12 @@ import PostList from "./components/index/PostList";
 import PublishBox from "./components/sidebar/PublishBox";
 import ToTop from "./components/shared/ToTop";
 import HotPost from "./components/sidebar/HotPost";
+import { useEffect } from "react";
 
 const Index = () => {
+  useEffect(() => {
+    document.title = "IT Ireland";
+  });
   return (
     <>
       <Grid grow>

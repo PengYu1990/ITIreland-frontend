@@ -14,6 +14,7 @@ import LoginForm from "../components/forms/LoginForm";
 import RegisterForm from "../components/forms/RegisterForm";
 import useAuth from "../hooks/useAuth";
 import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 const useStyles = createStyles(() => ({
   loginBox: {
@@ -31,6 +32,10 @@ export function LoginPage(props: PaperProps) {
   let { path } = useParams();
   if (path === undefined) path = "/";
   const { login, signup } = useAuth(path);
+
+  useEffect(() => {
+    document.title = "Login | IT Ireland";
+  });
 
   return (
     <Container maw="25rem" className={classes.loginBox}>

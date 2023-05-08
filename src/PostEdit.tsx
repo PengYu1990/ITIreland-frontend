@@ -7,7 +7,7 @@ import {
   createStyles,
   rem,
 } from "@mantine/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import create from "./services/http-service";
 import { notifications } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
@@ -46,9 +46,10 @@ const PostEdit = () => {
   const { data } = usePost(id);
 
   // Initial values
-  useUpdateEffect(() => {
+  useEffect(() => {
     window.scrollTo(0, 0);
     form.setValues({ title: data?.title, category: data?.category });
+    document.title = data ? "Edit post : " + data.title : "Add a post";
 
     // set JsonContent state
     data && setJsonContent(JSON.parse(data?.content));
