@@ -43,13 +43,13 @@ const router = createHashRouter([
 
 const rootElement = document.getElementById("root")!;
 ReactDOM.createRoot(rootElement).render(
-  // <React.StrictMode>
-  <MantineProvider>
-    <Notifications />
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-      <ReactQueryDevtools />
-    </QueryClientProvider>
-  </MantineProvider>
-  // </React.StrictMode>
+  <React.StrictMode>
+    <MantineProvider>
+      <Notifications />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+        <ReactQueryDevtools />
+      </QueryClientProvider>
+    </MantineProvider>
+  </React.StrictMode>
 );
