@@ -59,7 +59,7 @@ const CommentItem = ({ comment, delComment }: Props) => {
       .catch((error) => {
         notifications.show({
           title: "Notification",
-          message: error.error.message,
+          message: error.response.data.message,
           color: "red",
         });
       });
