@@ -55,7 +55,7 @@ const PostDetail = () => {
   }
   const { data, isLoading } = usePost(id);
   const [commentList, setCommentList] = useState<Comment[]>([]);
-  const { data: comments } = useComments(data?.id);
+  const { data: comments } = useComments(parseInt(id));
 
   const { pathname } = useLocation();
 

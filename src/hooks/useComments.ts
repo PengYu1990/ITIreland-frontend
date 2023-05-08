@@ -13,6 +13,10 @@ export interface Comment {
 }
 
 const useComments = (postId:number | undefined) => {
+  // if(!postId) {
+  //   const data:Comment[] = [];
+  //   return {data}
+  // };
   return useQuery<Comment[],Error>({
   queryKey:[postId,"comments"],
   queryFn: () => create("/api/comments").get({params:{
