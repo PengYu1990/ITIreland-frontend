@@ -69,6 +69,10 @@ const PostDetail = () => {
     if (!data || !data.content) return "";
 
     return generateHTML(JSON.parse(data.content), [
+      // Document,
+      // Paragraph,
+      // Text,
+      // Bold,
       StarterKit,
       Underline,
       TiptapLink,
@@ -76,8 +80,29 @@ const PostDetail = () => {
       SubScript,
       Highlight.configure(),
       TextAlign,
+      // CodeBlockLowlight,
+      // other extensions …
     ]);
   }, [data?.content]);
+
+  if (!data) {
+    return (
+      <>
+        <Grid grow>
+          <Grid.Col md={9} sm={12}>
+            {isLoading && <PostDetailSkeleton />}
+          </Grid.Col>
+
+          <Grid.Col md={3} sm={12}>
+            <PublishBox />
+            {/* <HotPost /> */}
+          </Grid.Col>
+        </Grid>
+        <ToTop />
+      </>
+    );
+  }
+
   return (
     <>
       <Grid grow>
