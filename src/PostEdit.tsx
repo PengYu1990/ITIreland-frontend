@@ -52,7 +52,7 @@ const PostEdit = () => {
     document.title = data ? "Edit post : " + data.title : "Add a post";
 
     // set JsonContent state
-    data && setJsonContent(JSON.parse(data?.content));
+    setJsonContent(JSON.parse(data?.content));
   }, [pathname, data]);
 
   // useEffect(() => {
