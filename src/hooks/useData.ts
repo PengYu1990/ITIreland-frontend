@@ -3,7 +3,7 @@ import createClient from "../services/api-client";
 import { AxiosRequestConfig, CanceledError } from "axios";
 import { notifications } from "@mantine/notifications";
 
-interface FetchResponse<T> {
+export interface FetchResponse<T> {
     status:number;
     message:string;
     data:T[];

@@ -1,14 +1,10 @@
-import { useState } from "react";
-import { Post } from "./usePosts";
-import useSingleData from "./useSingleData";
+import { useQuery } from "@tanstack/react-query";
+import create from "../services/http-service";
 
-const usePost = (id:string|undefined) => {
-    if(id === undefined){
-        const [data, setData] = useState<Post>();
-        const [error, setError] = useState("");
-        const [isLoading, setLoading] = useState(false);
-        return {data, setData, error, setError,isLoading, setLoading}
-    }
-    return useSingleData<Post>("/api/posts/"+id, [id])
-}
+
+const usePost = (id:string) => useQuery({
+    queryKey:[id,"post"],
+    queryFn:()=>create(`/api/posts/${id}`)
+            .get()
+            .then(resp=>resp.data.data)})
 export default usePost

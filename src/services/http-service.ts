@@ -32,5 +32,5 @@ class HttpService<T>{
     }
 }
 
- const create =  (endpoint : string) => new HttpService(endpoint); 
+ const create =  <T>(endpoint : string) => new HttpService<T>(endpoint); 
  export default create;

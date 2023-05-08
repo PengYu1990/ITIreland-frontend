@@ -56,40 +56,39 @@ const Category = ({ currentCategory, setCategory }: Props) => {
       )}
       {/* {isLoading && skeleton.map((key) => <CategorySkeleton key={key} />)} */}
 
-      {data.data &&
-        data.data.map((category, key) => {
-          if (currentCategory === category.category) {
-            return (
-              <Button
-                key={key}
-                className={classes.badge}
-                variant="gradient"
-                onClick={() => {
-                  console.log("cate clicked");
-                  setCategory(category.category);
-                }}
-                size="xs"
-              >
-                {category.category}
-              </Button>
-            );
-          }
-
+      {data?.map((category, key) => {
+        if (currentCategory === category.category) {
           return (
             <Button
               key={key}
               className={classes.badge}
+              variant="gradient"
               onClick={() => {
                 console.log("cate clicked");
                 setCategory(category.category);
               }}
-              variant="light"
               size="xs"
             >
               {category.category}
             </Button>
           );
-        })}
+        }
+
+        return (
+          <Button
+            key={key}
+            className={classes.badge}
+            onClick={() => {
+              console.log("cate clicked");
+              setCategory(category.category);
+            }}
+            variant="light"
+            size="xs"
+          >
+            {category.category}
+          </Button>
+        );
+      })}
     </Box>
   );
 };

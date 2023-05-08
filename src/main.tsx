@@ -10,6 +10,12 @@ import PostEdit from "./PostEdit";
 import Index from "./Index";
 import { LoginPage } from "./pages/LoginPage";
 
+import { QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
+const queryClient = new QueryClient();
+
 const router = createHashRouter([
   {
     path: "/",
@@ -40,7 +46,10 @@ ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
     <MantineProvider>
       <Notifications />
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+        <ReactQueryDevtools />
+      </QueryClientProvider>
     </MantineProvider>
   </React.StrictMode>
 );

@@ -16,10 +16,8 @@ import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
 import TiptapLink from "@tiptap/extension-link";
 import { useUpdateEffect } from "react-use";
-import create from "./services/http-service";
-import { Comment } from "./hooks/useComments";
+import useComments, { Comment } from "./hooks/useComments";
 import CommentList from "./components/post/CommentList";
-import { notifications } from "@mantine/notifications";
 
 const useStyles = createStyles((theme) => ({
   detail: {
@@ -55,29 +53,15 @@ const PostDetail = () => {
     return <></>;
   }
   const { data, isLoading } = usePost(id);
-  const [comments, setComments] = useState<Comment[]>([]);
+  const [commentList, setCommentList] = useState<Comment[]>([]);
+  const { data: comments } = useComments(data?.id);
 
   const { pathname } = useLocation();
 
   useUpdateEffect(() => {
     window.scrollTo(0, 0);
-    if (data) {
-      create(`/api/comments`)
-        .get({ params: { postId: data.id } })
-        .then((resp) => {
-          setComments(resp.data.data);
-          // Modify title
-          document.title = data.title + " | IT Ireland";
-        })
-        .catch((error) => {
-          notifications.show({
-            title: "Notification",
-            message: error.message,
-            color: "red",
-          });
-        });
-    }
-  }, [pathname, data]);
+    comments && setCommentList(comments);
+  }, [pathname, comments]);
 
   // Display Rich Text
   const output = useMemo(() => {
@@ -134,10 +118,12 @@ const PostDetail = () => {
           <Box className={classes.detail}>
             <CommentForm
               postId={data.id}
-              addComment={(comment) => setComments([comment, ...comments])}
+              addComment={(comment) =>
+                setCommentList([comment, ...commentList])
+              }
             />
           </Box>
-          <CommentList setComments={setComments} comments={comments} />
+          <CommentList setComments={setCommentList} comments={commentList} />
         </Grid.Col>
 
         <Grid.Col md={3} sm={12}>

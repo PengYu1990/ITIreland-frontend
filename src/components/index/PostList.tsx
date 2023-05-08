@@ -1,10 +1,11 @@
 import PostItem from "./PostItem";
-import { Box, Pagination, createStyles, rem } from "@mantine/core";
+import { Box, Center, Loader, createStyles, rem } from "@mantine/core";
 import Category from "./Category";
 import usePosts, { PostQuery } from "../../hooks/usePosts";
 import { useState } from "react";
 import PostItemSkeleton from "./PostItemSkeleton";
 import { useUpdateEffect } from "react-use";
+import React from "react";
 
 const useStyles = createStyles(() => ({
   postList: {
@@ -20,22 +21,35 @@ const useStyles = createStyles(() => ({
 
 const PostList = () => {
   const { classes } = useStyles();
-  const defaultPageSize = 20;
+  const defaultPageSize = 10;
   const [postQuery, setPostQuery] = useState<PostQuery>({
     size: defaultPageSize,
   } as PostQuery);
-  const { data, isLoading } = usePosts(postQuery);
+  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    usePosts(postQuery);
   const skeleton = [1, 2, 3, 4, 5];
 
-  const changePage = (page: number) => {
-    setPostQuery({ ...postQuery, page: page });
-    window.scrollTo(0, 0);
-  };
-
   useUpdateEffect(() => {
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
     // Modify title
     document.title = "IT Ireland";
+
+    // Add to the bottom event listener
+    function handleScroll() {
+      const { scrollTop, clientHeight, scrollHeight } =
+        document.documentElement;
+
+      // Fetch next page
+      if (scrollTop + clientHeight >= scrollHeight && hasNextPage) {
+        fetchNextPage();
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, [data]);
 
   return (
@@ -48,22 +62,15 @@ const PostList = () => {
           currentCategory={postQuery.category}
         />
         {isLoading && skeleton.map((key) => <PostItemSkeleton key={key} />)}
-        {data.data &&
-          data.data.map((post, key) => <PostItem post={post} key={key} />)}
+        {data?.pages.map((page, key) => (
+          <React.Fragment key={key}>
+            {page.data.map((post, key) => (
+              <PostItem post={post} key={key} />
+            ))}
+          </React.Fragment>
+        ))}
       </Box>
-
-      {data && data.data && data.totalElements > defaultPageSize && (
-        <Box className={classes.page}>
-          <Pagination
-            total={data.totalPages}
-            onFirstPage={() => changePage(0)}
-            onLastPage={() => changePage(data.totalPages - 1)}
-            onPreviousPage={() => changePage(data.page - 1)}
-            onNextPage={() => changePage(data.page + 1)}
-            onChange={(page) => changePage(page - 1)}
-          />
-        </Box>
-      )}
+      <Center>{isFetchingNextPage && <Loader size={20} />}</Center>
     </Box>
   );
 };

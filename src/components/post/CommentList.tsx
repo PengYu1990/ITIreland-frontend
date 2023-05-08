@@ -13,26 +13,24 @@ const useStyles = createStyles(() => ({
   },
 }));
 interface Props {
-  comments: Comment[];
+  comments: Comment[] | undefined;
   setComments: (comments: Comment[]) => void;
 }
 const CommentList = ({ comments, setComments }: Props) => {
   const { classes } = useStyles();
   return (
     <Stack>
-      {comments && comments.length != 0 && (
-        <Box className={classes.detail}>
-          {comments.map((comment, key) => (
-            <CommentItem
-              comment={comment}
-              delComment={() =>
-                setComments([...comments.filter((c) => comment.id != c.id)])
-              }
-              key={key}
-            />
-          ))}
-        </Box>
-      )}
+      <Box className={classes.detail}>
+        {comments?.map((comment, key) => (
+          <CommentItem
+            comment={comment}
+            delComment={() =>
+              setComments([...comments.filter((c) => comment.id != c.id)])
+            }
+            key={key}
+          />
+        ))}
+      </Box>
     </Stack>
   );
 };

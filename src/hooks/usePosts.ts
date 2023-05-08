@@ -1,5 +1,7 @@
-import usedata from "./useData"
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { FetchResponse } from "./useData"
 import { User } from "./useUser";
+import create from "../services/http-service";
 interface Tag {
     tag:string;
 }
@@ -24,12 +26,18 @@ export interface PostQuery {
     page?:number;
     size?:number;
   }
-  
-const usePosts = (postQuery:PostQuery) => usedata<Post>("/api/posts",{ 
-    params : { 
-      category : postQuery?.category, 
-      sorting:postQuery?.sorting,
-      page:postQuery.page,
-      size:postQuery.size
-    }},[postQuery])
+
+    const usePosts = (postQuery:PostQuery) => useInfiniteQuery<FetchResponse<Post>,Error>({
+      queryKey:["posts", postQuery],
+      queryFn:({pageParam=1})=>create("/api/posts").get({params:{
+        category : postQuery?.category, 
+        sorting:postQuery?.sorting,
+        page:pageParam-1,
+        size:postQuery.size
+      }}).then(resp=>resp.data),
+      getNextPageParam:(lastPage, allPages) => {
+        return lastPage.totalPages != allPages.length ? allPages.length + 1 : undefined;
+      }
+    })
+
 export default usePosts
