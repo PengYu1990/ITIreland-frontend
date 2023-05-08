@@ -2,6 +2,7 @@ import { Box, List, createStyles, rem } from "@mantine/core";
 import { Link } from "react-router-dom";
 import usePosts from "../../hooks/usePosts";
 import { PostQuery } from "../../hooks/usePosts";
+import React from "react";
 
 const useStyles = createStyles((theme) => ({
   hotPostBox: {
@@ -38,10 +39,14 @@ const HotPost = () => {
     <Box className={classes.hotPostBox}>
       <h4 className={classes.heading}>Hot Post</h4>
       <List className={classes.titles}>
-        {data.data.map((post) => (
-          <Link key={post.id} to={`/post/${post.id}`}>
-            <List.Item className={classes.title}>{post.title}</List.Item>
-          </Link>
+        {data?.pages.map((page, index) => (
+          <React.Fragment key={index}>
+            {page.data.map((post) => (
+              <Link key={post.id} to={`/post/${post.id}`}>
+                <List.Item className={classes.title}>{post.title}</List.Item>
+              </Link>
+            ))}
+          </React.Fragment>
         ))}
       </List>
     </Box>

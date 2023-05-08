@@ -2,6 +2,7 @@ import { Grid } from "@mantine/core";
 import PostList from "./components/index/PostList";
 import PublishBox from "./components/sidebar/PublishBox";
 import ToTop from "./components/shared/ToTop";
+import HotPost from "./components/sidebar/HotPost";
 
 const Index = () => {
   return (
@@ -13,7 +14,7 @@ const Index = () => {
 
         <Grid.Col sm={3} xs={12}>
           <PublishBox />
-          {/* <HotPost /> */}
+          <HotPost />
         </Grid.Col>
       </Grid>
       <ToTop />
