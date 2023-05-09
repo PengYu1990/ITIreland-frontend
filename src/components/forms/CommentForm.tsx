@@ -10,8 +10,8 @@ import { useContext } from "react";
 import { getSessionUser } from "../../services/session-service";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
-import create from "../../services/http-service";
-import { Comment } from "../../hooks/useComments";
+import APIClient from "../../services/http-service";
+import { Comment } from "../../services/comment-service";
 import { AuthContext } from "../../App";
 import { useMediaQuery } from "@mantine/hooks";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -89,9 +89,7 @@ const CommentSection = ({ postId }: Props) => {
 
   const saveComment = useMutation<Comment, Error, Comment>({
     mutationFn: (comment: Comment) =>
-      create("/api/comments")
-        .create(comment)
-        .then((resp) => resp.data.data),
+      APIClient<Comment>("/api/comments").post(comment),
     onSuccess: () => {
       queryClient.invalidateQueries([postId, "comments"]);
       form.reset();

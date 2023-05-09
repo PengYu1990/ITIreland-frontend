@@ -1,9 +1,9 @@
 import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
 import { getSessionUser, removeSessionUser, setSessionUser } from "../services/session-service";
-import { User } from "./useUser";
 import { notifications } from "@mantine/notifications";
-import create from "../services/http-service";
+import APIClient from "../services/http-service";
+import { User } from "../services/user-service";
 
 // Auth Hook
 const useAuth = (path?:string) => {
@@ -29,11 +29,11 @@ const useAuth = (path?:string) => {
   };
 
   // Request login api
-  const login = (values: {}) => {
-    create("/api/auth/login")
-      .create(values)
-      .then((resp) => {
-        loginSuccess(resp.data.data);
+  const login = (values: User) => {
+    APIClient<User>("/api/auth/login")
+      .post(values)
+      .then((user) => {
+        loginSuccess(user);
       })
       .catch((error) => {
         loginError(error);
@@ -41,12 +41,12 @@ const useAuth = (path?:string) => {
   };
 
   // Request sign up api
-  const signup = (values: {}) => {
+  const signup = (values: User) => {
     console.log(values);
-    create("/api/auth/signup")
-      .create(values)
-      .then((resp) => {
-        registerSuccess(resp.data.data);
+    APIClient<User>("/api/auth/signup")
+      .post(values)
+      .then((user) => {
+        registerSuccess(user);
       })
       .catch((error) => {
         registerError(error);
@@ -54,8 +54,8 @@ const useAuth = (path?:string) => {
   };
 
   const logout = () => {
-    create("/api/auth/logout")
-      .create(null)
+    APIClient("/api/auth/logout")
+      .post(null)
       .then(() => {
         removeSessionUser();
         notifications.show({

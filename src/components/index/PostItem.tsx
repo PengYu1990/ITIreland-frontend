@@ -1,5 +1,4 @@
 import { Badge, Box, Flex, Text, createStyles, rem } from "@mantine/core";
-import { Post } from "../../hooks/usePosts";
 import dayjs from "dayjs";
 // extend dayjs
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -14,6 +13,7 @@ import TextAlign from "@tiptap/extension-text-align";
 import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
 import TiptapLink from "@tiptap/extension-link";
+import { Post } from "../../services/post-service";
 dayjs.extend(relativeTime);
 
 const useStyles = createStyles((theme) => ({

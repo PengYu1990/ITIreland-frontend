@@ -1,6 +1,6 @@
 import { Box, Stack, createStyles, rem } from "@mantine/core";
 import CommentItem from "./CommentItem";
-import { Comment } from "../../hooks/useComments";
+import { Comment } from "../../services/comment-service";
 
 const useStyles = createStyles(() => ({
   detail: {

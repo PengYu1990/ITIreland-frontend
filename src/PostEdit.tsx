@@ -8,7 +8,6 @@ import {
   rem,
 } from "@mantine/core";
 import { useState } from "react";
-import create from "./services/http-service";
 import { notifications } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
 import { getSessionUser } from "./services/session-service";
@@ -18,7 +17,7 @@ import { JSONContent } from "@tiptap/react";
 import { useUpdateEffect } from "react-use";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useEditPost from "./hooks/useEditPost";
-import { Post } from "./hooks/usePosts";
+import postService, { Post } from "./services/post-service";
 
 const useStyles = createStyles(() => ({
   form: {
@@ -111,32 +110,10 @@ const PostEdit = () => {
     }
 
     savePost.mutate(values);
-    // create("/api/posts/save")
-    //   .create(values)
-    //   .then((resp) => {
-    //     notifications.show({
-    //       title: "Notification",
-    //       message: "Post success",
-    //       color: "blue",
-    //     });
-    //     const postId = resp.data.data.id;
-    //     // redirect to detail page
-    //     history(`/post/${postId}`);
-    //   })
-    //   .catch((error) => {
-    //     notifications.show({
-    //       title: "Notification",
-    //       message: error.response.data.message,
-    //       color: "red",
-    //     });
-    //   });
   };
 
   const savePost = useMutation<Post, Error, Post>({
-    mutationFn: (post: Post) =>
-      create("/api/posts/save")
-        .create(post)
-        .then((resp) => resp.data.data),
+    mutationFn: (post: Post) => postService.post(post),
     onSuccess: (savedPost) => {
       notifications.show({
         title: "Notification",

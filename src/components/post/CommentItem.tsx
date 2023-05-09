@@ -9,14 +9,14 @@ import {
   createStyles,
   rem,
 } from "@mantine/core";
-import { Comment } from "../../hooks/useComments";
+import { Comment } from "../../services/comment-service";
 import dayjs from "dayjs";
 import { BiCommentDetail } from "react-icons/bi";
 import { AiOutlineDelete } from "react-icons/ai";
 import { getSessionUser } from "../../services/session-service";
 import { useContext } from "react";
 import { AuthContext } from "../../App";
-import create from "../../services/http-service";
+import APIClient, { Response } from "../../services/http-service";
 import { notifications } from "@mantine/notifications";
 import { IconTrash } from "@tabler/icons-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -72,15 +72,12 @@ const CommentItem = ({ comment }: Props) => {
     delComment.mutate(comment);
   };
 
-  const delComment = useMutation<Comment, Error, Comment>({
+  const delComment = useMutation<Response<null>, Error, Comment>({
     mutationFn: (comment: Comment) =>
-      create("/api/comments")
-        .delete(comment)
-        .then((resp) => resp.data.data),
+      APIClient<Comment>("/api/comments").delete(comment),
     onSuccess: () => {
       queryClient.invalidateQueries([comment.postId, "comments"]);
     },
-
     onError: (error) => {
       notifications.show({
         title: "Notification",

@@ -1,18 +1,5 @@
-import usedata from "./useData"
-export interface User {
-    id:number;
-    username:string;
-    password:string;
-    email:string;
-    profile:string;
-    state:number;
-    credits:number;
-    level:number;
-    headShotUrl:string;
-    ctime:Date;
-    sessionId:string;
+import { User } from "../services/user-service"
+import useData from "./useData"
 
-
-}
-const useUser = () => usedata<User>("/api/users")
+const useUser = () => useData<User>("/api/users")
 export default useUser

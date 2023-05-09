@@ -1,11 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import create from "../services/http-service";
+import postService from "../services/post-service";
 const usePost = (id:string | undefined) => useQuery({
     queryKey:[id,"post"],
-    queryFn:()=>create(`/api/posts/${id}`)
-            .get()
-            .then(resp=>resp.data.data),
+    queryFn:()=>postService.getById(id),
         })
-
-
 export default usePost

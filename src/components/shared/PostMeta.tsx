@@ -13,8 +13,8 @@ import {
   IconEye,
   IconTags,
 } from "@tabler/icons-react";
-import { Post } from "../../hooks/usePosts";
 import dayjs from "dayjs";
+import { Post } from "../../services/post-service";
 
 const useStyles = createStyles((theme) => ({
   meta: {

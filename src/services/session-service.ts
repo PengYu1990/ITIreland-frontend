@@ -1,4 +1,4 @@
-import { User } from "../hooks/useUser";
+import { User } from "./user-service";
 
 export const setSessionUser = (user : User) =>{
     if(user != null){

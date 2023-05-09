@@ -1,8 +1,9 @@
 import { Group, Button, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { User } from "../../services/user-service";
 
 interface Props {
-  signup: (values: {}) => void;
+  signup: (values: User) => void;
 }
 
 const RegisterForm = ({ signup }: Props) => {
@@ -12,7 +13,6 @@ const RegisterForm = ({ signup }: Props) => {
       username: "",
       password: "",
       password2: "",
-      termsOfService: false,
     },
 
     validate: {
@@ -26,7 +26,7 @@ const RegisterForm = ({ signup }: Props) => {
   });
 
   return (
-    <form onSubmit={form.onSubmit((values) => signup(values))}>
+    <form onSubmit={form.onSubmit((values) => signup(values as User))}>
       <TextInput
         withAsterisk
         label="Username"

@@ -1,4 +1,4 @@
-import { Post } from "./usePosts";
+import { Post } from "../services/post-service";
 import useSingleData from "./useSingleData";
 
 const useEditPost = (id:string | undefined) => {
