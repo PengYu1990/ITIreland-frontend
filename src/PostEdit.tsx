@@ -18,7 +18,6 @@ import { JSONContent } from "@tiptap/react";
 import { useUpdateEffect } from "react-use";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useEditPost from "./hooks/useEditPost";
-import axios from "axios";
 import { Post } from "./hooks/usePosts";
 
 const useStyles = createStyles(() => ({
