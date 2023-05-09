@@ -49,7 +49,7 @@ const useAuth = (path?:string) => {
         registerSuccess(resp.data.data);
       })
       .catch((error) => {
-        registerError(error.response.data);
+        registerError(error);
       });
   };
 
@@ -116,10 +116,10 @@ const useAuth = (path?:string) => {
       window.location.replace(path);
     }
   };
-  const registerError = (errorData:any) => {
+  const registerError = (error:any) => {
     notifications.show({
       title: "Notification",
-      message: errorData.message,
+      message: error.response.data.message,
       color: "red",
     });
     setLoginState("no");

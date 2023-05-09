@@ -4,7 +4,7 @@ import usePost from "./hooks/usePost";
 import { Box, createStyles, Grid, MediaQuery, rem } from "@mantine/core";
 import PublishBox from "./components/sidebar/PublishBox";
 import ToTop from "./components/shared/ToTop";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import CommentForm from "./components/forms/CommentForm";
 import PostDetailSkeleton from "./components/index/PostDetailSkeleton";
 import { generateHTML } from "@tiptap/react";
@@ -59,11 +59,14 @@ const PostDetail = () => {
 
   const { pathname } = useLocation();
 
-  useUpdateEffect(() => {
+  useEffect(() => {
     window.scrollTo(0, 0);
+  }, [pathname]);
+
+  useUpdateEffect(() => {
     document.title = data?.title;
     comments && setCommentList(comments);
-  }, [pathname, data, comments]);
+  }, [data, comments]);
 
   // Display Rich Text
   const output = useMemo(() => {
@@ -96,9 +99,9 @@ const PostDetail = () => {
           <Box className={classes.detail}>
             <CommentForm
               postId={data?.id}
-              addComment={(comment) =>
-                setCommentList([comment, ...commentList])
-              }
+              // addComment={(comment) =>
+              //   setCommentList([comment, ...commentList])
+              // }
             />
           </Box>
           <CommentList setComments={setCommentList} comments={commentList} />

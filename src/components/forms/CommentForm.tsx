@@ -14,6 +14,7 @@ import create from "../../services/http-service";
 import { Comment } from "../../hooks/useComments";
 import { AuthContext } from "../../App";
 import { useMediaQuery } from "@mantine/hooks";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const useStyles = createStyles((theme) => ({
   form: {
@@ -41,10 +42,10 @@ const useStyles = createStyles((theme) => ({
 
 interface Props {
   postId: number;
-  addComment: (comment: Comment) => void;
+  // addComment: (comment: Comment) => void;
 }
 
-const CommentSection = ({ postId, addComment }: Props) => {
+const CommentSection = ({ postId }: Props) => {
   const { classes } = useStyles();
   const user = getSessionUser();
 
@@ -63,7 +64,7 @@ const CommentSection = ({ postId, addComment }: Props) => {
     },
   });
 
-  const comment = (values: {}) => {
+  const submitComment = (values: any) => {
     const user = getSessionUser();
     if (user === null) {
       notifications.show({
@@ -80,31 +81,34 @@ const CommentSection = ({ postId, addComment }: Props) => {
     }
 
     const comment = { ...values, postId: postId, userId: user.id };
-    // return;
-    create("/api/comments")
-      .create(comment)
-      .then((resp) => {
-        notifications.show({
-          title: "Notification",
-          message: "Comment success",
-          color: "blue",
-        });
-        form.reset();
-        addComment(resp.data.data);
-      })
-      .catch((error) => {
-        notifications.show({
-          title: "Notification",
-          message: error.response.data.message,
-          color: "red",
-        });
-      });
+
+    saveComment.mutate(comment);
   };
+
+  const queryClient = useQueryClient();
+
+  const saveComment = useMutation<Comment, Error, Comment>({
+    mutationFn: (comment: Comment) =>
+      create("/api/comments")
+        .create(comment)
+        .then((resp) => resp.data.data),
+    onSuccess: () => {
+      queryClient.invalidateQueries([postId, "comments"]);
+      form.reset();
+    },
+    onError: (error) => {
+      notifications.show({
+        title: "Notification",
+        message: error.message,
+        color: "red",
+      });
+    },
+  });
 
   return (
     <form
       className={matches ? classes.formMobile : classes.form}
-      onSubmit={form.onSubmit((values) => comment(values))}
+      onSubmit={form.onSubmit((values) => submitComment(values))}
     >
       <Flex justify="space-between" direction="row">
         <Avatar color="cyan" radius="xl" size={35}>

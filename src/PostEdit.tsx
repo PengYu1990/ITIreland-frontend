@@ -16,8 +16,10 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import RichEditor from "./components/shared/RichEditor";
 import { JSONContent } from "@tiptap/react";
 import { useUpdateEffect } from "react-use";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useEditPost from "./hooks/useEditPost";
+import axios from "axios";
+import { Post } from "./hooks/usePosts";
 
 const useStyles = createStyles(() => ({
   form: {
@@ -108,26 +110,51 @@ const PostEdit = () => {
       });
       return;
     }
-    create("/api/posts/save")
-      .create(values)
-      .then((resp) => {
-        notifications.show({
-          title: "Notification",
-          message: "Post success",
-          color: "blue",
-        });
-        const postId = resp.data.data.id;
-        // redirect to detail page
-        history(`/post/${postId}`);
-      })
-      .catch((error) => {
-        notifications.show({
-          title: "Notification",
-          message: error.response.data.message,
-          color: "red",
-        });
-      });
+
+    savePost.mutate(values);
+    // create("/api/posts/save")
+    //   .create(values)
+    //   .then((resp) => {
+    //     notifications.show({
+    //       title: "Notification",
+    //       message: "Post success",
+    //       color: "blue",
+    //     });
+    //     const postId = resp.data.data.id;
+    //     // redirect to detail page
+    //     history(`/post/${postId}`);
+    //   })
+    //   .catch((error) => {
+    //     notifications.show({
+    //       title: "Notification",
+    //       message: error.response.data.message,
+    //       color: "red",
+    //     });
+    //   });
   };
+
+  const savePost = useMutation<Post, Error, Post>({
+    mutationFn: (post: Post) =>
+      create("/api/posts/save")
+        .create(post)
+        .then((resp) => resp.data.data),
+    onSuccess: (savedPost) => {
+      notifications.show({
+        title: "Notification",
+        message: "Post success",
+        color: "blue",
+      });
+      // redirect to detail page
+      history(`/post/${savedPost.id}`);
+    },
+    onError: (error) => {
+      notifications.show({
+        title: "Notification",
+        message: error.message,
+        color: "red",
+      });
+    },
+  });
 
   return (
     <Box className={classes.form}>
@@ -149,7 +176,9 @@ const PostEdit = () => {
         />
 
         <Group position="right" mt="md">
-          <Button type="submit">Submit</Button>
+          <Button type="submit" disabled={savePost.isLoading}>
+            {savePost.isLoading ? "Submitting" : "Submit"}
+          </Button>
         </Group>
       </form>
     </Box>

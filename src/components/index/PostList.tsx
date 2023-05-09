@@ -21,7 +21,7 @@ const useStyles = createStyles(() => ({
 
 const PostList = () => {
   const { classes } = useStyles();
-  const defaultPageSize = 2;
+  const defaultPageSize = 10;
   const [postQuery, setPostQuery] = useState<PostQuery>({
     size: defaultPageSize,
   } as PostQuery);
