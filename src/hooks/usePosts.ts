@@ -1,6 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import APIClient from "../services/http-service";
-import postService, { Post } from "../services/post-service";
+import postService from "../services/post-service";
 
 
 

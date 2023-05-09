@@ -4,7 +4,7 @@ import usePost from "./hooks/usePost";
 import { Box, createStyles, Grid, MediaQuery, rem } from "@mantine/core";
 import PublishBox from "./components/sidebar/PublishBox";
 import ToTop from "./components/shared/ToTop";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import CommentForm from "./components/forms/CommentForm";
 import PostDetailSkeleton from "./components/index/PostDetailSkeleton";
 import { generateHTML } from "@tiptap/react";
@@ -16,7 +16,7 @@ import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
 import TiptapLink from "@tiptap/extension-link";
 import { useUpdateEffect } from "react-use";
-import useComments, { Comment } from "./hooks/useComments";
+import useComments from "./hooks/useComments";
 import CommentList from "./components/post/CommentList";
 import HotPost from "./components/sidebar/HotPost";
 
@@ -54,7 +54,6 @@ const PostDetail = () => {
     return <></>;
   }
   const { data, isLoading } = usePost(id);
-  // const [commentList, setCommentList] = useState<Comment[]>([]);
   const { data: comments } = useComments(parseInt(id));
 
   const { pathname } = useLocation();
@@ -64,7 +63,7 @@ const PostDetail = () => {
   }, [pathname]);
 
   useUpdateEffect(() => {
-    document.title = data?.title;
+    document.title = data?.title ? data?.title : "IT Ireland";
     // comments && setCommentList(comments);
   }, [data, comments]);
 
@@ -97,12 +96,7 @@ const PostDetail = () => {
             />
           </Box>
           <Box className={classes.detail}>
-            <CommentForm
-              postId={data?.id}
-              // addComment={(comment) =>
-              //   setCommentList([comment, ...commentList])
-              // }
-            />
+            {data?.id && <CommentForm postId={data?.id} />}
           </Box>
           <CommentList comments={comments} />
         </Grid.Col>
