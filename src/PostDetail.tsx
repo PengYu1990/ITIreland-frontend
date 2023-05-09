@@ -1,7 +1,7 @@
 import { useLocation, useParams } from "react-router-dom";
 import PostMeta from "./components/shared/PostMeta";
 import usePost from "./hooks/usePost";
-import { Box, createStyles, Grid, rem } from "@mantine/core";
+import { Box, createStyles, Grid, MediaQuery, rem } from "@mantine/core";
 import PublishBox from "./components/sidebar/PublishBox";
 import ToTop from "./components/shared/ToTop";
 import { useMemo, useState } from "react";
@@ -103,11 +103,12 @@ const PostDetail = () => {
           </Box>
           <CommentList setComments={setCommentList} comments={commentList} />
         </Grid.Col>
-
-        <Grid.Col md={3} sm={12}>
-          <PublishBox />
-          <HotPost />
-        </Grid.Col>
+        <MediaQuery smallerThan="md" styles={{ display: "none" }}>
+          <Grid.Col md={3} sm={12}>
+            <PublishBox />
+            <HotPost />
+          </Grid.Col>
+        </MediaQuery>
       </Grid>
       <ToTop />
     </>

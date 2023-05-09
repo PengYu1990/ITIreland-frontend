@@ -1,4 +1,4 @@
-import { Grid } from "@mantine/core";
+import { Grid, MediaQuery } from "@mantine/core";
 import PostList from "./components/index/PostList";
 import PublishBox from "./components/sidebar/PublishBox";
 import ToTop from "./components/shared/ToTop";
@@ -12,14 +12,15 @@ const Index = () => {
   return (
     <>
       <Grid grow>
-        <Grid.Col sm={9} xs={12}>
+        <Grid.Col span={9}>
           <PostList />
         </Grid.Col>
-
-        <Grid.Col sm={3} xs={12}>
-          <PublishBox />
-          <HotPost />
-        </Grid.Col>
+        <MediaQuery smallerThan="md" styles={{ display: "none" }}>
+          <Grid.Col span={3}>
+            <PublishBox />
+            <HotPost />
+          </Grid.Col>
+        </MediaQuery>
       </Grid>
       <ToTop />
     </>
