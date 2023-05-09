@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { Post } from "./usePosts";
 import { User } from "./useUser";
 import create from "../services/http-service";
 
@@ -8,7 +7,7 @@ export interface Comment {
     content:string;
     ctime:Date;
     utime:Date;
-    post:Post;
+    postId:number;
     user:User;
 }
 

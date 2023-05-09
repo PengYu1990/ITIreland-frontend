@@ -19,10 +19,10 @@ import { AuthContext } from "../../App";
 import create from "../../services/http-service";
 import { notifications } from "@mantine/notifications";
 import { IconTrash } from "@tabler/icons-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface Props {
   comment: Comment;
-  delComment: () => void;
 }
 
 const useStyles = createStyles((theme) => ({
@@ -34,6 +34,10 @@ const useStyles = createStyles((theme) => ({
       theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[2]
     }`,
   },
+  usename: {
+    color: theme.colors.dark[2],
+    fontWeight: "bolder",
+  },
   content: {
     color: theme.colors.dark[6],
     marginTop: rem(10),
@@ -44,26 +48,47 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const CommentItem = ({ comment, delComment }: Props) => {
+const CommentItem = ({ comment }: Props) => {
   const { classes } = useStyles();
   const user = getSessionUser();
   const loginState = useContext(AuthContext);
 
+  const queryClient = useQueryClient();
+
   const del = () => {
-    console.log(comment.id);
-    create(`/api/comments/`)
-      .delete(comment)
-      .then(() => {
-        delComment();
-      })
-      .catch((error) => {
-        notifications.show({
-          title: "Notification",
-          message: error.response.data.message,
-          color: "red",
-        });
-      });
+    // console.log(comment.id);
+    // create(`/api/comments/`)
+    //   .delete(comment)
+    //   .then(() => {
+    //     queryClient.invalidateQueries([comment.post.id, "comments"]);
+    //   })
+    //   .catch((error) => {
+    //     notifications.show({
+    //       title: "Notification",
+    //       message: error.response.data.message,
+    //       color: "red",
+    //     });
+    //   });
+    delComment.mutate(comment);
   };
+
+  const delComment = useMutation<Comment, Error, Comment>({
+    mutationFn: (comment: Comment) =>
+      create("/api/comments")
+        .delete(comment)
+        .then((resp) => resp.data.data),
+    onSuccess: () => {
+      queryClient.invalidateQueries([comment.postId, "comments"]);
+    },
+
+    onError: (error) => {
+      notifications.show({
+        title: "Notification",
+        message: error.message,
+        color: "red",
+      });
+    },
+  });
 
   return (
     <Flex
@@ -76,7 +101,7 @@ const CommentItem = ({ comment, delComment }: Props) => {
         {comment.user.username.substring(0, 2).toUpperCase()}
       </Avatar>
       <Box w="100%">
-        <Text>{comment.user.username}</Text>
+        <Text className={classes.usename}>{comment.user.username}</Text>
         <Text className={classes.content}>{comment.content}</Text>
         <Flex
           className={classes.time}

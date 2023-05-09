@@ -54,7 +54,7 @@ const PostDetail = () => {
     return <></>;
   }
   const { data, isLoading } = usePost(id);
-  const [commentList, setCommentList] = useState<Comment[]>([]);
+  // const [commentList, setCommentList] = useState<Comment[]>([]);
   const { data: comments } = useComments(parseInt(id));
 
   const { pathname } = useLocation();
@@ -65,7 +65,7 @@ const PostDetail = () => {
 
   useUpdateEffect(() => {
     document.title = data?.title;
-    comments && setCommentList(comments);
+    // comments && setCommentList(comments);
   }, [data, comments]);
 
   // Display Rich Text
@@ -104,7 +104,7 @@ const PostDetail = () => {
               // }
             />
           </Box>
-          <CommentList setComments={setCommentList} comments={commentList} />
+          <CommentList comments={comments} />
         </Grid.Col>
         <MediaQuery smallerThan="md" styles={{ display: "none" }}>
           <Grid.Col md={3} sm={12}>

@@ -1,6 +1,15 @@
 import { AxiosRequestConfig } from "axios";
 import createClient from "./api-client";
 
+export interface Response<T> {
+    status:number;
+    message:string;
+    data:T[];
+    totalPages:number;
+    totalElements:number;
+    page:number;
+}
+
 export interface Entity {
     id: number;
   }
@@ -23,7 +32,7 @@ class HttpService<T>{
 
     delete<T extends Entity>(entity: T){
         return createClient()
-        .delete(this.endpoint+entity.id)
+        .delete(this.endpoint+"/"+entity.id)
 
     }
 
