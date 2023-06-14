@@ -8,8 +8,6 @@ import { User } from "../services/user-service";
 // Auth Hook
 const useAuth = (path?:string) => {
   const [opened, { open, close }] = useDisclosure(false);
-  // const history = useNavigate();
-  // const [user, setUser] = useState<User | null>(getSessionUser());
 
   // decide display login form or register form
   const [isLogin, setLogin] = useState(true);

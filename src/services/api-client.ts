@@ -4,20 +4,18 @@ import { getSessionUser } from "./session-service";
 
 const createClient = () =>{
     const user = getSessionUser();
-    let sessionId = null;
+    let token = null;
     if(user != null){
-        sessionId = user.sessionId;
+        token = user.token;
     }
+    
     return axios.create({
         baseURL:"https://itireland.herokuapp.com",
         // baseURL:"https://itireland.onrender.com",
         // baseURL:"http://localhost:8080",
-        
-        params: {
-            sessionId:sessionId
-        },
+
         headers:{
-            sessionId:sessionId 
+            Authorization:token
         }
     })
 }

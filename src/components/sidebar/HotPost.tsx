@@ -41,7 +41,7 @@ const HotPost = () => {
       <List className={classes.titles}>
         {data?.pages.map((page, index) => (
           <React.Fragment key={index}>
-            {page.data.map((post) => (
+            {page?.data?.map((post) => (
               <Link key={post.id} to={`/post/${post.id}`}>
                 <List.Item className={classes.title}>{post.title}</List.Item>
               </Link>

@@ -11,7 +11,7 @@ export interface User {
     level:number;
     headShotUrl:string;
     ctime:Date;
-    sessionId:string;
+    token:string;
 }
 
 const userService = APIClient<User>("/api/users")

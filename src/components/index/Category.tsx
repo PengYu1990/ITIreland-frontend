@@ -28,7 +28,6 @@ const Category = ({ currentCategory, setCategory }: Props) => {
   const { classes } = useStyles();
 
   const { data } = useCategories();
-  // const skeleton = [1, 2, 3, 4, 5];
 
   return (
     <Box className={classes.category}>

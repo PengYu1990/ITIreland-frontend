@@ -1,5 +1,6 @@
 import { User } from "./user-service";
 
+
 export const setSessionUser = (user : User) =>{
     if(user != null){
         sessionStorage.setItem("user",JSON.stringify(user));
@@ -36,11 +37,11 @@ export const removeSessionUser = () =>{
 //   }
   
   // add into session
-  // function sessionSet(key:string, value:string, expirationInMin = 10) {
-  //   let expirationDate = new Date(new Date().getTime() + (60000 * expirationInMin))
-  //     let newValue = {
-  //     value: value,
-  //     expirationDate: expirationDate.toISOString()
-  //   }
-  //   window.sessionStorage.setItem(key, JSON.stringify(newValue))
-  // }
+//   function sessionSet(key:string, value:string, expirationInMin = 10) {
+//     let expirationDate = new Date(new Date().getTime() + (60000 * expirationInMin))
+//       let newValue = {
+//       value: value,
+//       expirationDate: expirationDate.toISOString()
+//     }
+//     window.sessionStorage.setItem(key, JSON.stringify(newValue))
+//   }

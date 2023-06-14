@@ -8,9 +8,13 @@ import RegisterForm from "./components/forms/RegisterForm";
 import LoginForm from "./components/forms/LoginForm";
 import useAuth from "./hooks/useAuth";
 import { Outlet } from "react-router-dom";
-import { createContext } from "react";
+import { createContext, useEffect } from "react";
 import { useMediaQuery } from "@mantine/hooks";
 import { Analytics } from "@vercel/analytics/react";
+
+import { useJwt } from "react-jwt";
+import { getSessionUser } from "./services/session-service";
+import { notifications } from "@mantine/notifications";
 
 const useStyles = createStyles((theme) => ({
   contentMobile: {
@@ -43,7 +47,20 @@ export default function App() {
     logout,
   } = useAuth();
 
+  const { isExpired } = useJwt(getSessionUser()?.token || "");
+
   const matches = useMediaQuery("(max-width: 600px)");
+
+  useEffect(() => {
+    if (isExpired) {
+      notifications.show({
+        title: "Notification",
+        message: "Your session has expired. Please login again.",
+        color: "blue",
+      });
+      logout();
+    }
+  }, [isLogin]);
 
   return (
     <AuthContext.Provider value={loginState}>
