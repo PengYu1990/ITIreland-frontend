@@ -1,4 +1,3 @@
-import { useToggle } from "@mantine/hooks";
 import {
   Text,
   Paper,
@@ -12,9 +11,8 @@ import {
 } from "@mantine/core";
 import LoginForm from "../components/forms/LoginForm";
 import RegisterForm from "../components/forms/RegisterForm";
-import useAuth from "../hooks/useAuth";
-import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const useStyles = createStyles(() => ({
   loginBox: {
@@ -27,14 +25,17 @@ const useStyles = createStyles(() => ({
 
 export function LoginPage(props: PaperProps) {
   const { classes } = useStyles();
-  const [type, toggle] = useToggle(["login", "register"]);
+  const [type, setType] = useState("login");
 
-  let { path } = useParams();
+  const navigate = useNavigate();
+
+  let { form, path } = useParams();
   if (path === undefined) path = "/";
-  const { login, signup } = useAuth(path);
 
   useEffect(() => {
     document.title = "Login | IT Ireland";
+    if (form === "2") setType("register");
+    if (form === "1") setType("login");
   });
 
   return (
@@ -45,9 +46,9 @@ export function LoginPage(props: PaperProps) {
         </Text>
 
         <Stack>
-          {type === "login" && <LoginForm login={login} />}
+          {type === "login" && <LoginForm path={path} />}
 
-          {type === "register" && <RegisterForm signup={signup} />}
+          {type === "register" && <RegisterForm path={path} />}
         </Stack>
 
         <Group position="apart" mt="xl">
@@ -55,7 +56,9 @@ export function LoginPage(props: PaperProps) {
             component="button"
             type="button"
             color="dimmed"
-            onClick={() => toggle()}
+            onClick={() =>
+              type === "login" ? navigate("/login/2") : navigate("/login/1")
+            }
             size="xs"
           >
             {type === "register"

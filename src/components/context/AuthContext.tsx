@@ -1,37 +1,35 @@
-import { useDisclosure } from "@mantine/hooks";
-import { useState } from "react";
-import { getSessionUser, removeSessionUser, setSessionUser } from "../services/session-service";
+import { useContext, useState } from "react";
+import {
+  getSessionUser,
+  removeSessionUser,
+  setSessionUser,
+} from "../../services/session-service";
 import { notifications } from "@mantine/notifications";
-import APIClient from "../services/http-service";
-import { User } from "../services/user-service";
+import APIClient from "../../services/http-service";
+import { User } from "../../services/user-service";
+import React from "react";
+import { useJwt } from "react-jwt";
 
-// Auth Hook
-const useAuth = (path?:string) => {
-  const [opened, { open, close }] = useDisclosure(false);
+interface AuthContextProps {
+  isLogedin: boolean;
+  login: (values: User, path: string) => void;
+  signup: (values: User, path: string) => void;
+  logout: () => void;
+}
 
+const AuthContext = React.createContext({} as AuthContextProps);
+const AuthProvider = ({ children }: any) => {
   // decide display login form or register form
-  const [isLogin, setLogin] = useState(true);
-
-  // record global user login state
-  const [loginState, setLoginState] = useState(getSessionUser() == null ? "no":"yes");
-
-
-  const openLoginModal = () => {
-    setLogin(true);
-    open();
-  };
-
-  const openSignUpModal = () => {
-    setLogin(false);
-    open();
-  };
+  const [isLogedin, setLogedin] = useJwt(getSessionUser()?.token || "");
+  // const { isExpired } = useJwt(getSessionUser()?.token || "");
 
   // Request login api
-  const login = (values: User) => {
+  const login = (values: User, path: string) => {
     APIClient<User>("/api/auth/login")
       .post(values)
       .then((user) => {
         loginSuccess(user);
+        window.location.replace(path);
       })
       .catch((error) => {
         loginError(error);
@@ -39,12 +37,13 @@ const useAuth = (path?:string) => {
   };
 
   // Request sign up api
-  const signup = (values: User) => {
+  const signup = (values: User, path: string) => {
     console.log(values);
     APIClient<User>("/api/auth/signup")
       .post(values)
       .then((user) => {
         registerSuccess(user);
+        window.location.replace(path);
       })
       .catch((error) => {
         registerError(error);
@@ -61,7 +60,7 @@ const useAuth = (path?:string) => {
           message: "Logout Success",
           color: "blue",
         });
-        setLoginState("no");
+        setLogedin(false);
       })
       .catch(() => {
         removeSessionUser();
@@ -70,63 +69,60 @@ const useAuth = (path?:string) => {
           message: "Logout Success",
           color: "blue",
         });
-        setLoginState("no");
+        setLogedin(false);
       });
-      
   };
 
   const loginSuccess = (user: User) => {
-    close();
     setSessionUser(user);
-    // setUser(getSessionUser());
     notifications.show({
       title: "Notification",
       message: "Login Success",
       color: "blue",
     });
-    setLoginState("yes");
-    // Reload
-    if(path){
-      window.location.replace(path);
-    }
+    setLogedin(true);
   };
-  const loginError = (error:any) => {
+  const loginError = (error: any) => {
     notifications.show({
       title: "Notification",
       message: error.response.data.message,
       color: "red",
     });
-    setLoginState("no");
+    setLogedin(false);
   };
 
   const registerSuccess = (user: User) => {
-    close();
     setSessionUser(user);
-    // setUser(getSessionUser());
     notifications.show({
       title: "Notification",
       message: "Sign Up Success",
       color: "blue",
     });
-    setLoginState("yes");
-    // Reload
-    if(path){
-      window.location.replace(path);
-    }
+    setLogedin(true);
   };
-  const registerError = (error:any) => {
+  const registerError = (error: any) => {
     notifications.show({
       title: "Notification",
       message: error.response.data.message,
       color: "red",
     });
-    setLoginState("no");
+    setLogedin(false);
   };
 
-  
-  return {opened, open, close,  isLogin, loginState,
-    openLoginModal, openSignUpModal, 
-    login, signup, logout}
-}
+  return (
+    <AuthContext.Provider
+      value={{
+        isLogedin,
+        login,
+        signup,
+        logout,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
 
-export default useAuth;
+export const useAuth = () => useContext(AuthContext);
+
+export default AuthProvider;

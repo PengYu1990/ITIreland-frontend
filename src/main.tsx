@@ -14,6 +14,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import UserDetail from "./UserDetail";
+import AuthProvider from "./components/context/AuthContext";
 
 const queryClient = new QueryClient();
 
@@ -35,7 +36,7 @@ const router = createHashRouter([
         element: <PostEdit />,
       },
       {
-        path: "/login/:path?",
+        path: "/login/:form?/:path?",
         element: <LoginPage />,
       },
       {
@@ -52,7 +53,9 @@ ReactDOM.createRoot(rootElement).render(
     <MantineProvider>
       <Notifications />
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
         <ReactQueryDevtools />
       </QueryClientProvider>
     </MantineProvider>

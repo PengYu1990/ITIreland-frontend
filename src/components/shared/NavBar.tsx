@@ -17,9 +17,8 @@ import { useDisclosure } from "@mantine/hooks";
 import { IconLogout } from "@tabler/icons-react";
 import { getSessionUser } from "../../services/session-service";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../../App";
-import { useContext } from "react";
 import logo from "../../assets/logo.png";
+import { useAuth } from "../context/AuthContext";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -90,36 +89,20 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-interface Props {
-  onSignUpClicked: () => void;
-  onLoginClicked: () => void;
-  onLogoutClicked: () => void;
-}
-
-export function NavBar({
-  onSignUpClicked,
-  onLoginClicked,
-  onLogoutClicked,
-}: Props) {
+export function NavBar() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
+
   const { classes, theme } = useStyles();
   const user = getSessionUser();
-  const loginState = useContext(AuthContext);
+  const { isLogedin, logout } = useAuth();
 
-  const clickLogin = () => {
-    closeDrawer();
-    onLoginClicked();
-  };
+  const clickLogin = () => {};
 
-  const clickSignUp = () => {
-    closeDrawer();
-    onSignUpClicked();
-  };
+  const clickSignUp = () => {};
 
   const clickLogout = () => {
-    closeDrawer();
-    onLogoutClicked();
+    logout();
   };
 
   return (
@@ -140,7 +123,7 @@ export function NavBar({
             </Link>
           </Group>
 
-          {loginState === "yes" && user ? (
+          {isLogedin && user ? (
             <Group className={classes.hiddenMobile}>
               <Menu shadow="md" width={200}>
                 <Menu.Target>
@@ -162,10 +145,12 @@ export function NavBar({
             </Group>
           ) : (
             <Group className={classes.hiddenMobile}>
-              <Button onClick={onLoginClicked} variant="default">
-                Log in
-              </Button>
-              <Button onClick={onSignUpClicked}>Sign up</Button>
+              <Link to="/login/1" className={classes.link}>
+                <Button>Log in</Button>
+              </Link>
+              <Link to="/login/2" className={classes.link}>
+                <Button variant="default">Sign in</Button>
+              </Link>
             </Group>
           )}
 
@@ -202,7 +187,7 @@ export function NavBar({
           />
 
           <Group position="center" grow pb="xl" px="md">
-            {loginState === "yes" && user ? (
+            {isLogedin && user ? (
               <Button onClick={clickLogout}>Log out</Button>
             ) : (
               <>

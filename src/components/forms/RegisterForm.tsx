@@ -1,12 +1,13 @@
 import { Group, Button, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { User } from "../../services/user-service";
+import { useAuth } from "../context/AuthContext";
 
 interface Props {
-  signup: (values: User) => void;
+  path: string;
 }
 
-const RegisterForm = ({ signup }: Props) => {
+const RegisterForm = ({ path }: Props) => {
   const form = useForm({
     initialValues: {
       email: "",
@@ -25,8 +26,10 @@ const RegisterForm = ({ signup }: Props) => {
     },
   });
 
+  const { signup } = useAuth();
+
   return (
-    <form onSubmit={form.onSubmit((values) => signup(values as User))}>
+    <form onSubmit={form.onSubmit((values) => signup(values as User, path))}>
       <TextInput
         withAsterisk
         label="Username"
