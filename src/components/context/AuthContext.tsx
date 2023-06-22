@@ -20,8 +20,10 @@ interface AuthContextProps {
 const AuthContext = React.createContext({} as AuthContextProps);
 const AuthProvider = ({ children }: any) => {
   // decide display login form or register form
-  const [isLogedin, setLogedin] = useJwt(getSessionUser()?.token || "");
-  // const { isExpired } = useJwt(getSessionUser()?.token || "");
+  const [isLogedin, setLogedin] = useState(
+    getSessionUser() == null ? false : true
+  );
+  const { isExpired } = useJwt(getSessionUser()?.token || "");
 
   // Request login api
   const login = (values: User, path: string) => {
