@@ -13,13 +13,11 @@ import { Comment } from "../../services/comment-service";
 import dayjs from "dayjs";
 import { BiCommentDetail } from "react-icons/bi";
 import { AiOutlineDelete } from "react-icons/ai";
-import { getSessionUser } from "../../services/session-service";
-import { useContext } from "react";
-import { AuthContext } from "../../App";
 import APIClient, { Response } from "../../services/http-service";
 import { notifications } from "@mantine/notifications";
 import { IconTrash } from "@tabler/icons-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "../context/AuthContext";
 
 interface Props {
   comment: Comment;
@@ -50,25 +48,11 @@ const useStyles = createStyles((theme) => ({
 
 const CommentItem = ({ comment }: Props) => {
   const { classes } = useStyles();
-  const user = getSessionUser();
-  const loginState = useContext(AuthContext);
+  const { user } = useAuth();
 
   const queryClient = useQueryClient();
 
   const del = () => {
-    // console.log(comment.id);
-    // create(`/api/comments/`)
-    //   .delete(comment)
-    //   .then(() => {
-    //     queryClient.invalidateQueries([comment.post.id, "comments"]);
-    //   })
-    //   .catch((error) => {
-    //     notifications.show({
-    //       title: "Notification",
-    //       message: error.response.data.message,
-    //       color: "red",
-    //     });
-    //   });
     delComment.mutate(comment);
   };
 
@@ -109,7 +93,7 @@ const CommentItem = ({ comment }: Props) => {
         >
           <Text>{dayjs(comment.utime).fromNow()}</Text>
           <Group>
-            {loginState === "yes" && user && (
+            {user && (
               <Flex gap={2} justify="flex-start" direction="row" align="center">
                 <Button
                   variant="subtle"
@@ -126,7 +110,7 @@ const CommentItem = ({ comment }: Props) => {
                 </Button>
               </Flex>
             )}
-            {loginState === "yes" && user && user.id === comment.user.id && (
+            {user && user.id === comment.user.id && (
               <Flex gap={2} justify="flex-start" direction="row" align="center">
                 <Menu shadow="md">
                   <Menu.Target>

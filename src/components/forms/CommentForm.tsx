@@ -6,15 +6,14 @@ import {
   createStyles,
   rem,
 } from "@mantine/core";
-import { useContext } from "react";
 import { getSessionUser } from "../../services/session-service";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import APIClient from "../../services/http-service";
 import { Comment } from "../../services/comment-service";
-import { AuthContext } from "../../App";
 import { useMediaQuery } from "@mantine/hooks";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "../context/AuthContext";
 
 const useStyles = createStyles((theme) => ({
   form: {
@@ -47,9 +46,8 @@ interface Props {
 
 const CommentSection = ({ postId }: Props) => {
   const { classes } = useStyles();
-  const user = getSessionUser();
 
-  const loginState = useContext(AuthContext);
+  const { user } = useAuth();
 
   const matches = useMediaQuery("(max-width: 600px)");
 
@@ -116,18 +114,12 @@ const CommentSection = ({ postId }: Props) => {
           className={classes.editor}
           minRows={3}
           w="100%"
-          disabled={loginState === "no"}
-          placeholder={
-            loginState === "no" ? "Login and comment" : "Enter comment"
-          }
+          disabled={user === null}
+          placeholder={user === null ? "Login and comment" : "Enter comment"}
           {...form.getInputProps("content")}
         ></Textarea>
       </Flex>
-      <Button
-        type="submit"
-        disabled={loginState === "no"}
-        className={classes.button}
-      >
+      <Button type="submit" disabled={user === null} className={classes.button}>
         Submit
       </Button>
     </form>

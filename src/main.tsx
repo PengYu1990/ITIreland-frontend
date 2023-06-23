@@ -15,6 +15,7 @@ import { QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import UserDetail from "./UserDetail";
 import AuthProvider from "./components/context/AuthContext";
+import ProtectedRoute from "./components/shared/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -33,7 +34,11 @@ const router = createHashRouter([
       },
       {
         path: "/edit/:id?",
-        element: <PostEdit />,
+        element: (
+          <ProtectedRoute>
+            <PostEdit />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/login/:form?/:path?",

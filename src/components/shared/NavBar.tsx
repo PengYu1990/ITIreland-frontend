@@ -94,8 +94,7 @@ export function NavBar() {
     useDisclosure(false);
 
   const { classes, theme } = useStyles();
-  const user = getSessionUser();
-  const { isLogedin, logout } = useAuth();
+  const { user, logout } = useAuth();
 
   const clickLogin = () => {};
 
@@ -123,7 +122,7 @@ export function NavBar() {
             </Link>
           </Group>
 
-          {isLogedin && user ? (
+          {user ? (
             <Group className={classes.hiddenMobile}>
               <Menu shadow="md" width={200}>
                 <Menu.Target>
@@ -187,7 +186,7 @@ export function NavBar() {
           />
 
           <Group position="center" grow pb="xl" px="md">
-            {isLogedin && user ? (
+            {user ? (
               <Button onClick={clickLogout}>Log out</Button>
             ) : (
               <>

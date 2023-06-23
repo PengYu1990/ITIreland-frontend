@@ -8,34 +8,54 @@ import { notifications } from "@mantine/notifications";
 import APIClient from "../../services/http-service";
 import { User } from "../../services/user-service";
 import React from "react";
+import jwt_decode, { JwtPayload } from "jwt-decode";
 
 interface AuthContextProps {
-  isLogedin: boolean;
+  isAuthenticated: () => boolean;
   login: (values: User, path: string) => void;
   signup: (values: User, path: string) => void;
   logout: () => void;
+  user: User | null;
 }
 
 const AuthContext = React.createContext({} as AuthContextProps);
 const AuthProvider = ({ children }: any) => {
-  // decide display login form or register form
-  const [isLogedin, setLogedin] = useState(
-    getSessionUser() == null ? false : true
-  );
+  const isAuthenticated = () => {
+    const user = getSessionUser();
+    const token = user?.token;
+    if (token === null || token === undefined) return false;
+    const { exp } = jwt_decode<JwtPayload>(token);
+    if (exp && Date.now() >= exp * 1000) {
+      logout();
+      return false;
+    }
+    return true;
+  };
 
-  //TODO: check token expired
-  // const { isExpired } = useJwt(getSessionUser()?.token || "");
+  const [user, setUser] = useState<User | null>(
+    isAuthenticated() ? getSessionUser() : null
+  );
 
   // Request login api
   const login = (values: User, path: string) => {
     APIClient<User>("/api/auth/login")
       .post(values)
       .then((user) => {
-        loginSuccess(user);
+        setSessionUser(user);
+        setUser(user);
+        notifications.show({
+          title: "Notification",
+          message: "Login Success",
+          color: "blue",
+        });
         window.location.replace(path);
       })
       .catch((error) => {
-        loginError(error);
+        notifications.show({
+          title: "Notification",
+          message: error.response.data.message,
+          color: "red",
+        });
       });
   };
 
@@ -45,11 +65,21 @@ const AuthProvider = ({ children }: any) => {
     APIClient<User>("/api/auth/signup")
       .post(values)
       .then((user) => {
-        registerSuccess(user);
+        setSessionUser(user);
+        setUser(user);
+        notifications.show({
+          title: "Notification",
+          message: "Sign Up Success",
+          color: "blue",
+        });
         window.location.replace(path);
       })
       .catch((error) => {
-        registerError(error);
+        notifications.show({
+          title: "Notification",
+          message: error.response.data.message,
+          color: "red",
+        });
       });
   };
 
@@ -58,67 +88,32 @@ const AuthProvider = ({ children }: any) => {
       .post(null)
       .then(() => {
         removeSessionUser();
+        setUser(null);
         notifications.show({
           title: "Notification",
           message: "Logout Success",
           color: "blue",
         });
-        setLogedin(false);
       })
       .catch(() => {
         removeSessionUser();
+        setUser(null);
         notifications.show({
           title: "Notification",
           message: "Logout Success",
           color: "blue",
         });
-        setLogedin(false);
       });
-  };
-
-  const loginSuccess = (user: User) => {
-    setSessionUser(user);
-    notifications.show({
-      title: "Notification",
-      message: "Login Success",
-      color: "blue",
-    });
-    setLogedin(true);
-  };
-  const loginError = (error: any) => {
-    notifications.show({
-      title: "Notification",
-      message: error.response.data.message,
-      color: "red",
-    });
-    setLogedin(false);
-  };
-
-  const registerSuccess = (user: User) => {
-    setSessionUser(user);
-    notifications.show({
-      title: "Notification",
-      message: "Sign Up Success",
-      color: "blue",
-    });
-    setLogedin(true);
-  };
-  const registerError = (error: any) => {
-    notifications.show({
-      title: "Notification",
-      message: error.response.data.message,
-      color: "red",
-    });
-    setLogedin(false);
   };
 
   return (
     <AuthContext.Provider
       value={{
-        isLogedin,
+        user,
         login,
         signup,
         logout,
+        isAuthenticated,
       }}
     >
       {children}
