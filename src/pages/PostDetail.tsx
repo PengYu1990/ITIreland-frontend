@@ -1,12 +1,12 @@
 import { useLocation, useParams } from "react-router-dom";
-import PostMeta from "./components/shared/PostMeta";
-import usePost from "./hooks/usePost";
+import PostMeta from "../components/shared/PostMeta";
+import usePost from "../hooks/usePost";
 import { Box, createStyles, Grid, MediaQuery, rem } from "@mantine/core";
-import PublishBox from "./components/sidebar/PublishBox";
-import ToTop from "./components/shared/ToTop";
+import PublishBox from "../components/sidebar/PublishBox";
+import ToTop from "../components/shared/ToTop";
 import { useEffect, useMemo } from "react";
-import CommentForm from "./components/forms/CommentForm";
-import PostDetailSkeleton from "./components/index/PostDetailSkeleton";
+import CommentForm from "../components/forms/CommentForm";
+import PostDetailSkeleton from "../components/index/PostDetailSkeleton";
 import { generateHTML } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Highlight from "@tiptap/extension-highlight";
@@ -16,9 +16,9 @@ import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
 import TiptapLink from "@tiptap/extension-link";
 import { useUpdateEffect } from "react-use";
-import useComments from "./hooks/useComments";
-import CommentList from "./components/post/CommentList";
-import HotPost from "./components/sidebar/HotPost";
+import useComments from "../hooks/useComments";
+import CommentList from "../components/post/CommentList";
+import HotPost from "../components/sidebar/HotPost";
 
 const useStyles = createStyles((theme) => ({
   detail: {

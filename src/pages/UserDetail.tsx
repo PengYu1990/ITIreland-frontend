@@ -1,7 +1,7 @@
 import { Box, Grid, MediaQuery } from "@mantine/core";
-import PublishBox from "./components/sidebar/PublishBox";
-import HotPost from "./components/sidebar/HotPost";
-import ToTop from "./components/shared/ToTop";
+import PublishBox from "../components/sidebar/PublishBox";
+import HotPost from "../components/sidebar/HotPost";
+import ToTop from "../components/shared/ToTop";
 
 const UserDetail = () => {
   return (

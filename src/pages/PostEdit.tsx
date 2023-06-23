@@ -10,14 +10,14 @@ import {
 import { useState } from "react";
 import { notifications } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
-import { getSessionUser } from "./services/session-service";
+import { getSessionUser } from "../services/session-service";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import RichEditor from "./components/shared/RichEditor";
+import RichEditor from "../components/shared/RichEditor";
 import { JSONContent } from "@tiptap/react";
 import { useUpdateEffect } from "react-use";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import useEditPost from "./hooks/useEditPost";
-import postService, { Post } from "./services/post-service";
+import useEditPost from "../hooks/useEditPost";
+import postService, { Post } from "../services/post-service";
 
 const useStyles = createStyles(() => ({
   form: {

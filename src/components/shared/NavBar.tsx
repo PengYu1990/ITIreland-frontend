@@ -15,7 +15,6 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconLogout } from "@tabler/icons-react";
-import { getSessionUser } from "../../services/session-service";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { useAuth } from "../context/AuthContext";
