@@ -8,7 +8,6 @@ import { notifications } from "@mantine/notifications";
 import APIClient from "../../services/http-service";
 import { User } from "../../services/user-service";
 import React from "react";
-import { useJwt } from "react-jwt";
 
 interface AuthContextProps {
   isLogedin: boolean;
@@ -23,7 +22,9 @@ const AuthProvider = ({ children }: any) => {
   const [isLogedin, setLogedin] = useState(
     getSessionUser() == null ? false : true
   );
-  const { isExpired } = useJwt(getSessionUser()?.token || "");
+
+  //TODO: check token expired
+  // const { isExpired } = useJwt(getSessionUser()?.token || "");
 
   // Request login api
   const login = (values: User, path: string) => {
