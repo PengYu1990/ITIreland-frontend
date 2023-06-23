@@ -4,7 +4,11 @@ import App from "./App";
 import "./App.css";
 import { MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
-import { createHashRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  createHashRouter,
+  RouterProvider,
+} from "react-router-dom";
 import PostDetail from "./pages/PostDetail";
 import PostEdit from "./pages/PostEdit";
 import Index from "./pages/Index";
@@ -41,7 +45,7 @@ const router = createHashRouter([
         ),
       },
       {
-        path: "/login/:form?/:path?",
+        path: "/login/:form?",
         element: <LoginPage />,
       },
       {

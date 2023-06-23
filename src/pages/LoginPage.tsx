@@ -29,8 +29,7 @@ export function LoginPage(props: PaperProps) {
 
   const navigate = useNavigate();
 
-  let { form, path } = useParams();
-  if (path === undefined) path = "/";
+  let { form } = useParams();
 
   useEffect(() => {
     document.title = "Login | IT Ireland";
@@ -46,9 +45,9 @@ export function LoginPage(props: PaperProps) {
         </Text>
 
         <Stack>
-          {type === "login" && <LoginForm path={path} />}
+          {type === "login" && <LoginForm />}
 
-          {type === "register" && <RegisterForm path={path} />}
+          {type === "register" && <RegisterForm />}
         </Stack>
 
         <Group position="apart" mt="xl">

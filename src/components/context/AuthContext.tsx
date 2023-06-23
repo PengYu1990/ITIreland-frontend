@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   getSessionUser,
   removeSessionUser,
@@ -12,14 +12,24 @@ import jwt_decode, { JwtPayload } from "jwt-decode";
 
 interface AuthContextProps {
   isAuthenticated: () => boolean;
-  login: (values: User, path: string) => void;
-  signup: (values: User, path: string) => void;
+  login: (values: User) => void;
+  signup: (values: User) => void;
   logout: () => void;
   user: User | null;
 }
 
 const AuthContext = React.createContext({} as AuthContextProps);
 const AuthProvider = ({ children }: any) => {
+  // Check if user is authenticated
+
+  // User state
+  const [user, setUser] = useState<User | null>(null);
+
+  // Update user state
+  useEffect(() => {
+    setUser(isAuthenticated() ? getSessionUser() : null);
+  }, []);
+
   const isAuthenticated = () => {
     const user = getSessionUser();
     const token = user?.token;
@@ -32,12 +42,8 @@ const AuthProvider = ({ children }: any) => {
     return true;
   };
 
-  const [user, setUser] = useState<User | null>(
-    isAuthenticated() ? getSessionUser() : null
-  );
-
   // Request login api
-  const login = (values: User, path: string) => {
+  const login = (values: User) => {
     APIClient<User>("/api/auth/login")
       .post(values)
       .then((user) => {
@@ -48,7 +54,8 @@ const AuthProvider = ({ children }: any) => {
           message: "Login Success",
           color: "blue",
         });
-        window.location.replace(path);
+        // TODO: Fix this
+        window.history.go(-1);
       })
       .catch((error) => {
         notifications.show({
@@ -60,7 +67,7 @@ const AuthProvider = ({ children }: any) => {
   };
 
   // Request sign up api
-  const signup = (values: User, path: string) => {
+  const signup = (values: User) => {
     console.log(values);
     APIClient<User>("/api/auth/signup")
       .post(values)
@@ -72,7 +79,8 @@ const AuthProvider = ({ children }: any) => {
           message: "Sign Up Success",
           color: "blue",
         });
-        window.location.replace(path);
+        // TODO: Fix this
+        window.history.go(-1);
       })
       .catch((error) => {
         notifications.show({

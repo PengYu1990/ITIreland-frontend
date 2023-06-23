@@ -3,11 +3,7 @@ import { useForm } from "@mantine/form";
 import { User } from "../../services/user-service";
 import { useAuth } from "../context/AuthContext";
 
-interface Props {
-  path: string;
-}
-
-const LoginForm = ({ path }: Props) => {
+const LoginForm = () => {
   const form = useForm({
     initialValues: {
       username: "",
@@ -23,7 +19,7 @@ const LoginForm = ({ path }: Props) => {
   const { login } = useAuth();
 
   return (
-    <form onSubmit={form.onSubmit((values) => login(values as User, path))}>
+    <form onSubmit={form.onSubmit((values) => login(values as User))}>
       <TextInput
         withAsterisk
         label="Username"
