@@ -4,11 +4,7 @@ import App from "./App";
 import "./App.css";
 import { MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
-import {
-  createBrowserRouter,
-  createHashRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import PostDetail from "./pages/PostDetail";
 import PostEdit from "./pages/PostEdit";
 import Index from "./pages/Index";
