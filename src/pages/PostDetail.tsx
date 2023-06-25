@@ -98,9 +98,11 @@ const PostDetail = () => {
           <Box className={classes.detail}>
             {data?.id && <CommentForm postId={data?.id} />}
           </Box>
-          <Box className={classes.detail}>
-            <CommentList comments={comments} />
-          </Box>
+          {comments && comments.length > 0 && (
+            <Box className={classes.detail}>
+              <CommentList comments={comments} />
+            </Box>
+          )}
         </Grid.Col>
         <MediaQuery smallerThan="md" styles={{ display: "none" }}>
           <Grid.Col md={3} sm={12}>
