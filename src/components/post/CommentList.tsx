@@ -1,4 +1,4 @@
-import { Box, Stack, createStyles, rem } from "@mantine/core";
+import { Box, Stack, createStyles } from "@mantine/core";
 import CommentItem from "./CommentItem";
 import { Comment } from "../../services/comment-service";
 

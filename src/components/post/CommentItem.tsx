@@ -21,7 +21,6 @@ import { useAuth } from "../context/AuthContext";
 import CommentForm from "../forms/CommentForm";
 import { useState } from "react";
 import CommentList from "./CommentList";
-import { useUpdateEffect } from "react-use";
 
 interface Props {
   comment: Comment;
@@ -54,14 +53,14 @@ const CommentItem = ({ comment }: Props) => {
   const { classes } = useStyles();
   const { user } = useAuth();
   const [replyId, setReplyId] = useState<number | undefined>(undefined);
-  const [childrenComments, setChildrenComments] = useState<Comment[]>(
-    comment.childrenComments
-  );
+  // const [childrenComments, setChildrenComments] = useState<Comment[]>(
+  //   comment.childrenComments
+  // );
 
-  useUpdateEffect(() => {
-    // comments && setCommentList(comments);
-    setChildrenComments(comment.childrenComments);
-  }, [comment.childrenComments]);
+  // useUpdateEffect(() => {
+  //   // comments && setCommentList(comments);
+  //   setChildrenComments(comment.childrenComments);
+  // }, [comment.childrenComments]);
 
   const queryClient = useQueryClient();
 
@@ -164,7 +163,7 @@ const CommentItem = ({ comment }: Props) => {
             )}
           </Group>
         </Flex>
-        <CommentList comments={childrenComments} />
+        <CommentList comments={comment.childrenComments} />
         {replyId == comment.id && (
           <CommentForm postId={comment.postId} parentId={comment.id} />
         )}
