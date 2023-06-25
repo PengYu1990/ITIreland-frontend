@@ -21,10 +21,7 @@ class HttpService<T>{
         this.endpoint = endpoint;
     }
 
-    get = (requestConfig?:AxiosRequestConfig) => {
-        return createClient().get<Response<T>>(this.endpoint,{...requestConfig})
-                                .then(resp=>resp.data.data)
-    }
+    
 
     getById = (id:string | undefined) => {
         return createClient().get<Response<T>>(this.endpoint+"/"+id)
@@ -34,6 +31,11 @@ class HttpService<T>{
     getAllResponse = (requestConfig?:AxiosRequestConfig) =>{
         return createClient().get<Response<T[]>>(this.endpoint,{...requestConfig})
                                 .then(resp=>resp.data)
+    }
+
+    get = (requestConfig?:AxiosRequestConfig) => {
+        return createClient().get<Response<T>>(this.endpoint,{...requestConfig})
+                                .then(resp=>resp.data.data)
     }
 
     getAll = (requestConfig?:AxiosRequestConfig) =>{

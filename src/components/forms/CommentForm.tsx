@@ -148,7 +148,11 @@ const CommentSection = ({
           }
         ></Textarea>
       </Flex>
-      <Button type="submit" disabled={user === null} className={classes.button}>
+      <Button
+        type="submit"
+        disabled={user === null || form.values.content === ""}
+        className={classes.button}
+      >
         Submit
       </Button>
     </form>

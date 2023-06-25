@@ -1,4 +1,4 @@
-import { Group, Button, TextInput } from "@mantine/core";
+import { Group, Button, TextInput, PasswordInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { User } from "../../services/user-service";
 import { useAuth } from "../context/AuthContext";
@@ -39,12 +39,18 @@ const RegisterForm = () => {
         type="password"
         {...form.getInputProps("password")}
       />
-      <TextInput
+
+      <PasswordInput
+        placeholder="Password"
+        label="Password"
+        {...form.getInputProps("password")}
         withAsterisk
-        label="Confirm Password"
-        placeholder=""
-        type="password"
+      />
+      <PasswordInput
+        placeholder="Password"
+        label="Password"
         {...form.getInputProps("password2")}
+        withAsterisk
       />
       <TextInput
         withAsterisk
