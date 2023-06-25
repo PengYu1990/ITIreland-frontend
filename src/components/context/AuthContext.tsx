@@ -36,6 +36,11 @@ const AuthProvider = ({ children }: any) => {
     if (token === null || token === undefined) return false;
     const { exp } = jwt_decode<JwtPayload>(token);
     if (exp && Date.now() >= exp * 1000) {
+      notifications.show({
+        title: "Notification",
+        message: "Session Expired",
+        color: "blue",
+      });
       logout();
       return false;
     }

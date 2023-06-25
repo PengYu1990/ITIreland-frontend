@@ -20,11 +20,6 @@ class HttpService<T>{
     constructor(endpoint:string){
         this.endpoint = endpoint;
     }
-    
-    post = (entity : T) =>{
-        return createClient().post<Response<T>>(this.endpoint, entity)
-                                .then(resp=>resp.data.data)
-    }
 
     get = (requestConfig?:AxiosRequestConfig) => {
         return createClient().get<Response<T>>(this.endpoint,{...requestConfig})
@@ -43,6 +38,11 @@ class HttpService<T>{
 
     getAll = (requestConfig?:AxiosRequestConfig) =>{
         return createClient().get<Response<T[]>>(this.endpoint,{...requestConfig})
+                                .then(resp=>resp.data.data)
+    }
+
+    post = (entity : T) =>{
+        return createClient().post<Response<T>>(this.endpoint, entity)
                                 .then(resp=>resp.data.data)
     }
 

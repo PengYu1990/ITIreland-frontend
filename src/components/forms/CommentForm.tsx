@@ -14,6 +14,7 @@ import { Comment } from "../../services/comment-service";
 import { useMediaQuery } from "@mantine/hooks";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "../context/AuthContext";
+import { useEffect, useRef } from "react";
 
 const useStyles = createStyles((theme) => ({
   form: {
@@ -41,16 +42,34 @@ const useStyles = createStyles((theme) => ({
 
 interface Props {
   postId: number;
-  // addComment: (comment: Comment) => void;
   parentId?: number;
+  rows?: number;
+  focus?: boolean;
+  onSubmited?: () => void;
+  onTextAreaBlur?: () => void;
 }
 
-const CommentSection = ({ postId, parentId }: Props) => {
+const CommentSection = ({
+  postId,
+  parentId,
+  onSubmited,
+  rows,
+  focus,
+  onTextAreaBlur,
+}: Props) => {
   const { classes } = useStyles();
 
   const { user } = useAuth();
 
   const matches = useMediaQuery("(max-width: 600px)");
+
+  const textArea = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (focus && textArea.current) {
+      textArea.current.focus();
+    }
+  }, [focus]);
 
   const form = useForm({
     initialValues: {
@@ -95,6 +114,7 @@ const CommentSection = ({ postId, parentId }: Props) => {
       APIClient<Comment>("/api/comments").post(comment),
     onSuccess: () => {
       queryClient.invalidateQueries([postId, "comments"]);
+      onSubmited && onSubmited();
       form.reset();
     },
     onError: (error) => {
@@ -117,11 +137,15 @@ const CommentSection = ({ postId, parentId }: Props) => {
         </Avatar>
         <Textarea
           className={classes.editor}
-          minRows={3}
+          minRows={rows ? rows : 3}
           w="100%"
           disabled={user === null}
           placeholder={user === null ? "Login and comment" : "Enter comment"}
           {...form.getInputProps("content")}
+          ref={textArea}
+          onBlur={() =>
+            form.values.content === "" && onTextAreaBlur && onTextAreaBlur()
+          }
         ></Textarea>
       </Flex>
       <Button type="submit" disabled={user === null} className={classes.button}>

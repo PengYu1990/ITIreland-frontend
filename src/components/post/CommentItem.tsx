@@ -72,6 +72,7 @@ const CommentItem = ({ comment }: Props) => {
     mutationFn: (comment: Comment) =>
       APIClient<Comment>("/api/comments").delete(comment),
     onSuccess: () =>
+      //TODO: Fix this when a Child Comment is deleted, the parent comment is not updated
       queryClient.invalidateQueries([comment.postId, "comments"]),
     onError: (error) => {
       notifications.show({
@@ -122,7 +123,7 @@ const CommentItem = ({ comment }: Props) => {
                       : setReplyId(comment.id);
                   }}
                 >
-                  {replyId ? "Cancle" : "Reply"}
+                  Reply
                 </Button>
               </Flex>
             )}
@@ -163,10 +164,17 @@ const CommentItem = ({ comment }: Props) => {
             )}
           </Group>
         </Flex>
-        <CommentList comments={comment.childrenComments} />
         {replyId == comment.id && (
-          <CommentForm postId={comment.postId} parentId={comment.id} />
+          <CommentForm
+            postId={comment.postId}
+            parentId={comment.id}
+            onSubmited={() => setReplyId(undefined)}
+            rows={2}
+            focus={true}
+            onTextAreaBlur={() => setReplyId(undefined)}
+          />
         )}
+        <CommentList comments={comment.childrenComments} />
       </Box>
     </Flex>
   );
