@@ -4,12 +4,12 @@ import { Comment } from "../../services/comment-service";
 
 const useStyles = createStyles(() => ({
   detail: {
-    paddingLeft: rem(20),
-    paddingRight: rem(20),
-    paddingTop: rem(10),
-    paddingBottom: rem(10),
-    backgroundColor: "white",
-    marginBottom: rem(10),
+    // paddingLeft: rem(20),
+    // // paddingRight: rem(20),
+    // paddingTop: rem(10),
+    // paddingBottom: rem(10),
+    // backgroundColor: "white",
+    // marginBottom: rem(10),
   },
 }));
 interface Props {

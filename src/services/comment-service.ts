@@ -8,6 +8,7 @@ export interface Comment {
     utime:Date;
     postId:number;
     user:User;
+    childrenComments:Comment[];
 }
 
 const commentService = APIClient<Comment>("/api/comments")

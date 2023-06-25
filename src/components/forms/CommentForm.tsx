@@ -42,9 +42,10 @@ const useStyles = createStyles((theme) => ({
 interface Props {
   postId: number;
   // addComment: (comment: Comment) => void;
+  parentId?: number;
 }
 
-const CommentSection = ({ postId }: Props) => {
+const CommentSection = ({ postId, parentId }: Props) => {
   const { classes } = useStyles();
 
   const { user } = useAuth();
@@ -78,8 +79,12 @@ const CommentSection = ({ postId }: Props) => {
       return;
     }
 
-    const comment = { ...values, postId: postId, userId: user.id };
-
+    const comment = {
+      ...values,
+      postId: postId,
+      userId: user.id,
+      parentId: parentId,
+    };
     saveComment.mutate(comment);
   };
 

@@ -18,6 +18,10 @@ import { notifications } from "@mantine/notifications";
 import { IconTrash } from "@tabler/icons-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "../context/AuthContext";
+import CommentForm from "../forms/CommentForm";
+import { useState } from "react";
+import CommentList from "./CommentList";
+import { useUpdateEffect } from "react-use";
 
 interface Props {
   comment: Comment;
@@ -25,10 +29,10 @@ interface Props {
 
 const useStyles = createStyles((theme) => ({
   citem: {
-    marginTop: rem(20),
+    // marginTop: rem(20),
     fontSize: rem(14),
-    paddingBottom: rem(10),
-    borderBottom: `${rem(1)} solid ${
+    paddingTop: rem(10),
+    borderTop: `${rem(1)} solid ${
       theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[2]
     }`,
   },
@@ -49,6 +53,15 @@ const useStyles = createStyles((theme) => ({
 const CommentItem = ({ comment }: Props) => {
   const { classes } = useStyles();
   const { user } = useAuth();
+  const [replyId, setReplyId] = useState<number | undefined>(undefined);
+  const [childrenComments, setChildrenComments] = useState<Comment[]>(
+    comment.childrenComments
+  );
+
+  useUpdateEffect(() => {
+    // comments && setCommentList(comments);
+    setChildrenComments(comment.childrenComments);
+  }, [comment.childrenComments]);
 
   const queryClient = useQueryClient();
 
@@ -59,9 +72,8 @@ const CommentItem = ({ comment }: Props) => {
   const delComment = useMutation<Response<null>, Error, Comment>({
     mutationFn: (comment: Comment) =>
       APIClient<Comment>("/api/comments").delete(comment),
-    onSuccess: () => {
-      queryClient.invalidateQueries([comment.postId, "comments"]);
-    },
+    onSuccess: () =>
+      queryClient.invalidateQueries([comment.postId, "comments"]),
     onError: (error) => {
       notifications.show({
         title: "Notification",
@@ -105,8 +117,13 @@ const CommentItem = ({ comment }: Props) => {
                       marginRight: 0,
                     },
                   })}
+                  onClick={() => {
+                    return replyId === comment.id
+                      ? setReplyId(undefined)
+                      : setReplyId(comment.id);
+                  }}
                 >
-                  Reply
+                  {replyId ? "Cancle" : "Reply"}
                 </Button>
               </Flex>
             )}
@@ -147,6 +164,10 @@ const CommentItem = ({ comment }: Props) => {
             )}
           </Group>
         </Flex>
+        <CommentList comments={childrenComments} />
+        {replyId == comment.id && (
+          <CommentForm postId={comment.postId} parentId={comment.id} />
+        )}
       </Box>
     </Flex>
   );
