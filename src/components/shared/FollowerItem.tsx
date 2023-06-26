@@ -12,7 +12,7 @@ import { User } from "../../services/user-service";
 import AppConfig from "../../config.json";
 import { Link } from "react-router-dom";
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles(() => ({
   followingItem: {
     borderBottom: "1px solid #eaeaea",
     padding: rem(10),

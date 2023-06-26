@@ -6,7 +6,6 @@ import Profile from "../components/shared/Profile";
 import { useLocation, useParams } from "react-router-dom";
 import useUser from "../hooks/useUser";
 import { useEffect } from "react";
-import { useUpdateEffect } from "react-use";
 
 const UserDetail = () => {
   const { id } = useParams();
