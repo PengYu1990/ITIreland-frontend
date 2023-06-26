@@ -21,6 +21,8 @@ import { useAuth } from "../context/AuthContext";
 import CommentForm from "../forms/CommentForm";
 import { useState } from "react";
 import CommentList from "./CommentList";
+import AppConfig from "../../config.json";
+import { Link } from "react-router-dom";
 
 interface Props {
   comment: Comment;
@@ -90,11 +92,22 @@ const CommentItem = ({ comment }: Props) => {
       justify="flex-start"
       direction="row"
     >
-      <Avatar color="cyan" radius="xl" size={30}>
-        {comment.user.username.substring(0, 2).toUpperCase()}
-      </Avatar>
+      <Link to={`/user/${comment.user.id}`}>
+        <Avatar
+          src={
+            comment.user && `${AppConfig.config.api}${comment.user.headShotUrl}`
+          }
+          color="cyan"
+          radius="xl"
+          size={30}
+        >
+          {comment.user.username.substring(0, 2).toUpperCase()}
+        </Avatar>
+      </Link>
       <Box w="100%">
-        <Text className={classes.usename}>{comment.user.username}</Text>
+        <Link to={`/user/${comment.user.id}`}>
+          <Text className={classes.usename}>{comment.user.username}</Text>
+        </Link>
         <Text className={classes.content}>{comment.content}</Text>
         <Flex
           className={classes.time}

@@ -15,6 +15,8 @@ import {
 } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { Post } from "../../services/post-service";
+import AppConfig from "../../config.json";
+import { Link } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
   meta: {
@@ -38,10 +40,22 @@ const PostMeta = ({ post }: Props) => {
       direction="row"
     >
       <Group spacing="xs">
-        <Avatar color="cyan" radius="xl" size={23}>
-          {post.user.username.substring(0, 2).toUpperCase()}
-        </Avatar>
-        <Text>{post.user.username}</Text>
+        <Link to={`/user/${post.user.id}`}>
+          <Avatar
+            src={
+              post.user.headShotUrl &&
+              `${AppConfig.config.api}${post.user.headShotUrl}`
+            }
+            color="cyan"
+            radius="xl"
+            size={23}
+          >
+            {post.user.username.substring(0, 2).toUpperCase()}
+          </Avatar>
+        </Link>
+        <Link to={`/user/${post.user.id}`}>
+          <Text>{post.user.username}</Text>
+        </Link>
       </Group>
 
       <Group spacing="xs" position="left">

@@ -18,6 +18,7 @@ import { IconLogout } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { useAuth } from "../context/AuthContext";
+import AppConfig from "../../config.json";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -125,7 +126,16 @@ export function NavBar() {
             <Group className={classes.hiddenMobile}>
               <Menu shadow="md" width={200}>
                 <Menu.Target>
-                  <Avatar color="cyan" radius="xl" size={35}>
+                  <Avatar
+                    src={
+                      user &&
+                      user.headShotUrl &&
+                      `${AppConfig.config.api}${user.headShotUrl}`
+                    }
+                    color="cyan"
+                    radius="xl"
+                    size={35}
+                  >
                     {user.username.substring(0, 2).toUpperCase()}
                   </Avatar>
                 </Menu.Target>

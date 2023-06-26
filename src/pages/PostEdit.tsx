@@ -10,7 +10,6 @@ import {
 import { useState } from "react";
 import { notifications } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
-import { getSessionUser } from "../services/session-service";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import RichEditor from "../components/shared/RichEditor";
 import { JSONContent } from "@tiptap/react";
@@ -18,6 +17,7 @@ import { useUpdateEffect } from "react-use";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useEditPost from "../hooks/useEditPost";
 import postService, { Post } from "../services/post-service";
+import { useAuth } from "../components/context/AuthContext";
 
 const useStyles = createStyles(() => ({
   form: {
@@ -44,6 +44,8 @@ const PostEdit = () => {
   const history = useNavigate();
   const { pathname } = useLocation();
   const { id } = useParams();
+
+  const { user } = useAuth();
 
   // remove cache
   const queryClient = useQueryClient();
@@ -75,7 +77,6 @@ const PostEdit = () => {
   });
 
   const submitPost = (values: any) => {
-    const user = getSessionUser();
     if (user === null) {
       notifications.show({
         title: "Notification",

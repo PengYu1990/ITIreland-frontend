@@ -3,16 +3,27 @@ import PublishBox from "../components/sidebar/PublishBox";
 import HotPost from "../components/sidebar/HotPost";
 import ToTop from "../components/shared/ToTop";
 import Profile from "../components/shared/Profile";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import useUser from "../hooks/useUser";
-import usePosts from "../hooks/usePosts";
+import { useEffect } from "react";
+import { useUpdateEffect } from "react-use";
 
 const UserDetail = () => {
   const { id } = useParams();
   if (!id) {
     return <></>;
   }
-  const { data: user } = useUser(id);
+  const onSuccess = () => {
+    document.title = `${user?.username} - Profile - IT Ireland`;
+  };
+
+  const { data: user } = useUser(id, onSuccess);
+
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return (
     <>

@@ -1,0 +1,10 @@
+{
+    "config":{
+        "title":"My App",
+        "description":"My App Description",
+        "version":"1.0.0",
+        "author":"My Name",
+        "email":"",
+        "api":"http://localhost:8080/api"
+    }
+}

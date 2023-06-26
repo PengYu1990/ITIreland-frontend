@@ -6,7 +6,6 @@ import {
   createStyles,
   rem,
 } from "@mantine/core";
-import { getSessionUser } from "../../services/session-service";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import APIClient from "../../services/http-service";
@@ -15,6 +14,7 @@ import { useMediaQuery } from "@mantine/hooks";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "../context/AuthContext";
 import { useEffect, useRef } from "react";
+import AppConfig from "../../config.json";
 
 const useStyles = createStyles((theme) => ({
   form: {
@@ -83,7 +83,6 @@ const CommentSection = ({
   });
 
   const submitComment = (values: any) => {
-    const user = getSessionUser();
     if (user === null) {
       notifications.show({
         title: "Notification",
@@ -132,7 +131,16 @@ const CommentSection = ({
       onSubmit={form.onSubmit((values) => submitComment(values))}
     >
       <Flex justify="space-between" direction="row">
-        <Avatar color="cyan" radius="xl" size={35}>
+        <Avatar
+          src={
+            user &&
+            user.headShotUrl &&
+            `${AppConfig.config.api}${user.headShotUrl}`
+          }
+          color="cyan"
+          radius="xl"
+          size={35}
+        >
           {user && user.username.substring(0, 2).toUpperCase()}
         </Avatar>
         <Textarea
