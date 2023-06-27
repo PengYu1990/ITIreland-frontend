@@ -6,14 +6,16 @@ import Profile from "../components/shared/Profile";
 import { useLocation, useParams } from "react-router-dom";
 import useUser from "../hooks/useUser";
 import { useEffect } from "react";
+import AppConfig from "../config.json";
+import { User } from "../services/user-service";
 
 const UserDetail = () => {
   const { id } = useParams();
   if (!id) {
     return <></>;
   }
-  const onSuccess = () => {
-    document.title = `${user?.username} - Profile - IT Ireland`;
+  const onSuccess = (u: User) => {
+    document.title = `${u.username} - Profile -  ${AppConfig.config.title}`;
   };
 
   const { data: user } = useUser(id, onSuccess);

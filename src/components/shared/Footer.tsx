@@ -7,6 +7,8 @@ import {
 import { Image } from "@mantine/core";
 import logo from "../../assets/logo.png";
 
+import AppConfig from "../../config.json";
+
 const useStyles = createStyles((theme) => ({
   footer: {
     marginTop: rem(10),
@@ -37,7 +39,7 @@ export function Footer() {
   return (
     <div className={classes.footer}>
       <Container className={classes.inner}>
-        <Image src={logo} alt="IT Ireland" mah={45} maw={200} />
+        <Image src={logo} alt={AppConfig.config.title} mah={45} maw={200} />
         <Group spacing={0} className={classes.links} position="right" noWrap>
           <ActionIcon size="lg">
             <IconBrandTwitter size="1.05rem" stroke={1.5} />

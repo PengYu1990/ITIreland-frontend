@@ -109,7 +109,7 @@ export function NavBar() {
       <Header height={60} px="md">
         <Group position="apart" sx={{ height: "100%" }}>
           <Link to="/">
-            <Image src={logo} alt="IT Ireland" mah={45} maw={150} />
+            <Image src={logo} alt={AppConfig.config.title} mah={45} maw={150} />
           </Link>
 
           <Group

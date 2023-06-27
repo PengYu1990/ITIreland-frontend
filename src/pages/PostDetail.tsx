@@ -19,6 +19,7 @@ import { useUpdateEffect } from "react-use";
 import useComments from "../hooks/useComments";
 import CommentList from "../components/post/CommentList";
 import HotPost from "../components/sidebar/HotPost";
+import AppConfig from "../config.json";
 
 const useStyles = createStyles((theme) => ({
   detail: {
@@ -63,7 +64,7 @@ const PostDetail = () => {
   }, [pathname]);
 
   useUpdateEffect(() => {
-    document.title = data?.title ? data?.title : "IT Ireland";
+    document.title = data?.title ? data?.title : AppConfig.config.title;
     // comments && setCommentList(comments);
   }, [data, comments]);
 

@@ -14,6 +14,8 @@ import RegisterForm from "../components/forms/RegisterForm";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
+import AppConfig from "../config.json";
+
 const useStyles = createStyles(() => ({
   loginBox: {
     paddingTop: rem(80),
@@ -32,7 +34,7 @@ export function LoginPage(props: PaperProps) {
   let { form } = useParams();
 
   useEffect(() => {
-    document.title = "Login | IT Ireland";
+    document.title = `Login | ${AppConfig.config.title}`;
     if (form === "2") setType("register");
     if (form === "1") setType("login");
   });
@@ -41,7 +43,7 @@ export function LoginPage(props: PaperProps) {
     <Container maw="25rem" className={classes.loginBox}>
       <Paper radius="md" p="xl" withBorder {...props}>
         <Text size="lg" weight={500} align="center">
-          Welcome to IT Ireland
+          Welcome to ${AppConfig.config.title}
         </Text>
 
         <Stack>

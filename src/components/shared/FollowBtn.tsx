@@ -4,6 +4,7 @@ import { User } from "../../services/user-service";
 import APIClient from "../../services/http-service";
 import { Button } from "@mantine/core";
 import { useAuth } from "../context/AuthContext";
+import { RiChatFollowUpLine } from "react-icons/ri";
 
 interface Props {
   user: User;
@@ -37,6 +38,7 @@ const FollowBtn = ({ user, variant = "filled" }: Props) => {
 
   return (
     <Button
+      leftIcon={<RiChatFollowUpLine />}
       onClick={handleFollowOrUnfollow}
       size="xs"
       variant={isFollowingUser ? "outline" : variant}

@@ -5,9 +5,11 @@ import ToTop from "../components/shared/ToTop";
 import HotPost from "../components/sidebar/HotPost";
 import { useEffect } from "react";
 
+import AppConfig from "../config.json";
+
 const Index = () => {
   useEffect(() => {
-    document.title = "IT Ireland";
+    document.title = AppConfig.config.title;
   });
   return (
     <>
