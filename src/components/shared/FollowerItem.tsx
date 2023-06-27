@@ -1,16 +1,9 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Flex,
-  Text,
-  createStyles,
-  rem,
-} from "@mantine/core";
+import { Avatar, Box, Flex, Text, createStyles, rem } from "@mantine/core";
 import { User } from "../../services/user-service";
 
 import AppConfig from "../../config.json";
 import { Link } from "react-router-dom";
+import FollowBtn from "./FollowBtn";
 
 const useStyles = createStyles(() => ({
   followingItem: {
@@ -55,9 +48,7 @@ const FollowerItem = ({ following }: Props) => {
           <Text className={classes.followingItemFollowers}>0 followers</Text>
         </Box>
       </Flex>
-      <Button variant="outline" size="xs">
-        Follow
-      </Button>
+      <FollowBtn user={following} variant="outline" />
     </Flex>
   );
 };

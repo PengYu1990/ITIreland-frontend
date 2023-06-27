@@ -6,7 +6,6 @@ import {
   Tabs,
   createStyles,
   rem,
-  Button,
 } from "@mantine/core";
 import { IconArticle, IconPhoto, IconSettings } from "@tabler/icons-react";
 import { BiShare } from "react-icons/bi";
@@ -19,6 +18,7 @@ import useFollowers from "../../hooks/useFollowers";
 import FollowerItem from "./FollowerItem";
 
 import AppConfig from "../../config.json";
+import FollowBtn from "./FollowBtn";
 
 const useStyles = createStyles((theme) => ({
   username: {
@@ -88,10 +88,7 @@ const Profile = ({ user }: Props) => {
               0 followers · 0 following
             </Text>
             <Flex gap={10}>
-              <Button size="xs">Follow</Button>
-              <Button variant="default" size="xs">
-                Ask
-              </Button>
+              <FollowBtn user={user} />
             </Flex>
           </Box>
         </Flex>
