@@ -20,5 +20,8 @@ export interface Post {
 }
 
 const postService = APIClient<Post>("/api/posts")
+const followingPostService = APIClient<Post>("/api/posts/following")
+
+export {followingPostService};
 
 export default postService;

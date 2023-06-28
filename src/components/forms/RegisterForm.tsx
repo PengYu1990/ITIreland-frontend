@@ -32,14 +32,6 @@ const RegisterForm = () => {
         placeholder=""
         {...form.getInputProps("username")}
       />
-      <TextInput
-        withAsterisk
-        label="Password"
-        placeholder=""
-        type="password"
-        {...form.getInputProps("password")}
-      />
-
       <PasswordInput
         placeholder="Password"
         label="Password"
@@ -48,7 +40,7 @@ const RegisterForm = () => {
       />
       <PasswordInput
         placeholder="Password"
-        label="Password"
+        label="Repeat Password"
         {...form.getInputProps("password2")}
         withAsterisk
       />

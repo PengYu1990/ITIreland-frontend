@@ -12,25 +12,73 @@ import {
   Avatar,
   Menu,
   Image,
+  Container,
+  Tooltip,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconLogout, IconUser } from "@tabler/icons-react";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  IconEdit,
+  IconHome,
+  IconLogout,
+  IconNote,
+  IconNotebook,
+  IconPackage,
+  IconUser,
+  IconWiper,
+  IconWriting,
+} from "@tabler/icons-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { useAuth } from "../context/AuthContext";
 import AppConfig from "../../config.json";
+import { useEffect, useState } from "react";
 
 const useStyles = createStyles((theme) => ({
+  container: {
+    paddingTop: rem(5),
+    paddingBottom: 0,
+  },
   link: {
     display: "flex",
     alignItems: "center",
     height: "100%",
     paddingLeft: theme.spacing.md,
     paddingRight: theme.spacing.md,
+    paddingTop: theme.spacing.xs,
+    paddingBottom: theme.spacing.xs,
     textDecoration: "none",
     color: theme.colorScheme === "dark" ? theme.white : theme.black,
     fontWeight: 500,
     fontSize: theme.fontSizes.sm,
+
+    [theme.fn.smallerThan("sm")]: {
+      height: rem(42),
+      display: "flex",
+      alignItems: "center",
+      width: "100%",
+    },
+
+    ...theme.fn.hover({
+      backgroundColor:
+        theme.colorScheme === "dark"
+          ? theme.colors.dark[6]
+          : theme.colors.gray[0],
+    }),
+  },
+
+  linkActive: {
+    display: "flex",
+    alignItems: "center",
+    height: "100%",
+    paddingLeft: theme.spacing.md,
+    paddingRight: theme.spacing.md,
+    paddingTop: theme.spacing.xs,
+    paddingBottom: theme.spacing.xs,
+    textDecoration: "none",
+    color: theme.colorScheme === "dark" ? theme.white : theme.black,
+    fontWeight: 500,
+    fontSize: theme.fontSizes.sm,
+    borderBottom: `${rem(3)} solid ${theme.colors.blue[6]}`,
 
     [theme.fn.smallerThan("sm")]: {
       height: rem(42),
@@ -87,6 +135,12 @@ const useStyles = createStyles((theme) => ({
       display: "none",
     },
   },
+  navActive: {
+    color: theme.colors.blue[6],
+  },
+  navNormal: {
+    color: theme.colors.dark[3],
+  },
 }));
 
 export function NavBar() {
@@ -95,6 +149,12 @@ export function NavBar() {
 
   const { classes, theme } = useStyles();
   const { user, logout } = useAuth();
+  const [nav, setNav] = useState(0);
+  const [homeToolTipOpened, setHomeToolTipOpened] = useState(false);
+  const [followToolTipOpened, setFollowToolTipOpened] = useState(false);
+  const [postToolTipOpened, setPostToolTipOpened] = useState(false);
+  const location = useLocation();
+
   const navigate = useNavigate();
 
   const clickLogin = () => {};
@@ -105,6 +165,16 @@ export function NavBar() {
     logout();
   };
 
+  useEffect(() => {
+    if (location.pathname === "/") {
+      setNav(0);
+    } else if (location.pathname === "/following") {
+      setNav(1);
+    } else if (location.pathname === "/edit") {
+      setNav(2);
+    }
+  }, [location.pathname]);
+
   const toProfile = () => {
     navigate(`/user/${user?.id}`);
   };
@@ -112,70 +182,133 @@ export function NavBar() {
   return (
     <Box>
       <Header height={60} px="md">
-        <Group position="apart" sx={{ height: "100%" }}>
-          <Link to="/">
-            <Image src={logo} alt={AppConfig.config.title} mah={45} maw={150} />
-          </Link>
+        <Container className={classes.container} size="lg">
+          <Group position="apart" sx={{ height: "100%" }}>
+            <Group>
+              <Link to="/">
+                <Image
+                  src={logo}
+                  alt={AppConfig.config.title}
+                  mah={45}
+                  maw={150}
+                />
+              </Link>
 
-          <Group
-            sx={{ height: "100%" }}
-            spacing={0}
-            className={classes.hiddenMobile}
-          >
-            <Link to="/" className={classes.link}>
-              Home
-            </Link>
+              <Group
+                sx={{ height: "100%" }}
+                spacing={0}
+                className={classes.hiddenMobile}
+                position="left"
+                ml={20}
+              >
+                <Tooltip label="Home" opened={homeToolTipOpened} color="gray">
+                  <Link
+                    to="/"
+                    onClick={() => setNav(0)}
+                    about="Home"
+                    className={nav === 0 ? classes.linkActive : classes.link}
+                    onMouseEnter={() => setHomeToolTipOpened(true)}
+                    onMouseLeave={() => setHomeToolTipOpened(false)}
+                  >
+                    <IconHome
+                      size={30}
+                      className={
+                        nav === 0 ? classes.navActive : classes.navNormal
+                      }
+                    />
+                  </Link>
+                </Tooltip>
+                <Tooltip
+                  label="Following"
+                  opened={followToolTipOpened}
+                  color="gray"
+                >
+                  <Link
+                    onClick={() => setNav(1)}
+                    to="/following"
+                    className={nav === 1 ? classes.linkActive : classes.link}
+                    onMouseEnter={() => setFollowToolTipOpened(true)}
+                    onMouseLeave={() => setFollowToolTipOpened(false)}
+                  >
+                    <IconNotebook
+                      size={30}
+                      className={
+                        nav === 1 ? classes.navActive : classes.navNormal
+                      }
+                    />
+                  </Link>
+                </Tooltip>
+                <Tooltip label="Post" opened={postToolTipOpened} color="gray">
+                  <Link
+                    to="/edit"
+                    onClick={() => setNav(2)}
+                    className={nav === 2 ? classes.linkActive : classes.link}
+                    onMouseEnter={() => setPostToolTipOpened(true)}
+                    onMouseLeave={() => setPostToolTipOpened(false)}
+                  >
+                    <IconEdit
+                      size={30}
+                      className={
+                        nav === 2 ? classes.navActive : classes.navNormal
+                      }
+                    />
+                  </Link>
+                </Tooltip>
+              </Group>
+            </Group>
+            {user ? (
+              <Group className={classes.hiddenMobile}>
+                <Menu shadow="md" width={200}>
+                  <Menu.Target>
+                    <Avatar
+                      src={
+                        user &&
+                        user.headShotUrl &&
+                        `${AppConfig.config.api}${user.headShotUrl}`
+                      }
+                      color="cyan"
+                      radius="xl"
+                      size={35}
+                    >
+                      {user.username.substring(0, 2).toUpperCase()}
+                    </Avatar>
+                  </Menu.Target>
+
+                  <Menu.Dropdown>
+                    <Menu.Label>Account</Menu.Label>
+                    <Menu.Item
+                      icon={<IconUser size={14} />}
+                      onClick={toProfile}
+                    >
+                      Profile
+                    </Menu.Item>
+                    <Menu.Item
+                      icon={<IconLogout size={14} />}
+                      onClick={clickLogout}
+                    >
+                      Log out
+                    </Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
+              </Group>
+            ) : (
+              <Group className={classes.hiddenMobile}>
+                <Link to="/login/1" className={classes.link}>
+                  <Button>Log in</Button>
+                </Link>
+                <Link to="/login/2" className={classes.link}>
+                  <Button variant="default">Sign Up</Button>
+                </Link>
+              </Group>
+            )}
+
+            <Burger
+              opened={drawerOpened}
+              onClick={toggleDrawer}
+              className={classes.hiddenDesktop}
+            />
           </Group>
-
-          {user ? (
-            <Group className={classes.hiddenMobile}>
-              <Menu shadow="md" width={200}>
-                <Menu.Target>
-                  <Avatar
-                    src={
-                      user &&
-                      user.headShotUrl &&
-                      `${AppConfig.config.api}${user.headShotUrl}`
-                    }
-                    color="cyan"
-                    radius="xl"
-                    size={35}
-                  >
-                    {user.username.substring(0, 2).toUpperCase()}
-                  </Avatar>
-                </Menu.Target>
-
-                <Menu.Dropdown>
-                  <Menu.Label>Account</Menu.Label>
-                  <Menu.Item icon={<IconUser size={14} />} onClick={toProfile}>
-                    Profile
-                  </Menu.Item>
-                  <Menu.Item
-                    icon={<IconLogout size={14} />}
-                    onClick={clickLogout}
-                  >
-                    Log out
-                  </Menu.Item>
-                </Menu.Dropdown>
-              </Menu>
-            </Group>
-          ) : (
-            <Group className={classes.hiddenMobile}>
-              <Link to="/login/1" className={classes.link}>
-                <Button>Log in</Button>
-              </Link>
-              <Link to="/login/2" className={classes.link}>
-                <Button variant="default">Sign in</Button>
-              </Link>
-            </Group>
-          )}
-
-          <Burger
-            opened={drawerOpened}
-            onClick={toggleDrawer}
-            className={classes.hiddenDesktop}
-          />
-        </Group>
+        </Container>
       </Header>
 
       <Drawer
@@ -195,6 +328,9 @@ export function NavBar() {
 
           <Link to="/" className={classes.link}>
             Home
+          </Link>
+          <Link to="/following" className={classes.link}>
+            Following
           </Link>
 
           <Divider

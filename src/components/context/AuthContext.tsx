@@ -5,11 +5,11 @@ import {
   setSessionUser,
 } from "../../services/session-service";
 import { notifications } from "@mantine/notifications";
-import APIClient, { Response } from "../../services/http-service";
+import APIClient from "../../services/http-service";
 import { User } from "../../services/user-service";
 import React from "react";
 import jwt_decode, { JwtPayload } from "jwt-decode";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface AuthContextProps {
   isAuthenticated: () => boolean;
@@ -31,6 +31,7 @@ const AuthProvider = ({ children }: any) => {
     setUser(isAuthenticated() ? getSessionUser() : null);
   }, []);
 
+  // Check if user is authenticated
   const isAuthenticated = () => {
     const user = getSessionUser();
     const token = user?.token;
@@ -47,15 +48,23 @@ const AuthProvider = ({ children }: any) => {
     }
     return true;
   };
+
+  // Query client
   const queryClient = useQueryClient();
 
+  // Login
+  const login = (values: User) => {
+    handleLogin.mutate(values);
+  };
+
+  // Login mutation
   const handleLogin = useMutation({
     mutationKey: ["logined_user", user?.id],
     mutationFn: (values: User) =>
       APIClient<User>("/api/auth/login").post(values),
     onSuccess: (user: User) => {
-      queryClient.invalidateQueries(["logined_user", user?.id]),
-        setSessionUser(user);
+      queryClient.invalidateQueries(["logined_user", user?.id]);
+      setSessionUser(user);
       setUser(user);
       notifications.show({
         title: "Notification",
@@ -74,78 +83,81 @@ const AuthProvider = ({ children }: any) => {
     },
   });
 
-  // Request login api
-  const login = (values: User) => {
-    handleLogin.mutate(values);
-    // APIClient<User>("/api/auth/login")
-    //   .post(values)
-    //   .then((user) => {
-    //     setSessionUser(user);
-    //     setUser(user);
-    //     notifications.show({
-    //       title: "Notification",
-    //       message: "Login Success",
-    //       color: "blue",
-    //     });
-    //     // TODO: Fix this
-    //     window.history.go(-1);
-    //   })
-    //   .catch((error) => {
-    //     notifications.show({
-    //       title: "Notification",
-    //       message: error.response.data.message,
-    //       color: "red",
-    //     });
-    //   });
-  };
-
-  // Request sign up api
+  // signups
   const signup = (values: User) => {
-    console.log(values);
-    APIClient<User>("/api/auth/signup")
-      .post(values)
-      .then((user) => {
-        setSessionUser(user);
-        setUser(user);
-        notifications.show({
-          title: "Notification",
-          message: "Sign Up Success",
-          color: "blue",
-        });
-        // TODO: Fix this
-        window.history.go(-1);
-      })
-      .catch((error) => {
-        notifications.show({
-          title: "Notification",
-          message: error.response.data.message,
-          color: "red",
-        });
-      });
+    handleSignUp.mutate(values);
   };
 
-  const logout = () => {
-    APIClient("/api/auth/logout")
-      .post(null)
-      .then(() => {
-        removeSessionUser();
-        setUser(null);
-        notifications.show({
-          title: "Notification",
-          message: "Logout Success",
-          color: "blue",
-        });
-      })
-      .catch(() => {
-        removeSessionUser();
-        setUser(null);
-        notifications.show({
-          title: "Notification",
-          message: "Logout Success",
-          color: "blue",
-        });
+  // Sign up mutation
+  const handleSignUp = useMutation({
+    mutationKey: ["logined_user", user?.id],
+    mutationFn: (values: User) =>
+      APIClient<User>("/api/auth/signup").post(values),
+    onSuccess: (user: User) => {
+      queryClient.invalidateQueries(["logined_user", user?.id]);
+      setSessionUser(user);
+      setUser(user);
+      notifications.show({
+        title: "Notification",
+        message: "Sign Up Success",
+        color: "blue",
       });
+      // TODO: Fix this
+      window.history.go(-1);
+    },
+    onError: (error: Error) => {
+      notifications.show({
+        title: "Notification",
+        message: error.message,
+        color: "red",
+      });
+    },
+  });
+
+  // Logout
+  const logout = () => {
+    // handleLogout.mutate();
+    removeSessionUser();
+    setUser(null);
+    notifications.show({
+      title: "Notification",
+      message: "Logout Success",
+      color: "blue",
+    });
+    notifications.show({
+      title: "Notification",
+      message: "Logout Success",
+      color: "blue",
+    });
   };
+
+  // Logout mutation
+  // const handleLogout = useMutation({
+  //   mutationFn: () => APIClient<null>("/api/auth/logout").post(null),
+  //   onSuccess: () => {
+  //     removeSessionUser();
+  //     setUser(null);
+  //     notifications.show({
+  //       title: "Notification",
+  //       message: "Logout Success",
+  //       color: "blue",
+  //     });
+  //     notifications.show({
+  //       title: "Notification",
+  //       message: "Logout Success",
+  //       color: "blue",
+  //     });
+  //     // TODO: Fix this
+  //     window.history.go(-1);
+  //   },
+  //   onError: (error: Error) => {
+  //     notifications.show({
+  //       title: "Notification",
+  //       message: error.message,
+  //       color: "red",
+  //     });
+  //   },
+  // });
 
   return (
     <AuthContext.Provider

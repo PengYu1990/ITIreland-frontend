@@ -35,7 +35,7 @@ export default function App() {
       <AppShell header={<NavBar />} padding={0}>
         <Container
           className={matches ? classes.contentMobile : classes.content}
-          size={1280}
+          size="lg"
         >
           <Outlet />
         </Container>

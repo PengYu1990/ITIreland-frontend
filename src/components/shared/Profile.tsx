@@ -12,7 +12,7 @@ import { IconArticle, IconPhoto, IconSettings } from "@tabler/icons-react";
 import { BiShare } from "react-icons/bi";
 import { User } from "../../services/user-service";
 import usePosts from "../../hooks/usePosts";
-import React, { useState } from "react";
+import React from "react";
 import PostItem from "../index/PostItem";
 import useFollowings from "../../hooks/useFollowings";
 import useFollowers from "../../hooks/useFollowers";

@@ -16,6 +16,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import UserDetail from "./pages/UserDetail";
 import AuthProvider from "./components/context/AuthContext";
 import ProtectedRoute from "./components/shared/ProtectedRoute";
+import Following from "./pages/Following";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,14 @@ const router = createHashRouter([
       {
         path: "/",
         element: <Index />,
+      },
+      {
+        path: "/following",
+        element: (
+          <ProtectedRoute>
+            <Following />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/post/:id",

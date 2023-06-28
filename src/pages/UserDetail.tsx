@@ -35,7 +35,6 @@ const UserDetail = () => {
         </Grid.Col>
         <MediaQuery smallerThan="md" styles={{ display: "none" }}>
           <Grid.Col md={3} sm={12}>
-            <PublishBox />
             <HotPost />
           </Grid.Col>
         </MediaQuery>
