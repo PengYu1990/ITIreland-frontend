@@ -6,12 +6,13 @@ import {
   Tabs,
   createStyles,
   rem,
+  FileButton,
 } from "@mantine/core";
 import { IconArticle, IconPhoto, IconSettings } from "@tabler/icons-react";
 import { BiShare } from "react-icons/bi";
 import { User } from "../../services/user-service";
 import usePosts from "../../hooks/usePosts";
-import React from "react";
+import React, { useState } from "react";
 import PostItem from "../index/PostItem";
 import useFollowings from "../../hooks/useFollowings";
 import useFollowers from "../../hooks/useFollowers";
@@ -19,6 +20,10 @@ import FollowerItem from "./FollowerItem";
 
 import AppConfig from "../../config.json";
 import FollowBtn from "./FollowBtn";
+import { useAuth } from "../context/AuthContext";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import APIClient, { Response } from "../../services/http-service";
+import { notifications } from "@mantine/notifications";
 
 const useStyles = createStyles((theme) => ({
   username: {
@@ -63,6 +68,31 @@ const Profile = ({ user }: Props) => {
   const { data: posts } = usePosts({ userId: user.id });
   const { data: followings } = useFollowings(user.id);
   const { data: followers } = useFollowers(user.id);
+  const { user: currentUser } = useAuth();
+
+  const queryClient = useQueryClient();
+
+  //TODO: upload profile image then update user profile image
+  const uploadMutation = useMutation({
+    mutationKey: ["user", user?.id],
+    mutationFn: (file: File) =>
+      APIClient<File>("/api/users/profile-image-upload").upload(file),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["user", user.id]);
+      queryClient.invalidateQueries(["logined_user", user?.id]);
+    },
+    onError: (error: Error) => {
+      notifications.show({
+        title: "Notification",
+        message: error.message,
+        color: "red",
+      });
+    },
+  });
+
+  const handleUpload = (file: File) => {
+    uploadMutation.mutate(file);
+  };
 
   return (
     <Box className={classes.profile}>
@@ -72,7 +102,39 @@ const Profile = ({ user }: Props) => {
         direction="row"
       >
         <Flex gap={20} justify="flex-start" direction="row">
-          <Avatar
+          {currentUser && currentUser.id === user.id ? (
+            <FileButton
+              onChange={(file: File) => handleUpload(file)}
+              accept="image/png,image/jpeg"
+            >
+              {(props) => (
+                <Avatar
+                  {...props}
+                  component="a"
+                  radius="xl"
+                  src={
+                    user?.headShotUrl &&
+                    `${AppConfig.config.api}${user.headShotUrl}`
+                  }
+                  alt="it's me"
+                  size="xl"
+                ></Avatar>
+              )}
+            </FileButton>
+          ) : (
+            <Avatar
+              component="a"
+              radius="xl"
+              src={
+                user?.headShotUrl &&
+                `${AppConfig.config.api}${user.headShotUrl}`
+              }
+              alt="it's me"
+              size="xl"
+            ></Avatar>
+          )}
+
+          {/* <Avatar
             component="a"
             radius="xl"
             src={
@@ -80,7 +142,17 @@ const Profile = ({ user }: Props) => {
             }
             alt="it's me"
             size="xl"
-          />
+          >
+            {currentUser && currentUser.id === user.id && (
+              <FileButton onChange={setFile} accept="image/png,image/jpeg">
+                {(props) => (
+                  <ActionIcon {...props} formAction="/api/upload">
+                    <IconEdit size="20" />
+                  </ActionIcon>
+                )}
+              </FileButton>
+            )}
+          </Avatar> */}
           <Box>
             <Text className={classes.username}>{user?.username}</Text>
             <Text>{user?.email}</Text>
@@ -114,7 +186,9 @@ const Profile = ({ user }: Props) => {
         </Tabs.List>
 
         <Tabs.Panel value="about" pt="xs">
-          {user?.profile}
+          {user?.profile
+            ? user.profile
+            : "This guy is lazy. She/He has no profile."}
         </Tabs.Panel>
 
         <Tabs.Panel value="posts" pt="xs">

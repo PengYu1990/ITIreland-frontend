@@ -1,5 +1,5 @@
 import { AxiosRequestConfig } from "axios";
-import createClient from "./api-client";
+import createClient, { createUploadClient } from "./api-client";
 
 export interface Response<T> {
     status:number;
@@ -56,7 +56,14 @@ class HttpService<T>{
     }
 
     update<T extends Entity>(entity : T){
-        return createClient().patch<Response<T>>(this.endpoint + "/" +entity.id, entity)
+        return createClient().patch<Response<T>>(this.endpoint + "/" + entity.id, entity)
+                                .then(resp=>resp.data.data)
+    }
+
+    upload = (file:File) =>{
+        const formData = new FormData();
+        formData.append("file",file);
+        return createUploadClient().post<Response<T>>(this.endpoint, formData)
                                 .then(resp=>resp.data.data)
     }
 }

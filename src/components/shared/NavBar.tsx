@@ -14,8 +14,8 @@ import {
   Image,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconLogout } from "@tabler/icons-react";
-import { Link } from "react-router-dom";
+import { IconLogout, IconUser } from "@tabler/icons-react";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { useAuth } from "../context/AuthContext";
 import AppConfig from "../../config.json";
@@ -95,6 +95,7 @@ export function NavBar() {
 
   const { classes, theme } = useStyles();
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   const clickLogin = () => {};
 
@@ -102,6 +103,10 @@ export function NavBar() {
 
   const clickLogout = () => {
     logout();
+  };
+
+  const toProfile = () => {
+    navigate(`/user/${user?.id}`);
   };
 
   return (
@@ -142,6 +147,9 @@ export function NavBar() {
 
                 <Menu.Dropdown>
                   <Menu.Label>Account</Menu.Label>
+                  <Menu.Item icon={<IconUser size={14} />} onClick={toProfile}>
+                    Profile
+                  </Menu.Item>
                   <Menu.Item
                     icon={<IconLogout size={14} />}
                     onClick={clickLogout}

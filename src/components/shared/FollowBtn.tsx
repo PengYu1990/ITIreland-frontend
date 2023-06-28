@@ -42,7 +42,7 @@ const FollowBtn = ({ user, variant = "filled" }: Props) => {
       onClick={handleFollowOrUnfollow}
       size="xs"
       variant={isFollowingUser ? "outline" : variant}
-      disabled={!currentUser}
+      disabled={!currentUser || currentUser.id === user.id}
     >
       {isFollowingUser ? "Unfollow" : "Follow"}
     </Button>
