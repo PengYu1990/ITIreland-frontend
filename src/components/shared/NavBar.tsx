@@ -12,8 +12,10 @@ import {
   Avatar,
   Menu,
   Image,
+  Text,
   Container,
   Tooltip,
+  Flex,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import {
@@ -105,6 +107,11 @@ const useStyles = createStyles((theme) => ({
 
     "&:active": theme.activeStyles,
   },
+  dropdownHeader: {
+    paddingLeft: `${theme.spacing.md}`,
+    paddingRight: `${theme.spacing.md}`,
+    paddingTop: `${theme.spacing.md}`,
+  },
 
   dropdownFooter: {
     backgroundColor:
@@ -124,6 +131,12 @@ const useStyles = createStyles((theme) => ({
     [theme.fn.smallerThan("sm")]: {
       display: "none",
     },
+  },
+
+  username: {
+    fontSize: rem(18),
+    fontFamily: `'Open Sans', sans-serif`,
+    marginTop: rem(5),
   },
 
   hiddenDesktop: {
@@ -256,21 +269,48 @@ export function NavBar() {
               <Group className={classes.hiddenMobile}>
                 <Menu shadow="md" width={200}>
                   <Menu.Target>
-                    <Avatar
-                      src={
-                        user &&
-                        user.headShotUrl &&
-                        `${AppConfig.config.api}${user.headShotUrl}`
-                      }
-                      color="cyan"
-                      radius="xl"
-                      size={35}
-                    >
-                      {user.username.substring(0, 2).toUpperCase()}
-                    </Avatar>
+                    <Link to="#">
+                      <Avatar
+                        src={
+                          user &&
+                          user.headShotUrl &&
+                          `${AppConfig.config.api}${user.headShotUrl}`
+                        }
+                        color="cyan"
+                        radius="xl"
+                        size={35}
+                      >
+                        {user.username.substring(0, 2).toUpperCase()}
+                      </Avatar>
+                    </Link>
                   </Menu.Target>
 
                   <Menu.Dropdown>
+                    <Link to={`/user/${user.id}`}>
+                      <Box className={classes.dropdownHeader}>
+                        <Avatar
+                          src={
+                            user &&
+                            user.headShotUrl &&
+                            `${AppConfig.config.api}${user.headShotUrl}`
+                          }
+                          color="cyan"
+                          radius="xl"
+                          size={80}
+                        >
+                          <Text>
+                            {user.username.substring(0, 2).toUpperCase()}
+                          </Text>
+                        </Avatar>
+                        <Flex justify="space-between" align="center">
+                          <Text className={classes.username}>
+                            {user.username}
+                          </Text>
+                          <IconUser size={18} />
+                        </Flex>
+                      </Box>
+                    </Link>
+                    <Divider my="sm" variant="dashed" />
                     <Menu.Label>Account</Menu.Label>
                     <Menu.Item
                       icon={<IconUser size={14} />}
