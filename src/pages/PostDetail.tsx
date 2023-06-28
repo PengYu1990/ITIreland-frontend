@@ -2,7 +2,6 @@ import { useLocation, useParams } from "react-router-dom";
 import PostMeta from "../components/shared/PostMeta";
 import usePost from "../hooks/usePost";
 import { Box, createStyles, Grid, MediaQuery, rem } from "@mantine/core";
-import PublishBox from "../components/sidebar/PublishBox";
 import ToTop from "../components/shared/ToTop";
 import { useEffect, useMemo } from "react";
 import CommentForm from "../components/forms/CommentForm";

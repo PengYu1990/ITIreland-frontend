@@ -1,6 +1,5 @@
 import { Grid, MediaQuery } from "@mantine/core";
 import PostList from "../components/index/PostList";
-import PublishBox from "../components/sidebar/PublishBox";
 import ToTop from "../components/shared/ToTop";
 import HotPost from "../components/sidebar/HotPost";
 import { useEffect } from "react";

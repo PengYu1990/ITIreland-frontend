@@ -20,12 +20,8 @@ import {
   IconEdit,
   IconHome,
   IconLogout,
-  IconNote,
   IconNotebook,
-  IconPackage,
   IconUser,
-  IconWiper,
-  IconWriting,
 } from "@tabler/icons-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";

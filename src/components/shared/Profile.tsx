@@ -22,7 +22,7 @@ import AppConfig from "../../config.json";
 import FollowBtn from "./FollowBtn";
 import { useAuth } from "../context/AuthContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import APIClient, { Response } from "../../services/http-service";
+import APIClient from "../../services/http-service";
 import { notifications } from "@mantine/notifications";
 
 const useStyles = createStyles((theme) => ({
