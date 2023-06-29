@@ -76,7 +76,7 @@ const Profile = ({ user }: Props) => {
   const uploadMutation = useMutation({
     mutationKey: ["user", user?.id],
     mutationFn: (file: File) =>
-      APIClient<File>("/api/users/profile-image-upload").upload(file),
+      APIClient<File>("/users/profile-image-upload").upload(file),
     onSuccess: () => {
       queryClient.invalidateQueries(["user", user.id]);
       queryClient.invalidateQueries(["logined_user", user?.id]);
@@ -146,7 +146,7 @@ const Profile = ({ user }: Props) => {
             {currentUser && currentUser.id === user.id && (
               <FileButton onChange={setFile} accept="image/png,image/jpeg">
                 {(props) => (
-                  <ActionIcon {...props} formAction="/api/upload">
+                  <ActionIcon {...props} formAction="/upload">
                     <IconEdit size="20" />
                   </ActionIcon>
                 )}

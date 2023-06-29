@@ -11,6 +11,6 @@ export interface Comment {
     childrenComments:Comment[];
 }
 
-const commentService = APIClient<Comment>("/api/comments")
+const commentService = APIClient<Comment>("/comments")
 
 export default commentService;

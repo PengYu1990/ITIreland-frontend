@@ -19,8 +19,8 @@ export interface Post {
     tags:Tag[];
 }
 
-const postService = APIClient<Post>("/api/posts")
-const followingPostService = APIClient<Post>("/api/posts/following")
+const postService = APIClient<Post>("/posts")
+const followingPostService = APIClient<Post>("/posts/following")
 
 export {followingPostService};
 

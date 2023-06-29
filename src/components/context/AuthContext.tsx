@@ -60,8 +60,7 @@ const AuthProvider = ({ children }: any) => {
   // Login mutation
   const handleLogin = useMutation({
     mutationKey: ["logined_user", user?.id],
-    mutationFn: (values: User) =>
-      APIClient<User>("/api/auth/login").post(values),
+    mutationFn: (values: User) => APIClient<User>("/auth/login").post(values),
     onSuccess: (user: User) => {
       queryClient.invalidateQueries(["logined_user", user?.id]);
       setSessionUser(user);
@@ -91,8 +90,7 @@ const AuthProvider = ({ children }: any) => {
   // Sign up mutation
   const handleSignUp = useMutation({
     mutationKey: ["logined_user", user?.id],
-    mutationFn: (values: User) =>
-      APIClient<User>("/api/auth/signup").post(values),
+    mutationFn: (values: User) => APIClient<User>("/auth/signup").post(values),
     onSuccess: (user: User) => {
       queryClient.invalidateQueries(["logined_user", user?.id]);
       setSessionUser(user);
@@ -133,7 +131,7 @@ const AuthProvider = ({ children }: any) => {
 
   // Logout mutation
   // const handleLogout = useMutation({
-  //   mutationFn: () => APIClient<null>("/api/auth/logout").post(null),
+  //   mutationFn: () => APIClient<null>("/auth/logout").post(null),
   //   onSuccess: () => {
   //     removeSessionUser();
   //     setUser(null);

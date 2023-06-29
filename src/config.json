@@ -5,6 +5,7 @@
         "version":"1.0.0",
         "author":"My Name",
         "email":"",
+        "api2": "https://itireland.herokuapp.com/api",
         "api":"http://localhost:8080/api"
     }
 }

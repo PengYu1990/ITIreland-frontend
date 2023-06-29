@@ -6,7 +6,7 @@ const useEditPost = (id:string | undefined) => {
         const data = null;
         return{data};
     } 
-    return useSingleData<Post>(`/api/posts/${id}`,[id])
+    return useSingleData<Post>(`/posts/${id}`,[id])
 }
 
 export default useEditPost

@@ -110,7 +110,7 @@ const CommentSection = ({
 
   const saveComment = useMutation<Comment, Error, Comment>({
     mutationFn: (comment: Comment) =>
-      APIClient<Comment>("/api/comments").post(comment),
+      APIClient<Comment>("/comments").post(comment),
     onSuccess: () => {
       queryClient.invalidateQueries([postId, "comments"]);
       onSubmited && onSubmited();

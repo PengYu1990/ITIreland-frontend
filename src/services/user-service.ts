@@ -14,6 +14,6 @@ export interface User {
     token:string;
 }
 
-const userService = APIClient<User>("/api/users")
+const userService = APIClient<User>("/users")
 
 export default userService;

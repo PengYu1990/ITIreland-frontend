@@ -19,7 +19,7 @@ const FollowBtn = ({ user, variant = "filled" }: Props) => {
     queryKey: ["isFollowing", user.id, currentUser?.id],
     queryFn: () =>
       currentUser
-        ? APIClient<Boolean>(`/api/isFollowing/${user.id}`).get()
+        ? APIClient<Boolean>(`/isFollowing/${user.id}`).get()
         : Promise.resolve(false),
     onSuccess: (data) => {
       setIsFollowingUser(data);
@@ -28,10 +28,10 @@ const FollowBtn = ({ user, variant = "filled" }: Props) => {
 
   const handleFollowOrUnfollow = () => {
     if (isFollowingUser) {
-      APIClient(`/api/unfollow/${user.id}`).post(null);
+      APIClient(`/unfollow/${user.id}`).post(null);
       setIsFollowingUser(false);
     } else {
-      APIClient(`/api/follow/${user.id}`).post(null);
+      APIClient(`/follow/${user.id}`).post(null);
       setIsFollowingUser(true);
     }
   };

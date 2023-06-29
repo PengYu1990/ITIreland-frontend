@@ -4,6 +4,6 @@ export interface Category {
     category:string;
 }
 
-const categoryService = APIClient<Category>("/api/categories")
+const categoryService = APIClient<Category>("/categories")
 
 export default categoryService;

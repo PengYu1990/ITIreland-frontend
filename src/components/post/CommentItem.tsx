@@ -72,7 +72,7 @@ const CommentItem = ({ comment }: Props) => {
 
   const delComment = useMutation<Response<null>, Error, Comment>({
     mutationFn: (comment: Comment) =>
-      APIClient<Comment>("/api/comments").delete(comment),
+      APIClient<Comment>("/comments").delete(comment),
     onSuccess: () =>
       //TODO: Fix this when a Child Comment is deleted, the parent comment is not updated
       queryClient.invalidateQueries([comment.postId, "comments"]),
