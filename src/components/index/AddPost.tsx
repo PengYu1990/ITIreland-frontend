@@ -20,6 +20,7 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: "#f2f2f2",
     padding: rem(10),
     borderRadius: rem(30),
+    width: "100%",
   },
 }));
 
@@ -30,25 +31,21 @@ const AddPost = () => {
 
   return (
     <Link to="/edit">
-      <Box className={classes.form}>
-        <Flex justify="space-between" direction="row">
-          <Avatar
-            src={
-              user &&
-              user.headShotUrl &&
-              `${AppConfig.config.api}${user.headShotUrl}`
-            }
-            color="cyan"
-            radius="xl"
-            size={40}
-          >
-            {user && user.username.substring(0, 2).toUpperCase()}
-          </Avatar>
-          <Box className={classes.editor} w="100%">
-            What do you want to post?
-          </Box>
-        </Flex>
-      </Box>
+      <Flex className={classes.form} justify="left" direction="row">
+        <Avatar
+          src={
+            user &&
+            user.headShotUrl &&
+            `${AppConfig.config.api}${user.headShotUrl}`
+          }
+          color="cyan"
+          radius="xl"
+          size={40}
+        >
+          {user && user.username.substring(0, 2).toUpperCase()}
+        </Avatar>
+        <Box className={classes.editor}>What do you want to post?</Box>
+      </Flex>
     </Link>
   );
 };
