@@ -26,6 +26,8 @@ const FollowBtn = ({ user, variant = "filled" }: Props) => {
     },
   });
 
+  // TODO: refactor this to use useMutation
+
   const handleFollowOrUnfollow = () => {
     if (isFollowingUser) {
       APIClient(`/unfollow/${user.id}`).post(null);

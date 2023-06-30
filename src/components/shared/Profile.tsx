@@ -13,7 +13,7 @@ import { BiShare } from "react-icons/bi";
 import { User } from "../../services/user-service";
 import usePosts from "../../hooks/usePosts";
 import React from "react";
-import PostItem from "../index/PostItem";
+import PostItem from "./PostItem";
 import useFollowings from "../../hooks/useFollowings";
 import useFollowers from "../../hooks/useFollowers";
 import FollowerItem from "./FollowerItem";

@@ -39,7 +39,7 @@ const Category = ({ currentCategory, setCategory }: Props) => {
           onClick={() => setCategory("")}
           size="xs"
         >
-          All
+          All Topics
         </Button>
       ) : (
         <Button
@@ -50,7 +50,7 @@ const Category = ({ currentCategory, setCategory }: Props) => {
           size="xs"
         >
           {" "}
-          All
+          All Topics
         </Button>
       )}
       {/* {isLoading && skeleton.map((key) => <CategorySkeleton key={key} />)} */}

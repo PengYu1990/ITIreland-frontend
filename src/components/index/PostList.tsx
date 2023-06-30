@@ -1,4 +1,4 @@
-import PostItem from "./PostItem";
+import PostItem from "../shared/PostItem";
 import { Box, Center, Loader, createStyles, rem } from "@mantine/core";
 import Category from "./Category";
 import usePosts, { PostQuery } from "../../hooks/usePosts";
@@ -9,7 +9,6 @@ import React from "react";
 
 const useStyles = createStyles(() => ({
   postList: {
-    backgroundColor: "#ffffff",
     marginBottom: rem(10),
     marginTop: rem(3),
   },
@@ -19,12 +18,13 @@ const useStyles = createStyles(() => ({
   },
 }));
 
-const PostList = () => {
+interface Props {
+  postQuery: PostQuery;
+}
+
+const PostList = ({ postQuery }: Props) => {
   const { classes } = useStyles();
-  const defaultPageSize = 10;
-  const [postQuery, setPostQuery] = useState<PostQuery>({
-    size: defaultPageSize,
-  } as PostQuery);
+
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
     usePosts(postQuery);
   const skeleton = [1, 2, 3, 4, 5];
@@ -51,12 +51,12 @@ const PostList = () => {
   return (
     <Box>
       <Box className={classes.postList}>
-        <Category
+        {/* <Category
           setCategory={(cate) =>
             setPostQuery({ ...postQuery, category: cate, page: 0 })
           }
           currentCategory={postQuery.category}
-        />
+        /> */}
         {isLoading && skeleton.map((key) => <PostItemSkeleton key={key} />)}
         {data?.pages?.map((page, key) => (
           <React.Fragment key={key}>

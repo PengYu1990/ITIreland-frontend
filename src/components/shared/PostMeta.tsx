@@ -39,7 +39,7 @@ const PostMeta = ({ post }: Props) => {
       justify="flex-start"
       direction="row"
     >
-      <Group spacing="xs">
+      {/* <Group spacing="xs">
         <Link to={`/user/${post.user.id}`}>
           <Avatar
             src={
@@ -61,13 +61,13 @@ const PostMeta = ({ post }: Props) => {
       <Group spacing="xs" position="left">
         <IconCalendarTime size={20} />
         <Text>{dayjs(post.ctime).fromNow()}</Text>
+      </Group> */}
+      {/* <MediaQuery smallerThan="md" styles={{ display: "none" }}> */}
+      <Group spacing="xs" position="left">
+        <IconEye size={20} />
+        <Text>{post.views}</Text>
       </Group>
-      <MediaQuery smallerThan="md" styles={{ display: "none" }}>
-        <Group spacing="xs" position="left">
-          <IconEye size={20} />
-          <Text>{post.views}</Text>
-        </Group>
-      </MediaQuery>
+      {/* </MediaQuery> */}
 
       {/* <MediaQuery smallerThan="xs" styles={{ display: "none" }}> */}
       <Group spacing="xs" position="left">
@@ -77,16 +77,16 @@ const PostMeta = ({ post }: Props) => {
       {/* </MediaQuery> */}
 
       {post.tags.length > 0 && (
-        <MediaQuery smallerThan="md" styles={{ display: "none" }}>
-          <Group spacing="xs" position="left">
-            <IconTags size={25} />
-            <Flex gap={10} justify="flex-start" direction="row">
-              {post.tags.map((tag, key) => (
-                <Text key={key}>{tag.tag}</Text>
-              ))}
-            </Flex>
-          </Group>
-        </MediaQuery>
+        // <MediaQuery smallerThan="md" styles={{ display: "none" }}>
+        <Group spacing="xs" position="left">
+          <IconTags size={25} />
+          <Flex gap={10} justify="flex-start" direction="row">
+            {post.tags.map((tag, key) => (
+              <Text key={key}>{tag.tag}</Text>
+            ))}
+          </Flex>
+        </Group>
+        // </MediaQuery>
       )}
     </Flex>
   );
