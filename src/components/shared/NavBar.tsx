@@ -379,10 +379,14 @@ export function NavBar() {
               <Button onClick={clickLogout}>Log out</Button>
             ) : (
               <>
-                <Button variant="default" onClick={clickLogin}>
-                  Log in
-                </Button>
-                <Button onClick={clickSignUp}>Sign up</Button>
+                <Link to="/login/1" className={classes.link}>
+                  <Button variant="default" onClick={clickLogin}>
+                    Log in
+                  </Button>
+                </Link>
+                <Link to="/login/2" className={classes.link}>
+                  <Button onClick={clickSignUp}>Sign up</Button>
+                </Link>
               </>
             )}
           </Group>

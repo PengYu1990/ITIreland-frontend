@@ -1,7 +1,7 @@
 import { Grid, MediaQuery } from "@mantine/core";
 import ToTop from "../components/shared/ToTop";
 import HotPost from "../components/sidebar/HotPost";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import AppConfig from "../config.json";
 import FollowingPostList from "../components/following/FollowingPostList";

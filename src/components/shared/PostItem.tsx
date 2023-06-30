@@ -1,6 +1,5 @@
 import {
   Avatar,
-  Badge,
   Box,
   Flex,
   Indicator,
@@ -13,7 +12,6 @@ import dayjs from "dayjs";
 // extend dayjs
 import relativeTime from "dayjs/plugin/relativeTime";
 import PostMeta from "./PostMeta";
-import { createShortcut, removeTags } from "../../utils/common";
 import { Link } from "react-router-dom";
 import { generateHTML } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
