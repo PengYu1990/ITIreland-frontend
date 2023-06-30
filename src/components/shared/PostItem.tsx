@@ -85,81 +85,81 @@ const PostItem = ({ post }: Props) => {
   };
 
   return (
-    <Indicator
-      inline
-      color="red"
-      offset={8}
-      label={post.views > 100 && "Hot"}
-      disabled={post.views < 100}
-      size={16}
-    >
-      <Box className={classes.postItem}>
-        <Flex justify="left" gap={10}>
-          <Link to={`/user/${post.user.id}`}>
-            <Avatar
-              src={
-                post.user.headShotUrl &&
-                `${AppConfig.config.api}${post.user.headShotUrl}`
-              }
-              color="cyan"
-              radius="xl"
-              size={40}
+    // <Indicator
+    //   inline
+    //   color="red"
+    //   offset={8}
+    //   label={post.views > 100 && "Hot"}
+    //   disabled={post.views < 100}
+    //   size={16}
+    // >
+    <Box className={classes.postItem}>
+      <Flex justify="left" gap={10}>
+        <Link to={`/user/${post.user.id}`}>
+          <Avatar
+            src={
+              post.user.headShotUrl &&
+              `${AppConfig.config.api}${post.user.headShotUrl}`
+            }
+            color="cyan"
+            radius="xl"
+            size={40}
+          >
+            {post.user.username.substring(0, 2).toUpperCase()}
+          </Avatar>
+        </Link>
+        <Box>
+          <Flex align="center">
+            <Link to={`/user/${post.user.id}`}>
+              <Text className={classes.username}> {post.user.username}</Text>
+            </Link>
+            ·
+            <Box
+              className={classes.follow}
+              onClick={() => follow(post.user.id)}
             >
-              {post.user.username.substring(0, 2).toUpperCase()}
-            </Avatar>
-          </Link>
-          <Box>
-            <Flex align="center">
-              <Link to={`/user/${post.user.id}`}>
-                <Text className={classes.username}> {post.user.username}</Text>
-              </Link>
-              ·
-              <Box
-                className={classes.follow}
-                onClick={() => follow(post.user.id)}
-              >
-                Follow
-              </Box>
-            </Flex>
+              Follow
+            </Box>
+          </Flex>
 
-            <Text className={classes.datetime}>
-              {dayjs(post.ctime).fromNow()}
-            </Text>
-          </Box>
-        </Flex>
+          <Text className={classes.datetime}>
+            {dayjs(post.ctime).fromNow()}
+          </Text>
+        </Box>
+      </Flex>
 
-        <Flex gap={3} justify="flex-start" direction="row" align="center">
-          <Link to={`/post/${post.id}`} key={post.id}>
-            <h4 className={classes.heading}>{post.title}</h4>
-          </Link>
-        </Flex>
-        <Text className={classes.summary}>
-          <Spoiler maxHeight={120} showLabel="Show more" hideLabel="Hide">
-            <div
-              dangerouslySetInnerHTML={{
-                __html: generateHTML(JSON.parse(post.content), [
-                  // Document,
-                  // Paragraph,
-                  // TipTapText,
-                  // Bold,
-                  StarterKit,
-                  Underline,
-                  TiptapLink,
-                  Superscript,
-                  SubScript,
-                  Highlight.configure(),
-                  TextAlign,
-                  // CodeBlockLowlight,
-                  // other extensions …
-                ]),
-              }}
-            ></div>
-          </Spoiler>
-        </Text>
+      <Flex gap={3} justify="flex-start" direction="row" align="center">
+        <Link to={`/post/${post.id}`} key={post.id}>
+          <h4 className={classes.heading}>{post.title}</h4>
+        </Link>
+      </Flex>
+      <Text className={classes.summary}>
+        <Spoiler maxHeight={120} showLabel="Show more" hideLabel="Hide">
+          <div
+            dangerouslySetInnerHTML={{
+              __html: generateHTML(JSON.parse(post.content), [
+                // Document,
+                // Paragraph,
+                // TipTapText,
+                // Bold,
+                StarterKit,
+                Underline,
+                TiptapLink,
+                Superscript,
+                SubScript,
+                Highlight.configure(),
+                TextAlign,
+                // CodeBlockLowlight,
+                // other extensions …
+              ]),
+            }}
+          ></div>
+        </Spoiler>
+      </Text>
 
-        <PostMeta post={post} />
-      </Box>
-    </Indicator>
+      <PostMeta post={post} />
+    </Box>
+    // </Indicator>
   );
 };
 
