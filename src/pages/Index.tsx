@@ -22,14 +22,16 @@ const Index = () => {
   return (
     <>
       <Grid grow>
-        <Grid.Col span={2}>
-          <Category
-            setCategory={(cate) =>
-              setPostQuery({ ...postQuery, category: cate, page: 0 })
-            }
-            currentCategory={postQuery.category}
-          />
-        </Grid.Col>
+        <MediaQuery smallerThan="md" styles={{ display: "none" }}>
+          <Grid.Col span={2}>
+            <Category
+              setCategory={(cate) =>
+                setPostQuery({ ...postQuery, category: cate, page: 0 })
+              }
+              currentCategory={postQuery.category}
+            />
+          </Grid.Col>
+        </MediaQuery>
         <Grid.Col span={7}>
           <AddPost />
           <PostList postQuery={postQuery} />
