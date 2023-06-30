@@ -1,8 +1,6 @@
 import PostItem from "../shared/PostItem";
 import { Box, Center, Loader, createStyles, rem } from "@mantine/core";
-import Category from "./Category";
 import usePosts, { PostQuery } from "../../hooks/usePosts";
-import { useState } from "react";
 import PostItemSkeleton from "./PostItemSkeleton";
 import { useUpdateEffect } from "react-use";
 import React from "react";

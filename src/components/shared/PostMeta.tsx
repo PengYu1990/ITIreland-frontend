@@ -1,22 +1,6 @@
-import {
-  Avatar,
-  Flex,
-  Group,
-  MediaQuery,
-  Text,
-  createStyles,
-  rem,
-} from "@mantine/core";
-import {
-  IconCalendarTime,
-  IconCategory,
-  IconEye,
-  IconTags,
-} from "@tabler/icons-react";
-import dayjs from "dayjs";
+import { Flex, Group, Text, createStyles, rem } from "@mantine/core";
+import { IconCategory, IconEye, IconTags } from "@tabler/icons-react";
 import { Post } from "../../services/post-service";
-import AppConfig from "../../config.json";
-import { Link } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
   meta: {
