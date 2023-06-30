@@ -35,6 +35,8 @@ const useStyles = createStyles((theme) => ({
   container: {
     paddingTop: rem(5),
     paddingBottom: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
   },
   link: {
     display: "flex",

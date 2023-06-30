@@ -1,4 +1,12 @@
-import { Button, Flex, Group, Text, createStyles, rem } from "@mantine/core";
+import {
+  Button,
+  Flex,
+  Group,
+  MediaQuery,
+  Text,
+  createStyles,
+  rem,
+} from "@mantine/core";
 import {
   IconCategory,
   IconEye,
@@ -125,31 +133,31 @@ const PostMeta = ({ post }: Props) => {
         <Text ml={3}>{post.commentCount}</Text>
       </Button>
 
-      {/* <MediaQuery smallerThan="md" styles={{ display: "none" }}> */}
-      <Group spacing="xs" position="left">
-        <IconEye size={20} />
-        <Text>{post.views}</Text>
-      </Group>
-      {/* </MediaQuery> */}
+      <MediaQuery smallerThan="md" styles={{ display: "none" }}>
+        <Group spacing="xs" position="left">
+          <IconEye size={20} />
+          <Text>{post.views}</Text>
+        </Group>
+      </MediaQuery>
 
-      {/* <MediaQuery smallerThan="xs" styles={{ display: "none" }}> */}
-      <Group spacing="xs" position="left">
-        <IconCategory size={20} />
-        <Text>{post.category}</Text>
-      </Group>
-      {/* </MediaQuery> */}
+      <MediaQuery smallerThan="xs" styles={{ display: "none" }}>
+        <Group spacing="xs" position="left">
+          <IconCategory size={20} />
+          <Text>{post.category}</Text>
+        </Group>
+      </MediaQuery>
 
       {post.tags.length > 0 && (
-        // <MediaQuery smallerThan="md" styles={{ display: "none" }}>
-        <Group spacing="xs" position="left">
-          <IconTags size={25} />
-          <Flex gap={10} justify="flex-start" direction="row">
-            {post.tags.map((tag, key) => (
-              <Text key={key}>{tag.tag}</Text>
-            ))}
-          </Flex>
-        </Group>
-        // </MediaQuery>
+        <MediaQuery smallerThan="md" styles={{ display: "none" }}>
+          <Group spacing="xs" position="left">
+            <IconTags size={25} />
+            <Flex gap={10} justify="flex-start" direction="row">
+              {post.tags.map((tag, key) => (
+                <Text key={key}>{tag.tag}</Text>
+              ))}
+            </Flex>
+          </Group>
+        </MediaQuery>
       )}
     </Flex>
   );
