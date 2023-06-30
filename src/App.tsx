@@ -20,6 +20,7 @@ const useStyles = createStyles((theme) => ({
       theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[2]
     }`,
     backgroundColor: "#f2f2f2",
+    padding: 0,
   },
 }));
 
