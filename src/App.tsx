@@ -32,7 +32,7 @@ export default function App() {
 
   return (
     <>
-      <AppShell header={<NavBar />} padding={0}>
+      <AppShell header={<NavBar />} zIndex={10000} padding={0}>
         <Container
           className={matches ? classes.contentMobile : classes.content}
           size="lg"
