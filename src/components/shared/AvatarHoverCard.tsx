@@ -62,6 +62,14 @@ const AvatarHoverCard = ({ user }: Props) => {
 
   // handle follow or unfollow
   const handleFollowOrUnfollow = () => {
+    if (!currentUser) {
+      notifications.show({
+        title: "Notification",
+        message: "Please login to follow this user",
+        color: "red",
+      });
+      return;
+    }
     if (isFollowingUser) {
       doUnFollow.mutate(user.id);
     } else {
@@ -190,7 +198,6 @@ const AvatarHoverCard = ({ user }: Props) => {
             })}
             onClick={handleFollowOrUnfollow}
             variant={isFollowingUser ? "outline" : "light"}
-            disabled={!currentUser || currentUser.id === user.id}
           >
             {isFollowingUser ? "Unfollow" : "Follow"}
           </Button>
