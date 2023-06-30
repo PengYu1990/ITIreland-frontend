@@ -335,12 +335,10 @@ export function NavBar() {
               </Group>
             ) : (
               <Group className={classes.hiddenMobile}>
-                <Link to="/login/1" className={classes.link}>
-                  <Button>Log in</Button>
-                </Link>
-                <Link to="/login/2" className={classes.link}>
-                  <Button variant="default">Sign Up</Button>
-                </Link>
+                <Button onClick={clickLogin}>Log in</Button>
+                <Button onClick={clickSignUp} variant="default">
+                  Sign Up
+                </Button>
               </Group>
             )}
 
