@@ -166,9 +166,15 @@ export function NavBar() {
 
   const navigate = useNavigate();
 
-  const clickLogin = () => {};
+  const clickLogin = () => {
+    navigate("/login/1");
+    toggleDrawer();
+  };
 
-  const clickSignUp = () => {};
+  const clickSignUp = () => {
+    navigate("/login/2");
+    toggleDrawer();
+  };
 
   const clickLogout = () => {
     logout();
@@ -379,14 +385,10 @@ export function NavBar() {
               <Button onClick={clickLogout}>Log out</Button>
             ) : (
               <>
-                <Link to="/login/1" className={classes.link}>
-                  <Button variant="default" onClick={clickLogin}>
-                    Log in
-                  </Button>
-                </Link>
-                <Link to="/login/2" className={classes.link}>
-                  <Button onClick={clickSignUp}>Sign up</Button>
-                </Link>
+                <Button variant="default" onClick={clickLogin}>
+                  Log in
+                </Button>
+                <Button onClick={clickSignUp}>Sign up</Button>
               </>
             )}
           </Group>
