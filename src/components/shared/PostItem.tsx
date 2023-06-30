@@ -134,27 +134,21 @@ const PostItem = ({ post }: Props) => {
           </Link>
         </Flex>
         <Text className={classes.summary}>
-          <Spoiler maxHeight={120} showLabel="Show more" hideLabel="Hide">
-            <div
-              dangerouslySetInnerHTML={{
-                __html: generateHTML(JSON.parse(post.content), [
-                  // Document,
-                  // Paragraph,
-                  // TipTapText,
-                  // Bold,
-                  StarterKit,
-                  Underline,
-                  TiptapLink,
-                  Superscript,
-                  SubScript,
-                  Highlight.configure(),
-                  TextAlign,
-                  // CodeBlockLowlight,
-                  // other extensions …
-                ]),
-              }}
-            ></div>
-          </Spoiler>
+          {/* <Spoiler maxHeight={120} showLabel="Show more" hideLabel="Hide"> */}
+          <div
+            dangerouslySetInnerHTML={{
+              __html: generateHTML(JSON.parse(post.content), [
+                StarterKit,
+                Underline,
+                TiptapLink,
+                Superscript,
+                SubScript,
+                Highlight.configure(),
+                TextAlign,
+              ]),
+            }}
+          ></div>
+          {/* </Spoiler> */}
         </Text>
 
         <PostMeta post={post} />
