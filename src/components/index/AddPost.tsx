@@ -20,7 +20,7 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: "#f2f2f2",
     padding: rem(10),
     borderRadius: rem(30),
-    width: "100%",
+    // width: "100%",
   },
 }));
 
