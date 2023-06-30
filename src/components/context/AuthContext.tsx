@@ -10,6 +10,8 @@ import { User } from "../../services/user-service";
 import React from "react";
 import jwt_decode, { JwtPayload } from "jwt-decode";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { Response } from "../../services/http-service";
 
 interface AuthContextProps {
   isAuthenticated: () => boolean;
@@ -58,7 +60,7 @@ const AuthProvider = ({ children }: any) => {
   };
 
   // Login mutation
-  const handleLogin = useMutation({
+  const handleLogin = useMutation<User, AxiosError<Response<null>>, User>({
     mutationKey: ["logined_user", user?.id],
     mutationFn: (values: User) => APIClient<User>("/auth/login").post(values),
     onSuccess: (user: User) => {
@@ -73,10 +75,10 @@ const AuthProvider = ({ children }: any) => {
       // TODO: Fix this
       window.history.go(-1);
     },
-    onError: (error: Error) => {
+    onError: (error) => {
       notifications.show({
         title: "Notification",
-        message: error.message,
+        message: error.response?.data.message,
         color: "red",
       });
     },
@@ -88,7 +90,7 @@ const AuthProvider = ({ children }: any) => {
   };
 
   // Sign up mutation
-  const handleSignUp = useMutation({
+  const handleSignUp = useMutation<User, AxiosError<Response<null>>, User>({
     mutationKey: ["logined_user", user?.id],
     mutationFn: (values: User) => APIClient<User>("/auth/signup").post(values),
     onSuccess: (user: User) => {
@@ -103,10 +105,10 @@ const AuthProvider = ({ children }: any) => {
       // TODO: Fix this
       window.history.go(-1);
     },
-    onError: (error: Error) => {
+    onError: (error) => {
       notifications.show({
         title: "Notification",
-        message: error.message,
+        message: error.response?.data.message,
         color: "red",
       });
     },
@@ -128,34 +130,6 @@ const AuthProvider = ({ children }: any) => {
       color: "blue",
     });
   };
-
-  // Logout mutation
-  // const handleLogout = useMutation({
-  //   mutationFn: () => APIClient<null>("/auth/logout").post(null),
-  //   onSuccess: () => {
-  //     removeSessionUser();
-  //     setUser(null);
-  //     notifications.show({
-  //       title: "Notification",
-  //       message: "Logout Success",
-  //       color: "blue",
-  //     });
-  //     notifications.show({
-  //       title: "Notification",
-  //       message: "Logout Success",
-  //       color: "blue",
-  //     });
-  //     // TODO: Fix this
-  //     window.history.go(-1);
-  //   },
-  //   onError: (error: Error) => {
-  //     notifications.show({
-  //       title: "Notification",
-  //       message: error.message,
-  //       color: "red",
-  //     });
-  //   },
-  // });
 
   return (
     <AuthContext.Provider

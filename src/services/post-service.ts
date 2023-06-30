@@ -12,13 +12,12 @@ export interface Post {
     ctime:Date;
     utime:Date;
     views:number;
-    thumbs:number;
+    thumbs:number;//点赞数
     category:string;
     userId:number;
     user:User;
     tags:Tag[];
-    commentCount:number;
-    voteCount:number;
+    commentCount:number; //评论数
 }
 
 const postService = APIClient<Post>("/posts")

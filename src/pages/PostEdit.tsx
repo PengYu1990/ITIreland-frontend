@@ -18,6 +18,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useEditPost from "../hooks/useEditPost";
 import postService, { Post } from "../services/post-service";
 import { useAuth } from "../components/context/AuthContext";
+import { AxiosError } from "axios";
+import { Response } from "../services/http-service";
 
 const useStyles = createStyles(() => ({
   form: {
@@ -113,7 +115,7 @@ const PostEdit = () => {
     savePost.mutate(values);
   };
 
-  const savePost = useMutation<Post, Error, Post>({
+  const savePost = useMutation<Post, AxiosError<Response<null>>, Post>({
     mutationFn: (post: Post) => postService.post(post),
     onSuccess: (savedPost) => {
       notifications.show({
@@ -127,7 +129,7 @@ const PostEdit = () => {
     onError: (error) => {
       notifications.show({
         title: "Notification",
-        message: error.message,
+        message: error.response?.data.message,
         color: "red",
       });
     },

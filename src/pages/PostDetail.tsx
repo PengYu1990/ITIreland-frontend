@@ -85,7 +85,10 @@ const PostDetail = () => {
   return (
     <>
       <Grid grow>
-        <Grid.Col md={9} sm={12}>
+        <MediaQuery smallerThan="md" styles={{ display: "none" }}>
+          <Grid.Col span={2}></Grid.Col>
+        </MediaQuery>
+        <Grid.Col md={7} sm={12}>
           {isLoading && <PostDetailSkeleton />}
           <Box className={classes.detail}>
             <h1 className={classes.heading}>{data?.title}</h1>

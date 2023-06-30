@@ -24,6 +24,8 @@ import CommentList from "./CommentList";
 import AppConfig from "../../config.json";
 import { Link } from "react-router-dom";
 
+import { AxiosError } from "axios";
+
 interface Props {
   comment: Comment;
 }
@@ -70,7 +72,11 @@ const CommentItem = ({ comment }: Props) => {
     delComment.mutate(comment);
   };
 
-  const delComment = useMutation<Response<null>, Error, Comment>({
+  const delComment = useMutation<
+    Response<null>,
+    AxiosError<Response<null>>,
+    Comment
+  >({
     mutationFn: (comment: Comment) =>
       APIClient<Comment>("/comments").delete(comment),
     onSuccess: () =>
@@ -79,7 +85,7 @@ const CommentItem = ({ comment }: Props) => {
     onError: (error) => {
       notifications.show({
         title: "Notification",
-        message: error.message,
+        message: error.response?.data.message,
         color: "red",
       });
     },

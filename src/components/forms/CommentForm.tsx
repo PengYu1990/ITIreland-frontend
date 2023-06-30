@@ -8,13 +8,14 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
-import APIClient from "../../services/http-service";
+import APIClient, { Response } from "../../services/http-service";
 import { Comment } from "../../services/comment-service";
 import { useMediaQuery } from "@mantine/hooks";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "../context/AuthContext";
 import { useEffect, useRef } from "react";
 import AppConfig from "../../config.json";
+import { AxiosError } from "axios";
 
 const useStyles = createStyles((theme) => ({
   form: {
@@ -108,22 +109,24 @@ const CommentSection = ({
 
   const queryClient = useQueryClient();
 
-  const saveComment = useMutation<Comment, Error, Comment>({
-    mutationFn: (comment: Comment) =>
-      APIClient<Comment>("/comments").post(comment),
-    onSuccess: () => {
-      queryClient.invalidateQueries([postId, "comments"]);
-      onSubmited && onSubmited();
-      form.reset();
-    },
-    onError: (error) => {
-      notifications.show({
-        title: "Notification",
-        message: error.message,
-        color: "red",
-      });
-    },
-  });
+  const saveComment = useMutation<Comment, AxiosError<Response<null>>, Comment>(
+    {
+      mutationFn: (comment: Comment) =>
+        APIClient<Comment>("/comments").post(comment),
+      onSuccess: () => {
+        queryClient.invalidateQueries([postId, "comments"]);
+        onSubmited && onSubmited();
+        form.reset();
+      },
+      onError: (error) => {
+        notifications.show({
+          title: "Notification",
+          message: error.response?.data.message,
+          color: "red",
+        });
+      },
+    }
+  );
 
   return (
     <form

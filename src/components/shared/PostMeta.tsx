@@ -98,7 +98,7 @@ const PostMeta = ({ post }: Props) => {
           color="gray"
           leftIcon={<IconThumbUp size={20} />}
         >
-          Upvote · <Text ml={3}>{post.views}</Text>
+          Upvote · <Text ml={3}>{post.thumbs}</Text>
         </Button>
         <Button
           className={classes.downvote}

@@ -1,10 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { User } from "../../services/user-service";
-import APIClient from "../../services/http-service";
+import APIClient, { Response } from "../../services/http-service";
 import { Button } from "@mantine/core";
 import { useAuth } from "../context/AuthContext";
 import { RiChatFollowUpLine } from "react-icons/ri";
+import { notifications } from "@mantine/notifications";
+import { AxiosError } from "axios";
 
 interface Props {
   user: User;
@@ -26,17 +28,44 @@ const FollowBtn = ({ user, variant = "filled" }: Props) => {
     },
   });
 
-  // TODO: refactor this to use useMutation
-
+  // handle follow or unfollow
   const handleFollowOrUnfollow = () => {
     if (isFollowingUser) {
-      APIClient(`/unfollow/${user.id}`).post(null);
-      setIsFollowingUser(false);
+      doUnFollow.mutate(user.id);
     } else {
-      APIClient(`/follow/${user.id}`).post(null);
-      setIsFollowingUser(true);
+      doFollow.mutate(user.id);
     }
   };
+
+  // do follow
+  const doFollow = useMutation<any, AxiosError<Response<null>>, number>({
+    mutationFn: (userId) => APIClient(`/follow/${userId}`).post(null),
+    onSuccess: () => {
+      setIsFollowingUser(true);
+    },
+    onError: (error) => {
+      notifications.show({
+        title: "Notification",
+        message: error.response?.data.message,
+        color: "red",
+      });
+    },
+  });
+
+  // do unfollow
+  const doUnFollow = useMutation<any, AxiosError<Response<null>>, number>({
+    mutationFn: (userId: number) => APIClient(`/unfollow/${userId}`).post(null),
+    onSuccess: () => {
+      setIsFollowingUser(false);
+    },
+    onError: (error) => {
+      notifications.show({
+        title: "Notification",
+        message: error.response?.data.message,
+        color: "red",
+      });
+    },
+  });
 
   return (
     <Button

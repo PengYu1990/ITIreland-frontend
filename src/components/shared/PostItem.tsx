@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Flex,
   Indicator,
@@ -22,8 +21,7 @@ import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
 import TiptapLink from "@tiptap/extension-link";
 import { Post } from "../../services/post-service";
-import AppConfig from "../../config.json";
-import APIClient from "../../services/http-service";
+import AvatarHoverCard from "./AvatarHoverCard";
 dayjs.extend(relativeTime);
 
 const useStyles = createStyles((theme) => ({
@@ -80,9 +78,28 @@ interface Props {
 const PostItem = ({ post }: Props) => {
   const { classes } = useStyles();
 
-  const follow = (userId: number) => {
-    APIClient(`/follow/${userId}`).post(null);
-  };
+  // const [isFollowingUser, setIsFollowingUser] = useState<Boolean>(false);
+
+  // const follow = (userId: number) => doFollow.mutate(userId);
+
+  // const doFollow = useMutation<any, AxiosError<Response<null>>, number>({
+  //   mutationFn: (userId: number) => APIClient(`/follow/${userId}`).post(null),
+  //   onSuccess: () => {
+  //     notifications.show({
+  //       title: "Notification",
+  //       message: "Followed",
+  //       color: "blue",
+  //     });
+  //     setIsFollowingUser(true);
+  //   },
+  //   onError: (error) => {
+  //     notifications.show({
+  //       title: "Notification",
+  //       message: error.response?.data.message,
+  //       color: "red",
+  //     });
+  //   },
+  // });
 
   return (
     <Indicator
@@ -96,31 +113,19 @@ const PostItem = ({ post }: Props) => {
     >
       <Box className={classes.postItem}>
         <Flex justify="left" gap={10}>
-          <Link to={`/user/${post.user.id}`}>
-            <Avatar
-              src={
-                post.user.headShotUrl &&
-                `${AppConfig.config.api}${post.user.headShotUrl}`
-              }
-              color="cyan"
-              radius="xl"
-              size={40}
-            >
-              {post.user.username.substring(0, 2).toUpperCase()}
-            </Avatar>
-          </Link>
+          <AvatarHoverCard user={post.user} />
           <Box>
             <Flex align="center">
               <Link to={`/user/${post.user.id}`}>
                 <Text className={classes.username}> {post.user.username}</Text>
               </Link>
-              ·
+              {/* ·
               <Box
                 className={classes.follow}
                 onClick={() => follow(post.user.id)}
               >
-                Follow
-              </Box>
+                {!isFollowingUser && "Follow"}
+              </Box> */}
             </Flex>
 
             <Text className={classes.datetime}>

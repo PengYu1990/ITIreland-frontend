@@ -22,8 +22,9 @@ import AppConfig from "../../config.json";
 import FollowBtn from "./FollowBtn";
 import { useAuth } from "../context/AuthContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import APIClient from "../../services/http-service";
+import APIClient, { Response } from "../../services/http-service";
 import { notifications } from "@mantine/notifications";
+import { AxiosError } from "axios";
 
 const useStyles = createStyles((theme) => ({
   username: {
@@ -73,7 +74,7 @@ const Profile = ({ user }: Props) => {
   const queryClient = useQueryClient();
 
   //TODO: upload profile image then update user profile image
-  const uploadMutation = useMutation({
+  const uploadMutation = useMutation<any, AxiosError<Response<null>>, File>({
     mutationKey: ["user", user?.id],
     mutationFn: (file: File) =>
       APIClient<File>("/users/profile-image-upload").upload(file),
@@ -81,7 +82,7 @@ const Profile = ({ user }: Props) => {
       queryClient.invalidateQueries(["user", user.id]);
       queryClient.invalidateQueries(["logined_user", user?.id]);
     },
-    onError: (error: Error) => {
+    onError: (error) => {
       notifications.show({
         title: "Notification",
         message: error.message,
