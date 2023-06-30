@@ -2,7 +2,6 @@ import {
   Avatar,
   Box,
   Flex,
-  Indicator,
   Spoiler,
   Text,
   createStyles,
