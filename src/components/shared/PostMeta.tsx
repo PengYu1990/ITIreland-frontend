@@ -1,8 +1,8 @@
 import { Button, Flex, Group, Text, createStyles, rem } from "@mantine/core";
 import {
   IconCategory,
-  IconClover,
   IconEye,
+  IconMessage,
   IconTags,
   IconThumbDown,
   IconThumbUp,
@@ -64,6 +64,10 @@ const useStyles = createStyles((theme) => ({
     }`,
     marginLeft: 0,
   },
+  btn: {
+    padding: rem(2),
+    borderRadius: rem(20),
+  },
 }));
 
 interface Props {
@@ -93,31 +97,34 @@ const PostMeta = ({ post }: Props) => {
           variant="light"
           color="gray"
           leftIcon={<IconThumbDown size={20} />}
-        ></Button>
-      </Group>
-      {/* <Group spacing="xs">
-        <Link to={`/user/${post.user.id}`}>
-          <Avatar
-            src={
-              post.user.headShotUrl &&
-              `${AppConfig.config.api}${post.user.headShotUrl}`
-            }
-            color="cyan"
-            radius="xl"
-            size={23}
-          >
-            {post.user.username.substring(0, 2).toUpperCase()}
-          </Avatar>
-        </Link>
-        <Link to={`/user/${post.user.id}`}>
-          <Text>{post.user.username}</Text>
-        </Link>
+        />
       </Group>
 
-      <Group spacing="xs" position="left">
-        <IconCalendarTime size={20} />
-        <Text>{dayjs(post.ctime).fromNow()}</Text>
-      </Group> */}
+      <Button
+        variant="light"
+        color="gray"
+        leftIcon={<IconMessage size={20} spacing={0} />}
+        styles={(theme) => ({
+          root: {
+            padding: rem(2),
+            borderRadius: rem(20),
+            border: 0,
+            backgroundColor: "#ffffff",
+            paddingLeft: rem(10),
+            paddingRight: rem(10),
+            "&:not([data-disabled])": theme.fn.hover({
+              backgroundColor: theme.colors.gray[0],
+            }),
+          },
+
+          leftIcon: {
+            marginRight: 0,
+          },
+        })}
+      >
+        <Text ml={3}>{post.commentCount}</Text>
+      </Button>
+
       {/* <MediaQuery smallerThan="md" styles={{ display: "none" }}> */}
       <Group spacing="xs" position="left">
         <IconEye size={20} />

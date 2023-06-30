@@ -17,6 +17,8 @@ export interface Post {
     userId:number;
     user:User;
     tags:Tag[];
+    commentCount:number;
+    voteCount:number;
 }
 
 const postService = APIClient<Post>("/posts")
