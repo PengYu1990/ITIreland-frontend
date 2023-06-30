@@ -88,7 +88,8 @@ const PostItem = ({ post }: Props) => {
     <Indicator
       inline
       color="red"
-      offset={8}
+      offset={14}
+      position="top-end"
       label={post.views > 100 && "Hot"}
       disabled={post.views < 100}
       size={16}
