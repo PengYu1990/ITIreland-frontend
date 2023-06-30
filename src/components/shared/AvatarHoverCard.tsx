@@ -46,7 +46,6 @@ const useStyles = createStyles((theme) => ({
 
 const AvatarHoverCard = ({ user }: Props) => {
   const { classes } = useStyles();
-  const follow = (userId: number) => doFollow.mutate(userId);
   const [isFollowingUser, setIsFollowingUser] = useState<Boolean>(false);
   const { user: currentUser } = useAuth();
 
