@@ -13,14 +13,14 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import PostMeta from "./PostMeta";
 import { Link } from "react-router-dom";
-// import { generateHTML } from "@tiptap/react";
-// import StarterKit from "@tiptap/starter-kit";
-// import Highlight from "@tiptap/extension-highlight";
-// import Underline from "@tiptap/extension-underline";
-// import TextAlign from "@tiptap/extension-text-align";
-// import Superscript from "@tiptap/extension-superscript";
-// import SubScript from "@tiptap/extension-subscript";
-// import TiptapLink from "@tiptap/extension-link";
+import { generateHTML } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Highlight from "@tiptap/extension-highlight";
+import Underline from "@tiptap/extension-underline";
+import TextAlign from "@tiptap/extension-text-align";
+import Superscript from "@tiptap/extension-superscript";
+import SubScript from "@tiptap/extension-subscript";
+import TiptapLink from "@tiptap/extension-link";
 import { Post } from "../../services/post-service";
 import AppConfig from "../../config.json";
 import APIClient from "../../services/http-service";
@@ -136,7 +136,18 @@ const PostItem = ({ post }: Props) => {
         </Flex>
         <Text className={classes.summary}>
           <Spoiler maxHeight={120} showLabel="Show more" hideLabel="Hide">
-            {createShortcut(JSON.parse(post.content), 200)}
+            {createShortcut(
+              generateHTML(JSON.parse(post.content), [
+                StarterKit,
+                Underline,
+                TiptapLink,
+                Superscript,
+                SubScript,
+                Highlight.configure(),
+                TextAlign,
+              ]),
+              200
+            )}
             {/* <div
               dangerouslySetInnerHTML={{
                 __html: generateHTML(JSON.parse(post.content), [
