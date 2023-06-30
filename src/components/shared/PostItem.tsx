@@ -136,7 +136,7 @@ const PostItem = ({ post }: Props) => {
         </Flex>
         <Text className={classes.summary}>
           <Spoiler maxHeight={120} showLabel="Show more" hideLabel="Hide">
-            {createShortcut(
+            {/* {createShortcut(
               generateHTML(JSON.parse(post.content), [
                 StarterKit,
                 Underline,
@@ -147,8 +147,8 @@ const PostItem = ({ post }: Props) => {
                 TextAlign,
               ]),
               200
-            )}
-            {/* <div
+            )} */}
+            <div
               dangerouslySetInnerHTML={{
                 __html: generateHTML(JSON.parse(post.content), [
                   StarterKit,
@@ -160,7 +160,7 @@ const PostItem = ({ post }: Props) => {
                   TextAlign,
                 ]),
               }}
-            ></div> */}
+            ></div>
           </Spoiler>
         </Text>
 
