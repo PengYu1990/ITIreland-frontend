@@ -24,7 +24,6 @@ import TiptapLink from "@tiptap/extension-link";
 import { Post } from "../../services/post-service";
 import AppConfig from "../../config.json";
 import APIClient from "../../services/http-service";
-import { createShortcut } from "../../utils/common";
 dayjs.extend(relativeTime);
 
 const useStyles = createStyles((theme) => ({
