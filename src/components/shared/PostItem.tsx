@@ -3,7 +3,6 @@ import {
   Box,
   Flex,
   Indicator,
-  Spoiler,
   Text,
   createStyles,
   rem,
