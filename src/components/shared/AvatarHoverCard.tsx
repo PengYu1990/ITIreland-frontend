@@ -156,7 +156,7 @@ const AvatarHoverCard = ({ user }: Props) => {
           </Flex>
           <Flex justify="left" gap={10} mt={10}>
             <IconArticle size={20} color="gray" />
-            <Text className={classes.hoverCardItem}>Posts {user.credits}</Text>
+            <Text className={classes.hoverCardItem}>Posts {user.posts}</Text>
           </Flex>
           <Flex justify="left" gap={10} mt={10}>
             <IconMedal size={24} color="gray" />
@@ -199,7 +199,7 @@ const AvatarHoverCard = ({ user }: Props) => {
             onClick={handleFollowOrUnfollow}
             variant={isFollowingUser ? "outline" : "light"}
           >
-            {isFollowingUser ? "Unfollow" : "Follow"}
+            {isFollowingUser ? "Following" : "Follow"}
           </Button>
           <Button
             variant="light"

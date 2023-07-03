@@ -75,7 +75,7 @@ const FollowBtn = ({ user, variant = "filled" }: Props) => {
       variant={isFollowingUser ? "outline" : variant}
       disabled={!currentUser || currentUser.id === user.id}
     >
-      {isFollowingUser ? "Unfollow" : "Follow"}
+      {isFollowingUser ? "Following" : "Follow"}
     </Button>
   );
 };

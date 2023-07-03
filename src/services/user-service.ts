@@ -7,7 +7,7 @@ export interface User {
     email:string;
     profile:string;
     state:number;
-    credits:number; //积分
+    credits:number; 
     level:number; //等级
     headShotUrl:string;
     ctime:Date;

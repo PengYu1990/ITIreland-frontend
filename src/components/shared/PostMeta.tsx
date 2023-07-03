@@ -16,6 +16,11 @@ import {
   IconThumbUp,
 } from "@tabler/icons-react";
 import { Post } from "../../services/post-service";
+import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import APIClient, { Response } from "../../services/http-service";
+import { notifications } from "@mantine/notifications";
+import { useState } from "react";
 
 const useStyles = createStyles((theme) => ({
   meta: {
@@ -84,6 +89,50 @@ interface Props {
 
 const PostMeta = ({ post }: Props) => {
   const { classes } = useStyles();
+
+  const [isUpvoted, setIsUpvoted] = useState(post.upvoted);
+  const [downvoted, setDownvoted] = useState(post.downvoted);
+
+  const upvote = useMutation<number, AxiosError<Response<number>>, number>({
+    mutationKey: ["upvote", post.id],
+    mutationFn: (postId) =>
+      APIClient<number>(
+        `/posts/${isUpvoted ? "unUpvote" : "upvote"}/${postId}`
+      ).get(),
+    onSuccess: (data) => {
+      console.log(data);
+      post.upvotes = data;
+      setIsUpvoted(isUpvoted ? false : true);
+    },
+    onError: (error) => {
+      notifications.show({
+        title: "Notification",
+        message: error.response?.data.message,
+        color: "red",
+      });
+    },
+  });
+
+  const downvote = useMutation<number, AxiosError<Response<number>>, number>({
+    mutationKey: ["downvote", post.id],
+    mutationFn: (postId) =>
+      APIClient<number>(
+        `/posts/${downvoted ? "unDownvote" : "downvote"}/${postId}`
+      ).get(),
+    onSuccess: (data) => {
+      console.log(data);
+      post.downvotes = data;
+      setDownvoted(downvoted ? false : true);
+    },
+    onError: (error) => {
+      notifications.show({
+        title: "Notification",
+        message: error.response?.data.message,
+        color: "red",
+      });
+    },
+  });
+
   return (
     <Flex
       className={classes.meta}
@@ -94,18 +143,33 @@ const PostMeta = ({ post }: Props) => {
       <Group spacing="-1" position="left">
         <Button
           className={classes.upvote}
+          styles={(theme) => ({
+            leftIcon: {
+              color: isUpvoted ? theme.colors.blue : "gray",
+            },
+          })}
           variant="light"
           color="gray"
           leftIcon={<IconThumbUp size={20} />}
+          onClick={() => upvote.mutate(post.id)}
+          // disabled={isUpvoted}
         >
-          Upvote · <Text ml={3}>{post.thumbs}</Text>
+          Upvote · <Text ml={3}>{post.upvotes}</Text>
         </Button>
         <Button
           className={classes.downvote}
           variant="light"
           color="gray"
+          styles={(theme) => ({
+            leftIcon: {
+              color: downvoted ? theme.colors.blue : "gray",
+            },
+          })}
           leftIcon={<IconThumbDown size={20} />}
-        />
+          onClick={() => downvote.mutate(post.id)}
+        >
+          <Text ml={3}>{post.downvotes}</Text>
+        </Button>
       </Group>
 
       <Button
