@@ -152,7 +152,7 @@ const AvatarHoverCard = ({ user }: Props) => {
           </Flex>
           <Flex justify="left" gap={10} mt={10}>
             <IconMapPin size={20} color="gray" />
-            <Text className={classes.hoverCardItem}>Dublin, Ireland</Text>
+            <Text className={classes.hoverCardItem}>{user.location}</Text>
           </Flex>
           <Flex justify="left" gap={10} mt={10}>
             <IconArticle size={20} color="gray" />
