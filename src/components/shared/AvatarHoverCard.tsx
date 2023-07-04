@@ -29,6 +29,7 @@ import { useAuth } from "../context/AuthContext";
 
 interface Props {
   user: User;
+  avatarSize?: number;
 }
 
 const useStyles = createStyles((theme) => ({
@@ -44,7 +45,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const AvatarHoverCard = ({ user }: Props) => {
+const AvatarHoverCard = ({ user, avatarSize = 40 }: Props) => {
   const { classes } = useStyles();
   const [isFollowingUser, setIsFollowingUser] = useState<Boolean>(false);
   const { user: currentUser } = useAuth();
@@ -117,7 +118,7 @@ const AvatarHoverCard = ({ user }: Props) => {
             }
             color="cyan"
             radius="xl"
-            size={40}
+            size={avatarSize}
           >
             {user.username.substring(0, 2).toUpperCase()}
           </Avatar>

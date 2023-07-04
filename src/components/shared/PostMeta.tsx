@@ -85,9 +85,11 @@ const useStyles = createStyles((theme) => ({
 
 interface Props {
   post: Post;
+  showComment: (isShow: boolean) => void;
+  isShowComment: boolean;
 }
 
-const PostMeta = ({ post }: Props) => {
+const PostMeta = ({ post, showComment, isShowComment }: Props) => {
   const { classes } = useStyles();
 
   const [isUpvoted, setIsUpvoted] = useState(post.upvoted);
@@ -193,6 +195,7 @@ const PostMeta = ({ post }: Props) => {
             marginRight: 0,
           },
         })}
+        onClick={() => showComment(!isShowComment)}
       >
         <Text ml={3}>{post.commentCount}</Text>
       </Button>

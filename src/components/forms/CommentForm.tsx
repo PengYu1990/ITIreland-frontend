@@ -2,7 +2,7 @@ import {
   Avatar,
   Button,
   Flex,
-  Textarea,
+  TextInput,
   createStyles,
   rem,
 } from "@mantine/core";
@@ -19,8 +19,8 @@ import { AxiosError } from "axios";
 
 const useStyles = createStyles((theme) => ({
   form: {
-    paddingTop: rem(10),
-    paddingBottom: rem(55),
+    padding: rem(10),
+    border: `${rem(1)} solid ${theme.colors.gray[2]}`,
   },
   formMobile: {
     paddingTop: rem(20),
@@ -31,10 +31,6 @@ const useStyles = createStyles((theme) => ({
     borderTop: `${rem(1)} solid ${
       theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[2]
     }`,
-  },
-  button: {
-    marginTop: rem(10),
-    float: "right",
   },
   editor: {
     marginLeft: rem(10),
@@ -54,7 +50,6 @@ const CommentSection = ({
   postId,
   parentId,
   onSubmited,
-  rows,
   focus,
   onTextAreaBlur,
 }: Props) => {
@@ -64,11 +59,11 @@ const CommentSection = ({
 
   const matches = useMediaQuery("(max-width: 600px)");
 
-  const textArea = useRef<HTMLTextAreaElement>(null);
+  const textInput = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (focus && textArea.current) {
-      textArea.current.focus();
+    if (focus && textInput.current) {
+      textInput.current.focus();
     }
   }, [focus]);
 
@@ -133,7 +128,7 @@ const CommentSection = ({
       className={matches ? classes.formMobile : classes.form}
       onSubmit={form.onSubmit((values) => submitComment(values))}
     >
-      <Flex justify="space-between" direction="row">
+      <Flex justify="space-between" direction="row" align="center">
         <Avatar
           src={
             user &&
@@ -146,26 +141,26 @@ const CommentSection = ({
         >
           {user && user.username.substring(0, 2).toUpperCase()}
         </Avatar>
-        <Textarea
+        <TextInput
           className={classes.editor}
-          minRows={rows ? rows : 3}
           w="100%"
           disabled={user === null}
           placeholder={user === null ? "Login and comment" : "Enter comment"}
           {...form.getInputProps("content")}
-          ref={textArea}
+          ref={textInput}
           onBlur={() =>
             form.values.content === "" && onTextAreaBlur && onTextAreaBlur()
           }
-        ></Textarea>
+        ></TextInput>
+        <Button
+          type="submit"
+          style={{ marginLeft: rem(10) }}
+          variant="outline"
+          disabled={user === null || form.values.content === ""}
+        >
+          Submit
+        </Button>
       </Flex>
-      <Button
-        type="submit"
-        disabled={user === null || form.values.content === ""}
-        className={classes.button}
-      >
-        Submit
-      </Button>
     </form>
   );
 };

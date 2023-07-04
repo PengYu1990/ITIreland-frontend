@@ -30,6 +30,12 @@ const useStyles = createStyles((theme) => ({
     marginBottom: rem(10),
   },
 
+  commentForm: {
+    paddingLeft: rem(20),
+    paddingRight: rem(20),
+    backgroundColor: "white",
+  },
+
   heading: {
     textDecoration: "none",
     color: theme.colors.dark[4],
@@ -43,7 +49,6 @@ const useStyles = createStyles((theme) => ({
     marginTop: rem(20),
     marginBottom: rem(30),
   },
-  commentForm: {},
 }));
 
 const PostDetail = () => {
@@ -89,23 +94,27 @@ const PostDetail = () => {
           <Grid.Col span={2}></Grid.Col>
         </MediaQuery>
         <Grid.Col md={7} sm={12}>
-          {isLoading && <PostDetailSkeleton />}
-          <Box className={classes.detail}>
-            <h1 className={classes.heading}>{data?.title}</h1>
-            {data && <PostMeta post={data} />}
-            <div
-              className={classes.content}
-              dangerouslySetInnerHTML={{ __html: output }}
-            />
-          </Box>
-          <Box className={classes.detail}>
-            {data?.id && <CommentForm postId={data?.id} />}
-          </Box>
-          {comments && comments.length > 0 && (
+          <Box style={{ marginBottom: rem(20) }}>
+            {isLoading && <PostDetailSkeleton />}
             <Box className={classes.detail}>
-              <CommentList comments={comments} />
+              <h1 className={classes.heading}>{data?.title}</h1>
+              {data && (
+                <PostMeta
+                  post={data}
+                  showComment={() => {}}
+                  isShowComment={false}
+                />
+              )}
+              <div
+                className={classes.content}
+                dangerouslySetInnerHTML={{ __html: output }}
+              />
             </Box>
-          )}
+            {data?.id && <CommentForm postId={data?.id} />}
+            {comments && comments.length > 0 && (
+              <CommentList comments={comments} />
+            )}
+          </Box>
         </Grid.Col>
         <MediaQuery smallerThan="md" styles={{ display: "none" }}>
           <Grid.Col md={3} sm={12}>

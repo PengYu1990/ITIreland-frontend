@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   Flex,
@@ -21,10 +20,10 @@ import { useAuth } from "../context/AuthContext";
 import CommentForm from "../forms/CommentForm";
 import { useState } from "react";
 import CommentList from "./CommentList";
-import AppConfig from "../../config.json";
 import { Link } from "react-router-dom";
 
 import { AxiosError } from "axios";
+import AvatarHoverCard from "../shared/AvatarHoverCard";
 
 interface Props {
   comment: Comment;
@@ -32,12 +31,14 @@ interface Props {
 
 const useStyles = createStyles((theme) => ({
   citem: {
-    // marginTop: rem(20),
     fontSize: rem(14),
-    paddingTop: rem(10),
     borderTop: `${rem(1)} solid ${
       theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[2]
     }`,
+    backgroundColor: "#ffffff",
+    padding: rem(5),
+    paddingLeft: rem(15),
+    paddingRight: rem(15),
   },
   usename: {
     color: theme.colors.dark[2],
@@ -45,10 +46,10 @@ const useStyles = createStyles((theme) => ({
   },
   content: {
     color: theme.colors.dark[6],
-    marginTop: rem(10),
+    marginTop: rem(3),
   },
   time: {
-    marginTop: rem(15),
+    marginTop: rem(3),
     color: theme.colors.gray[6],
   },
 }));
@@ -57,15 +58,6 @@ const CommentItem = ({ comment }: Props) => {
   const { classes } = useStyles();
   const { user } = useAuth();
   const [replyId, setReplyId] = useState<number | undefined>(undefined);
-  // const [childrenComments, setChildrenComments] = useState<Comment[]>(
-  //   comment.childrenComments
-  // );
-
-  // useUpdateEffect(() => {
-  //   // comments && setCommentList(comments);
-  //   setChildrenComments(comment.childrenComments);
-  // }, [comment.childrenComments]);
-
   const queryClient = useQueryClient();
 
   const del = () => {
@@ -99,16 +91,7 @@ const CommentItem = ({ comment }: Props) => {
       direction="row"
     >
       <Link to={`/user/${comment.user.id}`}>
-        <Avatar
-          src={
-            comment.user && `${AppConfig.config.api}${comment.user.headShotUrl}`
-          }
-          color="cyan"
-          radius="xl"
-          size={30}
-        >
-          {comment.user.username.substring(0, 2).toUpperCase()}
-        </Avatar>
+        <AvatarHoverCard user={comment.user} avatarSize={30} />
       </Link>
       <Box w="100%">
         <Link to={`/user/${comment.user.id}`}>
@@ -137,9 +120,7 @@ const CommentItem = ({ comment }: Props) => {
                     },
                   })}
                   onClick={() => {
-                    return replyId === comment.id
-                      ? setReplyId(undefined)
-                      : setReplyId(comment.id);
+                    if (replyId != comment.id) setReplyId(comment.id);
                   }}
                 >
                   Reply
@@ -188,7 +169,7 @@ const CommentItem = ({ comment }: Props) => {
             postId={comment.postId}
             parentId={comment.id}
             onSubmited={() => setReplyId(undefined)}
-            rows={2}
+            rows={1}
             focus={true}
             onTextAreaBlur={() => setReplyId(undefined)}
           />

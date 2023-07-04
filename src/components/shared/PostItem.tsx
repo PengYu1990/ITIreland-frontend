@@ -1,7 +1,7 @@
 import {
   Box,
   Flex,
-  Indicator,
+  Loader,
   Spoiler,
   Text,
   createStyles,
@@ -22,16 +22,25 @@ import SubScript from "@tiptap/extension-subscript";
 import TiptapLink from "@tiptap/extension-link";
 import { Post } from "../../services/post-service";
 import AvatarHoverCard from "./AvatarHoverCard";
+import { useAuth } from "../context/AuthContext";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import commentService from "../../services/comment-service";
+import CommentList from "../post/CommentList";
+import CommentForm from "../forms/CommentForm";
 dayjs.extend(relativeTime);
 
 const useStyles = createStyles((theme) => ({
   postItem: {
+    marginBottom: rem(15),
+    border: `${rem(1)} solid ${theme.colors.gray[2]}`,
+  },
+  postItemTop: {
     backgroundColor: "#ffffff",
     paddingLeft: rem(10),
     paddingRight: rem(10),
     paddingTop: rem(10),
     paddingBottom: rem(10),
-    marginBottom: rem(10),
     borderBottom: `${rem(1)} solid ${
       theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[1]
     }`,
@@ -77,41 +86,23 @@ interface Props {
 
 const PostItem = ({ post }: Props) => {
   const { classes } = useStyles();
+  const { user: currentUser } = useAuth();
+  const [showComment, setShowComment] = useState(false);
 
-  // const [isFollowingUser, setIsFollowingUser] = useState<Boolean>(false);
-
-  // const follow = (userId: number) => doFollow.mutate(userId);
-
-  // const doFollow = useMutation<any, AxiosError<Response<null>>, number>({
-  //   mutationFn: (userId: number) => APIClient(`/follow/${userId}`).post(null),
-  //   onSuccess: () => {
-  //     notifications.show({
-  //       title: "Notification",
-  //       message: "Followed",
-  //       color: "blue",
-  //     });
-  //     setIsFollowingUser(true);
-  //   },
-  //   onError: (error) => {
-  //     notifications.show({
-  //       title: "Notification",
-  //       message: error.response?.data.message,
-  //       color: "red",
-  //     });
-  //   },
-  // });
+  const { data: comments, isLoading } = useQuery({
+    queryKey: [post.id, "comments"],
+    queryFn: () =>
+      commentService.getAll({
+        params: {
+          postId: post.id,
+        },
+      }),
+    enabled: showComment,
+  });
 
   return (
-    <Indicator
-      inline
-      color="red"
-      offset={14}
-      position="top-end"
-      label={post.views > 100 && "Hot"}
-      disabled={post.views < 100}
-      size={16}
-    >
-      <Box className={classes.postItem}>
+    <Box className={classes.postItem}>
+      <Box className={classes.postItemTop}>
         <Flex justify="left" gap={10}>
           <AvatarHoverCard user={post.user} />
           <Box>
@@ -141,18 +132,6 @@ const PostItem = ({ post }: Props) => {
         </Flex>
         <Text className={classes.summary}>
           <Spoiler maxHeight={120} showLabel="Show more" hideLabel="Hide">
-            {/* {createShortcut(
-              generateHTML(JSON.parse(post.content), [
-                StarterKit,
-                Underline,
-                TiptapLink,
-                Superscript,
-                SubScript,
-                Highlight.configure(),
-                TextAlign,
-              ]),
-              200
-            )} */}
             <div
               dangerouslySetInnerHTML={{
                 __html: generateHTML(JSON.parse(post.content), [
@@ -169,9 +148,22 @@ const PostItem = ({ post }: Props) => {
           </Spoiler>
         </Text>
 
-        <PostMeta post={post} />
+        <PostMeta
+          post={post}
+          isShowComment={showComment}
+          showComment={setShowComment}
+        />
       </Box>
-    </Indicator>
+      <Box>
+        {showComment && currentUser && <CommentForm postId={post?.id} />}
+        {showComment && isLoading && (
+          <Flex align="center" justify="center">
+            <Loader variant="dots" />
+          </Flex>
+        )}
+        {showComment && comments && <CommentList comments={comments} />}
+      </Box>
+    </Box>
   );
 };
 
