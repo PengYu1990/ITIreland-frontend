@@ -15,6 +15,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import AppConfig from "../config.json";
+import { useAuth } from "../components/context/AuthContext";
 
 const useStyles = createStyles(() => ({
   loginBox: {
@@ -29,6 +30,8 @@ export function LoginPage(props: PaperProps) {
   const { classes } = useStyles();
   const [type, setType] = useState("login");
 
+  const { isAuthenticated } = useAuth();
+
   const navigate = useNavigate();
 
   let { form } = useParams();
@@ -37,7 +40,10 @@ export function LoginPage(props: PaperProps) {
     document.title = `Login | ${AppConfig.config.title}`;
     if (form === "2") setType("register");
     if (form === "1") setType("login");
-  });
+    if (isAuthenticated()) {
+      navigate(-1);
+    }
+  }, [isAuthenticated, form, type]);
 
   return (
     <Container maw="25rem" className={classes.loginBox}>

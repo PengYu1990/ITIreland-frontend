@@ -72,8 +72,6 @@ const AuthProvider = ({ children }: any) => {
         message: "Login Success",
         color: "blue",
       });
-      // TODO: Fix this
-      window.history.go(-1);
     },
     onError: (error) => {
       notifications.show({
