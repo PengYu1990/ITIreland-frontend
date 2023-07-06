@@ -1,4 +1,4 @@
-import { Grid, MediaQuery } from "@mantine/core";
+import { Grid, MediaQuery, Space } from "@mantine/core";
 import PostList from "../components/index/PostList";
 import ToTop from "../components/shared/ToTop";
 import { useEffect, useState } from "react";
@@ -38,6 +38,12 @@ const Index = () => {
         <MediaQuery smallerThan="md" styles={{ display: "none" }}>
           <Grid.Col span={3}>
             <Ad
+              src="https://www.ncirl.ie/Portals/0/Images/650x366-Cards-Teasers-Inners/img-student-at-careers-event.jpg"
+              link="https://www.ncirl.ie/"
+            />
+            <Space h="md" />
+            <Ad
+              top="17rem"
               src="https://www.ncirl.ie/Portals/0/NCI%20Summer%20Camp.jpg"
               link="https://www.ncirl.ie/Events/ArtMID/6569/ArticleID/870/TY-Summer-Camp"
             />
