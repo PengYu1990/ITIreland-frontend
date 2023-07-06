@@ -2,12 +2,11 @@ import { Grid, MediaQuery } from "@mantine/core";
 import PostList from "../components/index/PostList";
 import ToTop from "../components/shared/ToTop";
 import { useEffect, useState } from "react";
-
+import Ad from "../components/shared/Ad";
 import AppConfig from "../config.json";
 import Category from "../components/shared/Category";
 import { PostQuery } from "../hooks/usePosts";
 import AddPost from "../components/shared/AddPost";
-import Ad from "../components/shared/ad";
 
 const Index = () => {
   useEffect(() => {

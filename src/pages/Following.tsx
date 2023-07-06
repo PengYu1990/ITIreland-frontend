@@ -5,9 +5,9 @@ import { useEffect, useState } from "react";
 import AppConfig from "../config.json";
 import FollowingPostList from "../components/following/FollowingPostList";
 import AddPost from "../components/shared/AddPost";
-import Ad from "../components/shared/ad";
 import Category from "../components/shared/Category";
 import { PostQuery } from "../hooks/usePosts";
+import Ad from "../components/shared/Ad";
 
 const Index = () => {
   const defaultPageSize = 10;

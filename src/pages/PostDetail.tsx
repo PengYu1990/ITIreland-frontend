@@ -19,7 +19,7 @@ import { useUpdateEffect } from "react-use";
 import useComments from "../hooks/useComments";
 import CommentList from "../components/post/CommentList";
 import AppConfig from "../config.json";
-import Ad from "../components/shared/ad";
+import Ad from "../components/shared/Ad";
 
 const useStyles = createStyles((theme) => ({
   detail: {

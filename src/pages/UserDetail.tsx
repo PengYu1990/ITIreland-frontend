@@ -6,7 +6,7 @@ import useUser from "../hooks/useUser";
 import { useEffect } from "react";
 import AppConfig from "../config.json";
 import { User } from "../services/user-service";
-import Ad from "../components/shared/ad";
+import Ad from "../components/shared/Ad";
 
 const UserDetail = () => {
   const { id } = useParams();
