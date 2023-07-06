@@ -6,6 +6,7 @@ import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
 import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
+import Image from "@tiptap/extension-image";
 import { useEffect } from "react";
 
 interface Props {
@@ -13,6 +14,12 @@ interface Props {
   defaultJsonContent?: string;
 }
 const RichEditor = ({ defaultJsonContent, getJsonContent }: Props) => {
+  Image.configure({
+    HTMLAttributes: {
+      class: "image-class",
+    },
+  });
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -22,6 +29,7 @@ const RichEditor = ({ defaultJsonContent, getJsonContent }: Props) => {
       SubScript,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       Highlight,
+      Image,
       // CodeBlockLowlight.configure({
       //   lowlight,
       // }),

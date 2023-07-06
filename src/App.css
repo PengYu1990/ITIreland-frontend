@@ -19,3 +19,9 @@ a:visited {
 .ProseMirror {
     min-height: 25rem;
 }
+
+.image-class {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

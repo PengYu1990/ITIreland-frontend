@@ -14,6 +14,7 @@ import TextAlign from "@tiptap/extension-text-align";
 import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
 import TiptapLink from "@tiptap/extension-link";
+import Image from "@tiptap/extension-image";
 import { useUpdateEffect } from "react-use";
 import useComments from "../hooks/useComments";
 import CommentList from "../components/post/CommentList";
@@ -84,6 +85,7 @@ const PostDetail = () => {
       SubScript,
       Highlight.configure(),
       TextAlign,
+      Image,
     ]);
   }, [data?.content]);
 
