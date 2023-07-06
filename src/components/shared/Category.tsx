@@ -12,6 +12,7 @@ const useStyles = createStyles((theme) => ({
     top: "4rem",
   },
   badge: {
+    width: "100%",
     marginTop: rem(5),
     borderRadius: 0,
     fontSize: rem(14),
