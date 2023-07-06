@@ -1,5 +1,4 @@
 import { Box, Grid, MediaQuery } from "@mantine/core";
-import HotPost from "../components/sidebar/HotPost";
 import ToTop from "../components/shared/ToTop";
 import Profile from "../components/shared/Profile";
 import { useLocation, useParams } from "react-router-dom";

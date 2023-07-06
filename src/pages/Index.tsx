@@ -1,7 +1,6 @@
-import { Divider, Grid, Image, MediaQuery, Space } from "@mantine/core";
+import { Grid, MediaQuery } from "@mantine/core";
 import PostList from "../components/index/PostList";
 import ToTop from "../components/shared/ToTop";
-import HotPost from "../components/sidebar/HotPost";
 import { useEffect, useState } from "react";
 
 import AppConfig from "../config.json";

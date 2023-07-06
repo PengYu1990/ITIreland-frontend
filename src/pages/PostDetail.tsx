@@ -18,7 +18,6 @@ import Image from "@tiptap/extension-image";
 import { useUpdateEffect } from "react-use";
 import useComments from "../hooks/useComments";
 import CommentList from "../components/post/CommentList";
-import HotPost from "../components/sidebar/HotPost";
 import AppConfig from "../config.json";
 import Ad from "../components/shared/ad";
 
