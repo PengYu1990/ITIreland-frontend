@@ -4,6 +4,7 @@ import React from "react";
 import PostItem from "../shared/PostItem";
 import PostItemSkeleton from "../index/PostItemSkeleton";
 import useFollowingPosts from "../../hooks/useFollowingPosts";
+import { PostQuery } from "../../hooks/usePosts";
 
 const useStyles = createStyles(() => ({
   postList: {
@@ -16,10 +17,14 @@ const useStyles = createStyles(() => ({
   },
 }));
 
-const FollowingPostList = () => {
+interface Props {
+  postQuery: PostQuery;
+}
+
+const FollowingPostList = ({ postQuery }: Props) => {
   const { classes } = useStyles();
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useFollowingPosts();
+    useFollowingPosts(postQuery);
   const skeleton = [1, 2, 3, 4, 5];
 
   useUpdateEffect(() => {

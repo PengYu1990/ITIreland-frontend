@@ -1,7 +1,7 @@
 import { useLocation, useParams } from "react-router-dom";
 import PostMeta from "../components/shared/PostMeta";
 import usePost from "../hooks/usePost";
-import { Box, createStyles, Grid, MediaQuery, rem } from "@mantine/core";
+import { Box, createStyles, Grid, MediaQuery, rem, Space } from "@mantine/core";
 import ToTop from "../components/shared/ToTop";
 import { useEffect, useMemo } from "react";
 import CommentForm from "../components/forms/CommentForm";
@@ -20,6 +20,7 @@ import useComments from "../hooks/useComments";
 import CommentList from "../components/post/CommentList";
 import HotPost from "../components/sidebar/HotPost";
 import AppConfig from "../config.json";
+import Ad from "../components/shared/ad";
 
 const useStyles = createStyles((theme) => ({
   detail: {
@@ -120,7 +121,16 @@ const PostDetail = () => {
         </Grid.Col>
         <MediaQuery smallerThan="md" styles={{ display: "none" }}>
           <Grid.Col md={3} sm={12}>
-            <HotPost />
+            <Ad
+              src="https://www.ncirl.ie/Portals/0/Images/650x366-Cards-Teasers-Inners/img-student-at-careers-event.jpg"
+              link="https://www.ncirl.ie/"
+            />
+            <Space h="md" />
+            <Ad
+              top="17rem"
+              src="https://www.ncirl.ie/Portals/0/NCI%20Summer%20Camp.jpg"
+              link="https://www.ncirl.ie/Events/ArtMID/6569/ArticleID/870/TY-Summer-Camp"
+            />
           </Grid.Col>
         </MediaQuery>
       </Grid>

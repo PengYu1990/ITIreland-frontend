@@ -7,6 +7,7 @@ import useUser from "../hooks/useUser";
 import { useEffect } from "react";
 import AppConfig from "../config.json";
 import { User } from "../services/user-service";
+import Ad from "../components/shared/ad";
 
 const UserDetail = () => {
   const { id } = useParams();
@@ -34,7 +35,10 @@ const UserDetail = () => {
         </Grid.Col>
         <MediaQuery smallerThan="md" styles={{ display: "none" }}>
           <Grid.Col md={3} sm={12}>
-            <HotPost />
+            <Ad
+              src="https://www.ncirl.ie/Portals/0/Images/650x366-Cards-Teasers-Inners/img-student-at-careers-event.jpg"
+              link="https://www.ncirl.ie/"
+            />
           </Grid.Col>
         </MediaQuery>
       </Grid>
