@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Group,
+  MultiSelect,
   Select,
   TextInput,
   createStyles,
@@ -135,6 +136,19 @@ const PostEdit = () => {
     },
   });
 
+  const tags = [
+    { value: "Java", label: "Java" },
+    { value: "Python", label: "Python" },
+    { value: "Golang", label: "Golang" },
+    { value: "React", label: "React" },
+    { value: "Angular", label: "Angular" },
+    { value: "Svelte", label: "Svelte" },
+    { value: "Vue", label: "Vue" },
+    { value: "Riot", label: "Riot" },
+    { value: "Next.js", label: "Next.js" },
+    { value: "Blitz.js", label: "Blitz.js" },
+  ];
+
   return (
     <Box className={classes.form}>
       <form onSubmit={form.onSubmit((values) => submitPost(values))}>
@@ -152,6 +166,14 @@ const PostEdit = () => {
         <RichEditor
           defaultJsonContent={data?.content}
           getJsonContent={(content) => setJsonContent(content)}
+        />
+        <MultiSelect
+          style={{ marginTop: rem(10) }}
+          data={tags}
+          placeholder="Tags"
+          searchable
+          nothingFound="Nothing found"
+          {...form.getInputProps("tags")}
         />
 
         <Group position="right" mt="md">
