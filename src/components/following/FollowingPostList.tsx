@@ -1,10 +1,11 @@
-import { Box, Center, Loader, createStyles, rem } from "@mantine/core";
+import { Alert, Box, Center, Loader, createStyles, rem } from "@mantine/core";
 import { useUpdateEffect } from "react-use";
 import React from "react";
 import PostItem from "../shared/PostItem";
 import PostItemSkeleton from "../index/PostItemSkeleton";
 import useFollowingPosts from "../../hooks/useFollowingPosts";
 import { PostQuery } from "../../hooks/usePosts";
+import { IconAlertCircle } from "@tabler/icons-react";
 
 const useStyles = createStyles(() => ({
   postList: {
@@ -57,6 +58,17 @@ const FollowingPostList = ({ postQuery }: Props) => {
             ))}
           </React.Fragment>
         ))}
+
+        {data?.pages[0].data.length === 0 && (
+          <Alert
+            icon={<IconAlertCircle size="1rem" />}
+            title="Bummer!"
+            variant="outline"
+          >
+            You have not followed any users yet. Follow some users to see their
+            posts here.
+          </Alert>
+        )}
       </Box>
       <Center>{isFetchingNextPage && <Loader size={20} />}</Center>
     </Box>
