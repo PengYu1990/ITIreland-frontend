@@ -132,7 +132,7 @@ const PostItem = ({ post }: Props) => {
           </Link>
         </Flex>
         <Text className={classes.summary}>
-          <Spoiler maxHeight={120} showLabel="Show more" hideLabel="Hide">
+          <Spoiler maxHeight={300} showLabel="Show more" hideLabel="Hide">
             <div
               dangerouslySetInnerHTML={{
                 __html: generateHTML(JSON.parse(post.content), [

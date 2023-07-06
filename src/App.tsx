@@ -1,5 +1,6 @@
 import { Footer } from "./components/shared/Footer";
 import "./App.css";
+import "./App.scss";
 import { NavBar } from "./components/shared/NavBar";
 
 import { AppShell, Container, createStyles, rem } from "@mantine/core";
