@@ -11,7 +11,7 @@ import {
 import { IconArticle, IconPhoto } from "@tabler/icons-react";
 import { BiShare } from "react-icons/bi";
 import { User } from "../../services/user-service";
-import usePosts from "../../hooks/usePosts";
+import usePosts, { PostQuery } from "../../hooks/usePosts";
 import React from "react";
 import PostItem from "./PostItem";
 import useFollowings from "../../hooks/useFollowings";
@@ -66,7 +66,8 @@ interface Props {
 
 const Profile = ({ user }: Props) => {
   const { classes } = useStyles();
-  const { data: posts } = usePosts({ userId: user.id });
+  const postQuery = { userId: user.id } as PostQuery;
+  const { data: posts } = usePosts(postQuery);
   const { data: followings } = useFollowings(user.id);
   const { data: followers } = useFollowers(user.id);
   const { user: currentUser } = useAuth();
@@ -193,7 +194,12 @@ const Profile = ({ user }: Props) => {
           {posts?.pages?.map((page, key) => (
             <React.Fragment key={key}>
               {page?.data?.map((post, key) => (
-                <PostItem key={key} post={post} maxHeight={80} />
+                <PostItem
+                  key={key}
+                  post={post}
+                  postQuery={postQuery}
+                  maxHeight={80}
+                />
               ))}
             </React.Fragment>
           ))}

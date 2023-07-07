@@ -4,7 +4,7 @@ import { PostQuery } from "./usePosts";
 
 
 const useFollowingPosts = (postQuery:PostQuery) => useInfiniteQuery({
-  queryKey:["following-posts", postQuery],
+  queryKey:["posts", postQuery],
   queryFn:({pageParam=1})=>followingPostService.getAllResponse({params:{
     category : postQuery?.category, 
     sorting:postQuery?.sorting,

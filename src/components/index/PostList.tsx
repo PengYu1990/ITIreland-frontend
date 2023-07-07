@@ -59,7 +59,7 @@ const PostList = ({ postQuery }: Props) => {
         {data?.pages?.map((page, key) => (
           <React.Fragment key={key}>
             {page?.data?.map((post, key) => (
-              <PostItem post={post} key={key} />
+              <PostItem post={post} key={key} postQuery={postQuery} />
             ))}
           </React.Fragment>
         ))}

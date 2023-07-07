@@ -35,6 +35,7 @@ import { IconEdit, IconTrash } from "@tabler/icons-react";
 import { AxiosError } from "axios";
 import { Response } from "../../services/http-service";
 import { notifications } from "@mantine/notifications";
+import { PostQuery } from "../../hooks/usePosts";
 dayjs.extend(relativeTime);
 
 const useStyles = createStyles((theme) => ({
@@ -90,13 +91,15 @@ const useStyles = createStyles((theme) => ({
 interface Props {
   post: Post;
   maxHeight?: number;
+  postQuery?: PostQuery;
 }
 
-const PostItem = ({ post, maxHeight = 300 }: Props) => {
+const PostItem = ({ post, maxHeight = 300, postQuery }: Props) => {
   const { classes } = useStyles();
   const { user: currentUser } = useAuth();
   const [showComment, setShowComment] = useState(false);
 
+  //load comments
   const { data: comments, isLoading } = useQuery({
     queryKey: [post.id, "comments"],
     queryFn: () =>
@@ -107,11 +110,14 @@ const PostItem = ({ post, maxHeight = 300 }: Props) => {
       }),
     enabled: showComment,
   });
+
   const queryClient = useQueryClient();
+
+  //delete post
   const deletePost = useMutation<any, AxiosError<Response<null>>, Post>({
     mutationFn: (post) => postService.delete(post),
     onSuccess: () => {
-      queryClient.invalidateQueries(["posts", { userId: currentUser?.id }]);
+      queryClient.invalidateQueries(["posts", postQuery]);
     },
     onError: (error) => {
       notifications.show({
@@ -156,23 +162,28 @@ const PostItem = ({ post, maxHeight = 300 }: Props) => {
                   <IconEdit size="1.2rem" stroke={1.5} />
                 </ActionIcon>
               </Link>
-              <ActionIcon size="sm" variant="transparent" radius="xl">
-                <Menu shadow="md">
-                  <Menu.Target>
-                    <IconTrash size="1.2rem" stroke={1.5} />
-                  </Menu.Target>
+              {/* <ActionIcon size="sm" variant="transparent" radius="xl"> */}
+              <Menu shadow="md">
+                <Menu.Target>
+                  <IconTrash
+                    style={{ cursor: "pointer" }}
+                    color="gray"
+                    size="1.2rem"
+                    stroke={1.5}
+                  />
+                </Menu.Target>
 
-                  <Menu.Dropdown>
-                    <Menu.Item
-                      color="red"
-                      icon={<IconTrash size={14} />}
-                      onClick={() => deletePost.mutate(post)}
-                    >
-                      Delete?
-                    </Menu.Item>
-                  </Menu.Dropdown>
-                </Menu>
-              </ActionIcon>
+                <Menu.Dropdown>
+                  <Menu.Item
+                    color="red"
+                    icon={<IconTrash size={14} />}
+                    onClick={() => deletePost.mutate(post)}
+                  >
+                    Delete?
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
+              {/* </ActionIcon> */}
             </Flex>
           )}
         </Flex>
