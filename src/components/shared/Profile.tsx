@@ -8,7 +8,7 @@ import {
   rem,
   FileButton,
 } from "@mantine/core";
-import { IconArticle, IconPhoto, IconSettings } from "@tabler/icons-react";
+import { IconArticle, IconPhoto } from "@tabler/icons-react";
 import { BiShare } from "react-icons/bi";
 import { User } from "../../services/user-service";
 import usePosts from "../../hooks/usePosts";
@@ -70,6 +70,9 @@ const Profile = ({ user }: Props) => {
   const { data: followings } = useFollowings(user.id);
   const { data: followers } = useFollowers(user.id);
   const { user: currentUser } = useAuth();
+  const [defaultTab, setDefaultTab] = React.useState<
+    "posts" | "followings" | "followers" | "about"
+  >("posts");
 
   const queryClient = useQueryClient();
 
@@ -167,11 +170,8 @@ const Profile = ({ user }: Props) => {
         </Flex>
         <BiShare size="25" />
       </Flex>
-      <Tabs defaultValue="about">
+      <Tabs defaultValue={defaultTab}>
         <Tabs.List>
-          <Tabs.Tab value="about" icon={<IconPhoto size="0.8rem" />}>
-            About
-          </Tabs.Tab>
           <Tabs.Tab value="posts" icon={<IconArticle size="0.8rem" />}>
             Posts
           </Tabs.Tab>
@@ -181,22 +181,19 @@ const Profile = ({ user }: Props) => {
           <Tabs.Tab value="followers" icon={<IconArticle size="0.8rem" />}>
             Followers
           </Tabs.Tab>
-          <Tabs.Tab value="settings" icon={<IconSettings size="0.8rem" />}>
+          {/* <Tabs.Tab value="settings" icon={<IconSettings size="0.8rem" />}>
             Settings
+          </Tabs.Tab> */}
+          <Tabs.Tab value="about" icon={<IconPhoto size="0.8rem" />}>
+            About
           </Tabs.Tab>
         </Tabs.List>
-
-        <Tabs.Panel value="about" pt="xs">
-          {user?.profile
-            ? user.profile
-            : "This guy is lazy. She/He has no profile."}
-        </Tabs.Panel>
 
         <Tabs.Panel value="posts" pt="xs">
           {posts?.pages?.map((page, key) => (
             <React.Fragment key={key}>
               {page?.data?.map((post, key) => (
-                <PostItem key={key} post={post} />
+                <PostItem key={key} post={post} maxHeight={80} />
               ))}
             </React.Fragment>
           ))}
@@ -212,10 +209,15 @@ const Profile = ({ user }: Props) => {
             <FollowerItem key={key} following={followers} />
           ))}
         </Tabs.Panel>
-
-        <Tabs.Panel value="settings" pt="xs">
-          Settings tab content
+        <Tabs.Panel value="about" pt="xs">
+          {user?.profile
+            ? user.profile
+            : "This guy is lazy. She/He has no profile."}
         </Tabs.Panel>
+
+        {/* <Tabs.Panel value="settings" pt="xs">
+          Settings tab content
+        </Tabs.Panel> */}
       </Tabs>
     </Box>
   );

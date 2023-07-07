@@ -1,7 +1,9 @@
 import {
+  ActionIcon,
   Box,
   Flex,
   Loader,
+  Menu,
   Spoiler,
   Text,
   createStyles,
@@ -21,14 +23,18 @@ import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
 import TiptapLink from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
-import { Post } from "../../services/post-service";
+import postService, { Post } from "../../services/post-service";
 import AvatarHoverCard from "./AvatarHoverCard";
 import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import commentService from "../../services/comment-service";
 import CommentList from "../post/CommentList";
 import CommentForm from "../forms/CommentForm";
+import { IconEdit, IconTrash } from "@tabler/icons-react";
+import { AxiosError } from "axios";
+import { Response } from "../../services/http-service";
+import { notifications } from "@mantine/notifications";
 dayjs.extend(relativeTime);
 
 const useStyles = createStyles((theme) => ({
@@ -83,9 +89,10 @@ const useStyles = createStyles((theme) => ({
 
 interface Props {
   post: Post;
+  maxHeight?: number;
 }
 
-const PostItem = ({ post }: Props) => {
+const PostItem = ({ post, maxHeight = 300 }: Props) => {
   const { classes } = useStyles();
   const { user: currentUser } = useAuth();
   const [showComment, setShowComment] = useState(false);
@@ -100,30 +107,74 @@ const PostItem = ({ post }: Props) => {
       }),
     enabled: showComment,
   });
+  const queryClient = useQueryClient();
+  const deletePost = useMutation<any, AxiosError<Response<null>>, Post>({
+    mutationFn: (post) => postService.delete(post),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["posts", { userId: currentUser?.id }]);
+    },
+    onError: (error) => {
+      notifications.show({
+        title: "Error",
+        message: error.response?.data.message,
+      });
+    },
+  });
 
   return (
     <Box className={classes.postItem}>
       <Box className={classes.postItemTop}>
-        <Flex justify="left" gap={10}>
-          <AvatarHoverCard user={post.user} />
-          <Box>
-            <Flex align="center">
-              <Link to={`/user/${post.user.id}`}>
-                <Text className={classes.username}> {post.user.username}</Text>
-              </Link>
-              {/* ·
+        <Flex justify="space-between">
+          <Flex justify="left" gap={10}>
+            <AvatarHoverCard user={post.user} />
+            <Box>
+              <Flex align="center">
+                <Link to={`/user/${post.user.id}`}>
+                  <Text className={classes.username}>
+                    {" "}
+                    {post.user.username}
+                  </Text>
+                </Link>
+                {/* ·
               <Box
                 className={classes.follow}
                 onClick={() => follow(post.user.id)}
               >
                 {!isFollowingUser && "Follow"}
               </Box> */}
-            </Flex>
+              </Flex>
 
-            <Text className={classes.datetime}>
-              {dayjs(post.ctime).fromNow()}
-            </Text>
-          </Box>
+              <Text className={classes.datetime}>
+                {dayjs(post.ctime).fromNow()}
+              </Text>
+            </Box>
+          </Flex>
+          {currentUser && currentUser.id === post.user.id && (
+            <Flex justify="flex-end" gap={10}>
+              <Link to={`/edit/${post.id}`}>
+                <ActionIcon size="sm" variant="transparent" radius="xl">
+                  <IconEdit size="1.2rem" stroke={1.5} />
+                </ActionIcon>
+              </Link>
+              <ActionIcon size="sm" variant="transparent" radius="xl">
+                <Menu shadow="md">
+                  <Menu.Target>
+                    <IconTrash size="1.2rem" stroke={1.5} />
+                  </Menu.Target>
+
+                  <Menu.Dropdown>
+                    <Menu.Item
+                      color="red"
+                      icon={<IconTrash size={14} />}
+                      onClick={() => deletePost.mutate(post)}
+                    >
+                      Delete?
+                    </Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
+              </ActionIcon>
+            </Flex>
+          )}
         </Flex>
 
         <Flex gap={3} justify="flex-start" direction="row" align="center">
@@ -132,7 +183,7 @@ const PostItem = ({ post }: Props) => {
           </Link>
         </Flex>
         <Text className={classes.summary}>
-          <Spoiler maxHeight={300} showLabel="Show more" hideLabel="Hide">
+          <Spoiler maxHeight={maxHeight} showLabel="Show more" hideLabel="Hide">
             <div
               dangerouslySetInnerHTML={{
                 __html: generateHTML(JSON.parse(post.content), [

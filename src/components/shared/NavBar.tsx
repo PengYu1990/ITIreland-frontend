@@ -321,6 +321,12 @@ export function NavBar() {
                     <Divider my="sm" variant="dashed" />
                     <Menu.Label>Account</Menu.Label>
                     <Menu.Item
+                      icon={<IconNotebook size={14} />}
+                      onClick={toProfile}
+                    >
+                      My Posts
+                    </Menu.Item>
+                    <Menu.Item
                       icon={<IconUser size={14} />}
                       onClick={toProfile}
                     >
