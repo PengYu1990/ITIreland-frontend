@@ -4,16 +4,10 @@ import {
   Group,
   ActionIcon,
   rem,
-  Center,
   Anchor,
   Box,
 } from "@mantine/core";
-import {
-  IconBrandTwitter,
-  IconBrandYoutube,
-  IconBrandInstagram,
-  IconBrandLinkedin,
-} from "@tabler/icons-react";
+import { IconBrandInstagram, IconBrandLinkedin } from "@tabler/icons-react";
 import { Image, Text } from "@mantine/core";
 import logo from "../../assets/logo.png";
 

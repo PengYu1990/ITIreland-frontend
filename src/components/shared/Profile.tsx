@@ -71,7 +71,7 @@ const Profile = ({ user }: Props) => {
   const { data: followings } = useFollowings(user.id);
   const { data: followers } = useFollowers(user.id);
   const { user: currentUser } = useAuth();
-  const [defaultTab, setDefaultTab] = React.useState<
+  const [defaultTab] = React.useState<
     "posts" | "followings" | "followers" | "about"
   >("posts");
 
