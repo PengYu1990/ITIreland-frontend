@@ -5,8 +5,8 @@
         "version":"1.0.0",
         "author":"My Name",
         "email":"",
-        "contextPath": "https://itireland.herokuapp.com",
-        "api": "https://itireland.herokuapp.com/api",
+        "contextPath": "http://52.49.11.159",
+        "api": "http://52.49.11.159/api",
         "api1":"http://localhost:8080/api"
     }
 }
